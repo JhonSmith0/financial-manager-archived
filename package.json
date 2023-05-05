@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/prompts": "^2.4.4",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {}
+}
