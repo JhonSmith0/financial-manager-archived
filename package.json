@@ -8,6 +8,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "commitizen": "^4.3.0",
+    "commitlint": "^17.6.3",
     "commitlint-config-gitmoji": "^2.3.1",
     "husky": "^8.0.3",
     "prisma": "^4.13.0",
