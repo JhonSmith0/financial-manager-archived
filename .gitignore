@@ -2,3 +2,4 @@ node_modules
 db
 prisma/*
 !prisma/schema.prisma
+.env
