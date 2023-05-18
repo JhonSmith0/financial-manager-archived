@@ -8,7 +8,7 @@ export default class User extends UserProps {
     return await Hash.compareTo(this.password, candidate);
   }
 
-  public static async create(data: UserProps) {
+  public static async create(data: Omit<UserProps, "id">) {
     const obj = plainToInstance(User, data);
 
     obj.password = await Hash.hash(obj.password, 12);
