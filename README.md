@@ -4,89 +4,34 @@ Welcome to **My Financial Manager App**! This application helps you manage your 
 
 ## Features
 
-✨ Registering Financial Operations:
-- Track and record all your financial transactions effortlessly.
-
-💰 Payment Registration:
-- Easily register your payments and stay organized.
-
-🔄 Transfer Registration:
-- Record your transfers between accounts accurately.
-
-💳 Credit Card Management:
-- Register and manage your credit cards for convenient payments.
-
-🗓️ Credit Card Installments:
-- Set up and link credit card installments to keep track of your purchases.
-
-🏦 Bank Account Integration:
-- Connect your credit cards to your bank accounts for seamless management.
-
-📎 Attachment Support:
-- Attach and store proofs and receipts for each transaction.
-
-👥 Person and Company Management:
-- Create and manage profiles for individuals and businesses.
-
-🏦 Bank Account and Card Registration:
-- Keep a record of your bank accounts and associated cards.
-
-🔁 Automatic Deductions:
-- Automatically deduct payments from your credit card or bank account for bills or installment payments.
-
-💸 Loan Management:
-- Register and credit loans automatically.
-
-💳 Early Credit Card Payments:
-- Pay your credit card bills in advance easily.
-
-💸 Early Loan Payments:
-- Make early payments towards your loans effortlessly.
-
-📚 Agiotagem (Money Lending) Tracking:
-- Keep track of money lending activities.
-
-📈 Investment Account Management:
-- Register and manage your investment accounts.
-
-💹 Automated Investment Updates:
-- Automatically update your investment balances.
-
-📜 Automatic Income Updates:
-- Seamlessly import income information.
-
-💳 Credit Card Statements:
-- Access and view your credit card statements.
-
-💸 Debit Card Transactions:
-- Automatically credit payments made with debit cards to the associated bank account.
-
-👤 Transaction Details:
-- Link each payment to a registered person or company.
-
-🧾 Payment via Boleto:
-- Pay credit card bills using boleto as well.
-
-💵 Cash Account:
-- Manage a cash account for cash transactions.
-
-💲 Interest Tracking:
-- Indicate whether installment payments have interest or not.
-
-🌐 Account Integration (e.g., Steam):
-- Register and manage accounts for services like Steam.
-
-💰 Bank Account Balances:
-- Check your current balances across different bank accounts.
-
-💳 Credit Card Balance Tracking:
-- Monitor your credit card balances from various banks.
-
-📋 Subscription Management:
-- Keep track of your subscriptions easily.
-
-🔜 Future Feature: Profile Transfer
-- Transfer funds to another user profile.
+- ✨ Registering Financial Operations
+- 💰 Payment Registration
+- 🔄 Transfer Registration
+- 💳 Credit Card Management
+- 🗓️ Credit Card Installments
+- 🏦 Bank Account Integration
+- 📎 Attachment Support
+- 👥 Person and Company Management
+- 🏦 Bank Account and Card Registration
+- 🔁 Automatic Deductions
+- 💸 Loan Management
+- 💳 Early Credit Card Payments
+- 💸 Early Loan Payments
+- 📚 Agiotagem (Money Lending) Tracking
+- 📈 Investment Account Management
+- 💹 Automated Investment Updates
+- 📜 Automatic Income Updates
+- 💳 Credit Card Statements
+- 💸 Debit Card Transactions
+- 👤 Transaction Details
+- 🧾 Payment via Boleto
+- 💵 Cash Account
+- 💲 Interest Tracking
+- 🌐 Account Integration (e.g., Steam)
+- 💰 Bank Account Balances
+- 💳 Credit Card Balance Tracking
+- 📋 Subscription Management
+- 🔜 Future Feature: Profile Transfer
 
 ## Installation
 
