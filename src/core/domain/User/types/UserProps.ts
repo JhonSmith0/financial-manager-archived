@@ -1,8 +1,3 @@
-import Entity from "@/core/common/Entity/Entity";
+import User from "../entity/User";
 
-export default abstract class UserProps extends Entity {
-  public name: string;
-  public photo: string;
-  public email: string;
-  public password: string;
-}
+export default interface UserProps extends ClassProperties<User> {}

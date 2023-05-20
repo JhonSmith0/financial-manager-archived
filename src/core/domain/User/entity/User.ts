@@ -2,8 +2,14 @@ import { plainToInstance } from "class-transformer";
 import UserProps from "../types/UserProps";
 import Hash from "@/core/common/Hash/Hash";
 import { randomUUID } from "crypto";
+import Entity from "@/core/common/Entity/Entity";
 
-export default class User extends UserProps {
+export default class User extends Entity {
+  public name: string;
+  public photo: string;
+  public email: string;
+  public password: string;
+
   public async comparePassword(candidate: string) {
     return await Hash.compareTo(this.password, candidate);
   }
