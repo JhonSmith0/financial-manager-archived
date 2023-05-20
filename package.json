@@ -3,7 +3,9 @@
     "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
     "prepare": "husky install",
     "generate": "prisma generate",
-    "migrate:dev": "prisma migrate dev"
+    "migrate:dev": "prisma migrate dev",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
