@@ -22,6 +22,10 @@ export default class User extends Entity {
     return await Hash.compareTo(this.password, candidate);
   }
 
+  public static fromPlain(data: UserProps) {
+    return plainToInstance(User, data);
+  }
+
   public static async create(data: Omit<UserProps, "id">) {
     const obj = plainToInstance(User, data);
 
