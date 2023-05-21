@@ -5,7 +5,7 @@ import UserRepository from "../types/UserRepository";
 import { left, right } from "fp-ts/Either";
 
 export default class CreateUserUseCase {
-  constructor(public repo: UserRepository) {}
+  constructor(private repo: UserRepository) {}
 
   public async execute(data: CreateUserDTO) {
     // Already exists
