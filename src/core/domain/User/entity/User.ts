@@ -10,6 +10,14 @@ export default class User extends Entity {
   public email: string;
   public password: string;
 
+  public static dataForTest: UserProps = {
+    email: "test@email.com",
+    id: randomUUID(),
+    name: "test user",
+    password: "12345678",
+    photo: "photo.png",
+  };
+
   public async comparePassword(candidate: string) {
     return await Hash.compareTo(this.password, candidate);
   }
