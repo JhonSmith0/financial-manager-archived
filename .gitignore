@@ -3,3 +3,4 @@ db
 prisma/*
 !prisma/schema.prisma
 .env
+dist

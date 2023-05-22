@@ -5,10 +5,16 @@
     "generate": "prisma generate",
     "migrate:dev": "prisma migrate dev",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "build": "rollup -c --configPlugin @rollup/plugin-typescript"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-swc": "^0.1.1",
+    "@rollup/plugin-typescript": "^11.1.1",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.1",
     "@types/jsonwebtoken": "^9.0.2",
@@ -20,10 +26,12 @@
     "husky": "^8.0.3",
     "jest": "^29.5.0",
     "prisma": "^4.13.0",
+    "rollup": "^3.23.0",
     "timbo-cz-conventional-changelog": "^0.1.0",
     "ts-jest": "^29.1.0",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
+    "tslib": "^2.5.2",
     "typescript": "^5.0.4"
   },
   "config": {
