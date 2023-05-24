@@ -15,10 +15,14 @@ export default class LoginController {
     if (errors.length) return left(errors);
 
     const user = await this.repo.findByProp("email", data.email, true);
-    if (!user) return left(new NotFoundError("Invalid data!", ["email"]));
+    if (!user)
+      return left(new NotFoundError("Invalid data!", ["email", "password"]));
 
     const pass = await User.fromPlain(user).comparePassword(data.password);
-    if (!pass) return left(new ValidationError("Invalid email or password"));
+    if (!pass)
+      return left(
+        new ValidationError("Invalid email or password", ["email", "password"])
+      );
 
     return right(this.jwt.encode({ id: user.id }));
   }

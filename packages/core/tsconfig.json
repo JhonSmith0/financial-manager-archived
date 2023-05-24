@@ -9,13 +9,13 @@
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "paths": {
       "@/*": ["*"]
     }
-  },
-  "include": ["src", "test", "jest.config.ts"]
+  }, 
+  "include": ["src"]
 }
