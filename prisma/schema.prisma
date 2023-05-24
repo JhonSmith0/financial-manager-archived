@@ -11,91 +11,18 @@ datasource db {
 }
 
 model User {
-  id            String          @id
-  email         String          @unique
-  name          String
-  password      String
-  photo         String
-  AccountInfos  AccountInfos[]
-  EntityAccount EntityAccount[]
-  Card          Card[]
+  id       String @id
+  email    String @unique
+  name     String
+  password String
+  photo    String
 }
 
-model AccountInfos {
-  id           String  @id
-  user         User    @relation(fields: [userId], references: [id])
-  userId       String
-  name         String
-  cardsAllowed Boolean
-  isReverse    Boolean
-  photo        String
+model Account {
+  id          String @id
+  userId      String
+  name        String
+  description String
 
-  debit                      Card[]                       @relation("debit")
-  credit                     Card[]                       @relation("credit")
-  TransactionMethodOfAccount TransactionMethodOfAccount[]
-  from                       TransactionInfos[]           @relation("from")
-  to                         TransactionInfos[]           @relation("to")
-}
-
-model TransactionMethod {
-  name String @id
-}
-
-model TransactionMethodOfAccount {
-  methodName String
-  account    AccountInfos @relation(fields: [accountId], references: [id])
-  accountId  String
-
-  @@id([methodName, accountId])
-}
-
-model MoneyBox {
-  accountId String @id
-}
-
-model BankAccount {
-  id        String @id
-  accountId String
-}
-
-model EntityAccount {
-  id     String  @id
-  owner  User    @relation(fields: [userId], references: [id])
-  userId String
-  email  String?
-  cpf    String?
-  cnpj   String?
-  phone  String?
-}
-
-model Card {
-  id         String   @id
-  number     Int
-  cvv        Int
-  expiration DateTime
-  billLimit  Float
-  billDay    String
-
-  debitAccount   AccountInfos @relation("debit", fields: [debitAccountId], references: [id])
-  debitAccountId String
-
-  creditAccount   AccountInfos @relation("credit", fields: [creditAccountId], references: [id])
-  creditAccountId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-}
-
-model TransactionTypes {
-  name String @id
-}
-
-model TransactionInfos {
-  id            String       @id
-  description   String
-  amount        Float
-  fromAccount   AccountInfos @relation("from", fields: [fromAccountId], references: [id])
-  fromAccountId String
-  toAccount     AccountInfos @relation("to", fields: [toAccountId], references: [id])
-  toAccountId   String
+  @@unique([name, userId])
 }
