@@ -1,3 +1,4 @@
+import Controller from "@/common/Controller";
 import JWT from "@/common/JWT/JWT";
 import NotFoundError from "@/common/errors/NotFoundError";
 import ValidationError from "@/common/errors/ValidationError";
@@ -6,8 +7,10 @@ import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/types/UserRepository";
 import { left, right } from "fp-ts/Either";
 
-export default class LoginController {
-  constructor(private repo: UserRepository, private jwt: JWT) {}
+export default class LoginController extends Controller<LoginUserDTO, any> {
+  constructor(private repo: UserRepository, private jwt: JWT) {
+    super();
+  }
 
   public async handle(data: LoginUserDTO) {
     const errors = await data.validate();
