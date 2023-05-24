@@ -6,7 +6,7 @@
     "prepare": "husky install",
     "generate": "prisma generate",
     "migrate:dev": "prisma migrate dev",
-    "build": "rollup -c --configPlugin @rollup/plugin-typescript"
+    "start": "node ./server.js"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
