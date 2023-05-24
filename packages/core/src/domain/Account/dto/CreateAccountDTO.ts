@@ -2,6 +2,7 @@ import DTO from "@/common/DTO/DTO";
 import AccountProps from "../types/AccountProps";
 import { Expose, plainToInstance } from "class-transformer";
 import { IsString, MaxLength, MinLength } from "class-validator";
+import plainToInstanceConfigs from "@/common/configs/plainToInstanceConfigs";
 
 export default class CreateAccountDTO
   extends DTO
@@ -21,6 +22,6 @@ export default class CreateAccountDTO
   public description: string;
 
   public static create(data: AccountProps) {
-    return plainToInstance(CreateAccountDTO, data);
+    return plainToInstance(CreateAccountDTO, data, plainToInstanceConfigs);
   }
 }
