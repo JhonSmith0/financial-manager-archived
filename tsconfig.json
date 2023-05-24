@@ -19,5 +19,5 @@
     "typeRoots": ["./node_modules/@types", "src/@types"]
   },
   "exclude": ["node_modules"],
-  "include": ["src", "test", "rollup.config.ts"]
+  "include": ["src", "test", "rollup.config.ts", "packages/api/src/controllers"]
 }
