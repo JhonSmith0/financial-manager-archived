@@ -16,9 +16,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false, 
-    "paths": {
-      "@core/*": ["./node_modules/@financial/core/lib/*"]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }
