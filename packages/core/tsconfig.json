@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
     "baseUrl": "src",
