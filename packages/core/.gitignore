@@ -1,1 +1,3 @@
 lib/
+prisma/*
+!prisma/schema.prisma
