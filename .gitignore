@@ -1,9 +1,7 @@
 node_modules
 db
-<<<<<<< HEAD
-=======
-
->>>>>>> client/RegisterPage
+prisma/*
+!prisma/schema.prisma
 .env
 dist
 ignore/
