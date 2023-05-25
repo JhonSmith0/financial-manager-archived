@@ -1,4 +1,5 @@
 import JWT from "@/common/JWT/JWT";
+import GenericError from "@/common/errors/GenericError";
 import ValidationError from "@/common/errors/ValidationError";
 import LoginController from "@/controllers/auth/LoginController";
 import LoginUserDTO from "@/domain/User/dto/LoginUserDTO";
@@ -28,6 +29,6 @@ describe("LoginController", () => {
       LoginUserDTO.create({ ...data, password: "18767867864" })
     )) as any;
 
-    expect(result.left).toBeInstanceOf(ValidationError);
+    expect(result.left).toBeInstanceOf(GenericError);
   });
 });

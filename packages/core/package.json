@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "prisma migrate dev && tsc && resolve-tspaths",
+    "build": "prisma migrate dev && tsc -p ./tsconfig.build.json && resolve-tspaths",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "migrate:dev": "prisma migrate dev"
