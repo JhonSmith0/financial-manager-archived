@@ -1,3 +1,7 @@
 lib/
 prisma/*
+<<<<<<< HEAD
 !prisma/schema.prisma
+=======
+!prisma/schema.prisma
+>>>>>>> client/RegisterPage
