@@ -1,5 +1,6 @@
 import { validate } from "class-validator";
 import ValidationError from "../errors/ValidationError";
+import FieldError from "../errors/FieldError";
 
 export default abstract class DTO {
   public async validate() {
@@ -9,7 +10,7 @@ export default abstract class DTO {
 
     return new ValidationError(
       "Invalid data!",
-      obj.map((e) => e.property)
+      obj.map((e) => new FieldError(e.property, "Invalid " + e.property))
     );
   }
 }
