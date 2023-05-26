@@ -20,9 +20,9 @@ export default function useLoginForm(onSucess: () => any) {
       onSubmit: form.handleSubmit(async (data) => {
         try {
           const result = await login(data);
-          onSucess()
+          onSucess();
         } catch (e) {
-          error.set((e as any).data.message);
+          error.set((e as any).response.data.message);
         }
       }),
       ...form,
