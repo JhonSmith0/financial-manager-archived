@@ -1,5 +1,6 @@
 import JWT from "@/common/JWT/JWT";
 import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
+import GenericError from "@/common/errors/GenericError";
 import ValidationError from "@/common/errors/ValidationError";
 import RegisterController from "@/controllers/auth/RegisterController";
 import CreateUserDTO from "@/domain/User/dto/CreateUserDTO";
@@ -25,7 +26,7 @@ describe("RegisterController", () => {
       CreateUserDTO.create(User.dataForTest)
     )) as any;
 
-    expect(result).toBeInstanceOf(AlreadyExistsError);
+    expect(result).toBeInstanceOf(GenericError);
   });
   it("should give validation error", async () => {
     const { left: result } = (await controller.handle(

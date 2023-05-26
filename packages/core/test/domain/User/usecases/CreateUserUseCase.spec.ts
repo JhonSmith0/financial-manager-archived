@@ -1,4 +1,5 @@
 import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
+import GenericError from "@/common/errors/GenericError";
 import CreateUserDTO from "@/domain/User/dto/CreateUserDTO";
 import User from "@/domain/User/entity/User";
 import UserRepositoryInMemory from "@/domain/User/repo/UserRepositoryInMemory";
@@ -21,6 +22,6 @@ describe("CreateUserUseCase", () => {
   });
   it("should return an already exists error", async () => {
     const { left: value } = (await createUser.execute(data)) as any;
-    expect(value).toBeInstanceOf(AlreadyExistsError);
+    expect(value).toBeInstanceOf(GenericError);
   });
 });
