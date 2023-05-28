@@ -1,6 +1,5 @@
-import UserRepositoryPrisma from "@/domain/User/repo/UserRepositoryPrisma";
-import UserRepositoryCommonTests from "./UserRepositoryCommonTests";
 import UserRepositoryInMemory from "@/domain/User/repo/UserRepositoryInMemory";
+import UserRepositoryCommonTests from "./UserRepositoryCommonTests";
 
 // UserRepositoryCommonTests(`Prisma`, new UserRepositoryPrisma());
 UserRepositoryCommonTests(`InMemory`, new UserRepositoryInMemory());
