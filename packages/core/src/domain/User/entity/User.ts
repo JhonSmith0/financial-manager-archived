@@ -27,7 +27,9 @@ export default class User extends Entity {
   }
 
   public static async create(data: Omit<UserProps, "id">) {
-    const obj = Transformer.plainToInstance(User, data);
+    const obj = Transformer.plainToInstance(User, data, {
+      excludeExtraneousValues: false,
+    });
 
     obj.password = await Hash.hash(obj.password, 12);
     obj.id ||= randomUUID();
