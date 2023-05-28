@@ -1,8 +1,8 @@
 import DTO from "@/common/DTO/DTO";
-import AccountProps from "../types/AccountProps";
-import { Expose, plainToInstance } from "class-transformer";
+import { Transformer } from "@/common/Transformer";
+import { Expose } from "class-transformer";
 import { IsString, MaxLength, MinLength } from "class-validator";
-import plainToInstanceConfigs from "@/common/configs/plainToInstanceConfigs";
+import AccountProps from "../types/AccountProps";
 
 export default class CreateAccountDTO
   extends DTO
@@ -11,17 +11,17 @@ export default class CreateAccountDTO
   @Expose()
   @IsString()
   @MinLength(8)
-  @MaxLength(256)
+  @MaxLength(24)
   public name: string;
   @Expose()
   @IsString()
   public userId: string;
   @Expose()
   @IsString()
-  @MaxLength(512)
+  @MaxLength(128)
   public description: string;
 
-  public static create(data: AccountProps) {
-    return plainToInstance(CreateAccountDTO, data, plainToInstanceConfigs);
+  public static create(data: OptionalProps<AccountProps, "id">) {
+    return Transformer.plainToInstance(CreateAccountDTO, data);
   }
 }

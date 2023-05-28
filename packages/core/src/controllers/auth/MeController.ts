@@ -21,7 +21,6 @@ export default class MeController extends Controller<string> {
   }
 
   public async handle(jwt: string): Promise<any> {
-    console.log({ d: this });
     const verify = ifCatch(() => this.jwt.verify(jwt))(
       new GenericError("Invalid or expired token!", 403)
     );

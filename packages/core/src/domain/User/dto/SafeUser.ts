@@ -1,7 +1,7 @@
 import DTO from "@/common/DTO/DTO";
-import { Expose, plainToInstance } from "class-transformer";
+import { Transformer } from "@/common/Transformer";
+import { Expose } from "class-transformer";
 import UserProps from "../types/UserProps";
-import plainToInstanceConfigs from "@/common/configs/plainToInstanceConfigs";
 
 export default class SafeUserDTO extends DTO {
   @Expose()
@@ -14,9 +14,6 @@ export default class SafeUserDTO extends DTO {
   public id: string;
 
   public static create(data: UserProps) {
-    return plainToInstance(SafeUserDTO, data, {
-      ...plainToInstanceConfigs,
-      excludeExtraneousValues: true,
-    });
+    return Transformer.plainToInstance(SafeUserDTO, data);
   }
 }

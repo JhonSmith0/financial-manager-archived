@@ -1,8 +1,8 @@
-import { plainToInstance } from "class-transformer";
-import UserProps from "../types/UserProps";
-import Hash from "@/common/Hash/Hash";
-import { randomUUID } from "crypto";
 import Entity from "@/common/Entity/Entity";
+import Hash from "@/common/Hash/Hash";
+import { Transformer } from "@/common/Transformer";
+import { randomUUID } from "crypto";
+import UserProps from "../types/UserProps";
 
 export default class User extends Entity {
   public name: string;
@@ -23,11 +23,11 @@ export default class User extends Entity {
   }
 
   public static fromPlain(data: UserProps) {
-    return plainToInstance(User, data);
+    return Transformer.plainToInstance(User, data);
   }
 
   public static async create(data: Omit<UserProps, "id">) {
-    const obj = plainToInstance(User, data);
+    const obj = Transformer.plainToInstance(User, data);
 
     obj.password = await Hash.hash(obj.password, 12);
     obj.id ||= randomUUID();
