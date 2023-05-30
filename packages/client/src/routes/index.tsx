@@ -25,7 +25,9 @@ const router = createBrowserRouter(
           currentUser.set(user);
           return user;
         }}
-      ></Route>
+      >
+        <Route path="accounts" element={<h1>Hello!</h1>}></Route>
+      </Route>
     </>
   )
 );

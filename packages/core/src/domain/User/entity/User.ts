@@ -23,7 +23,9 @@ export default class User extends Entity {
   }
 
   public static fromPlain(data: UserProps) {
-    return Transformer.plainToInstance(User, data);
+    return Transformer.plainToInstance(User, data, {
+      excludeExtraneousValues: false,
+    });
   }
 
   public static async create(data: Omit<UserProps, "id">) {

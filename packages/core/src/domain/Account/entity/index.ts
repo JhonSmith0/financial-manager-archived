@@ -10,7 +10,9 @@ export default class Account extends Entity {
 
   public static create(data: OptionalProps<AccountProps, "id">) {
     data.id ||= randomUUID();
-    return Transformer.plainToInstance(Account, data);
+    return Transformer.plainToInstance(Account, data, {
+      excludeExtraneousValues: false,
+    });
   }
 
   public static linkProto(obj: any): Account {

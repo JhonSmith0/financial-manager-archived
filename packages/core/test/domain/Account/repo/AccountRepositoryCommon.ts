@@ -9,6 +9,9 @@ export function accountRepositoryCommon(name: string, repo: AccountRepository) {
     let account: Account;
     let user: User;
 
+    const user1 = "1234";
+    const user2 = "12";
+
     beforeAll(async () => {
       user = await User.create(User.dataForTest);
 
@@ -17,6 +20,35 @@ export function accountRepositoryCommon(name: string, repo: AccountRepository) {
         name: "Hello!",
         userId: user.id,
       });
+
+      await repo.add(
+        Account.create({
+          description: "hello",
+          name: "Account1",
+          userId: user1,
+        })
+      );
+      await repo.add(
+        Account.create({
+          description: "hello",
+          name: "Account2",
+          userId: user1,
+        })
+      );
+      await repo.add(
+        Account.create({
+          description: "hello",
+          name: "test",
+          userId: user2,
+        })
+      );
+      await repo.add(
+        Account.create({
+          description: "hello",
+          name: "john",
+          userId: user2,
+        })
+      );
     });
 
     it("should create an account", async () => {
@@ -42,6 +74,20 @@ export function accountRepositoryCommon(name: string, repo: AccountRepository) {
     it("should remove the account ", async () => {
       await repo.remove(account.id);
       expect(await repo.findByProp("id", account.id, true)).toBeFalsy();
+    });
+
+    it("should match all the lenghts", async () => {});
+
+    it("should pass", async () => {
+      const proms = [
+        await repo.findByUserIdAndName(user1, "account"),
+        await repo.findByUserIdAndName(user2, "account"),
+        await repo.findByUserIdAndName(user2, "john"),
+      ];
+
+      expect(proms[0]).toHaveLength(2);
+      expect(proms[1]).toHaveLength(0);
+      expect(proms[2]).toHaveLength(1);
     });
   });
 }

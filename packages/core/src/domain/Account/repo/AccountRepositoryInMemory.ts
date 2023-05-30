@@ -50,4 +50,15 @@ export default class AccountRepositoryInMemory implements AccountRepository {
     //@ts-ignore
     return this.data.filter((e) => e[prop] === value);
   }
+
+  public async findByUserIdAndName(
+    userId: string,
+    name: string
+  ): Promise<AccountProps[]> {
+    return this.data.filter(
+      (data) =>
+        data.userId === userId &&
+        data.name.toLowerCase().startsWith(name.toLowerCase())
+    );
+  }
 }

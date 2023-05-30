@@ -1,3 +1,4 @@
+import User from "@/domain/User/entity/User";
 import Account from "../entity";
 import AccountProps from "./AccountProps";
 
@@ -21,4 +22,8 @@ export default interface AccountRepository {
     value: AccountProps[T],
     unique: true
   ): Promise<AccountProps | void>;
+  findByUserIdAndName(
+    userId: User["id"],
+    name: AccountProps["name"]
+  ): Promise<AccountProps[]>;
 }
