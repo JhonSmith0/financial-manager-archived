@@ -1,8 +1,8 @@
-import { adaptErrorsDecorator } from "../adapters/adaptErrors";
 import MeController from "@financial/core/dist/controllers/auth/MeController";
-import { Controller, Get, Headers } from "@nestjs/common";
-import { parse } from "cookie";
-import { Request } from "express";
+import User from "@financial/core/dist/domain/User/entity/User";
+import { Controller, Get } from "@nestjs/common";
+import { adaptErrorsDecorator } from "../adapters/adaptErrors";
+import { UserEntity } from "../decorators/UserEntity";
 
 @Controller("")
 export class GetMeController {
@@ -10,9 +10,10 @@ export class GetMeController {
 
   @Get("me")
   @adaptErrorsDecorator()
-  async me(@Headers() headers: Request["headers"]) {
-    const { authorization } = parse(headers.cookie);
-    const result = await this.meController.handle(authorization);
-    return result;
+  async me(
+    @UserEntity()
+    user: User
+  ) {
+    return { user };
   }
 }
