@@ -14,6 +14,6 @@ export class GetMeController {
     @UserEntity()
     user: User
   ) {
-    return { user };
+    return user;
   }
 }
