@@ -1,6 +1,7 @@
 import User from "@/domain/User/entity/User";
 import Account from "../entity";
 import AccountProps from "./AccountProps";
+import { Query } from "@/common/Query";
 
 export default interface AccountRepository {
   add(acc: Account): Promise<void>;
@@ -25,5 +26,11 @@ export default interface AccountRepository {
   findByUserIdAndName(
     userId: User["id"],
     name: AccountProps["name"]
+  ): Promise<AccountProps[]>;
+
+  findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number,
+    limit?: number
   ): Promise<AccountProps[]>;
 }
