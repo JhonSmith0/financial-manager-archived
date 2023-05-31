@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ", 
+    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ",
     "build": "prisma migrate dev && tsc -p ./tsconfig.build.json && resolve-tspaths",
     "build-only": "tsc -p ./tsconfig.build.json && resolve-tspaths",
     "test": "jest",
@@ -17,8 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/financial": "*",
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.0.0",
     "fp-ts": "^2.15.0",
@@ -36,6 +35,7 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.1.1",
     "jsonwebtoken": "^9.0.0"
   }
 }
