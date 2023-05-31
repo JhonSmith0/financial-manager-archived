@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaRepo } from "@/common/repo/PrismaRepo";
 import UserRepository from "../types/UserRepository";
 import User from "../entity/User";
 import UserProps from "../types/UserProps";
 
 export default class UserRepositoryPrisma
-  extends PrismaClient
+  extends PrismaRepo
   implements UserRepository
 {
   private db = this.user;
