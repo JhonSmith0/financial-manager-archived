@@ -3,3 +3,4 @@ prisma/*
 !prisma/schema.prisma
 prisma/*
 
+.env*
