@@ -7,7 +7,6 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common/exceptions";
-import { isAsyncFunction } from "util/types";
 
 const strategy = {
   400: BadRequestException,
@@ -27,17 +26,24 @@ export default function adaptErrors(error: ExpectedError) {
   return new InternalServerErrorException("Something went wrong!");
 }
 
-export function adaptErrorsDecorator<T = any>() {
-  return (obj: T, key: string, desc: PropertyDescriptor) => {
+export function AdaptErrors(isAsync = true) {
+  return <T>(obj: T, key: string, desc: PropertyDescriptor) => {
     if (typeof desc.value !== "function")
       throw new Error("Wrong usage of decorator!");
 
-    const async = isAsyncFunction(desc.value);
     const fn = desc.value as () => any;
-    if (async) {
+    if (isAsync) {
       desc.value = async function (...args: Parameters<typeof fn>) {
         try {
           return await fn.apply(this, args);
+        } catch (error) {
+          throw adaptErrors(error);
+        }
+      };
+    } else {
+      desc.value = function (...args: Parameters<typeof fn>) {
+        try {
+          return fn.apply(this, args);
         } catch (error) {
           throw adaptErrors(error);
         }

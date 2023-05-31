@@ -19,7 +19,7 @@ import LoginUserDTO from "@financial/core/dist/domain/User/dto/LoginUserDTO";
 import ControllerType from "@financial/core/dist/common/Controller";
 
 import { Request, Response } from "express";
-import adaptErrors, { adaptErrorsDecorator } from "../adapters/adaptErrors";
+import adaptErrors, { AdaptErrors } from "../adapters/adaptErrors";
 import { parse } from "cookie";
 
 @Controller("auth")
@@ -30,7 +30,7 @@ export default class AuthController {
     private meController: MeController
   ) {}
 
-  @adaptErrorsDecorator()
+  @AdaptErrors()
   private async handle<T>(
     controller: ControllerType<T, any>,
     dto: { create(data: T): any },
@@ -63,7 +63,7 @@ export default class AuthController {
   }
 
   @Get("me")
-  @adaptErrorsDecorator()
+  @AdaptErrors()
   async me(@Headers() headers: Request["headers"]) {
     const { authorization } = parse(headers.cookie);
     const result = await this.meController.handle(authorization);
