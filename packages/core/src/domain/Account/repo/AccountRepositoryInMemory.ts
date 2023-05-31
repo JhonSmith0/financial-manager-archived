@@ -1,8 +1,12 @@
+import { Query } from "@/common/Query";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
 
 export default class AccountRepositoryInMemory implements AccountRepository {
+  findByQuery<T extends AccountProps>(query: Query<T>, skip?: number | undefined, limit?: number | undefined): Promise<AccountProps[]> {
+    throw new Error("Method not implemented.");
+  }
   private data: Account[] = [];
 
   public async exists(acc: AccountProps): Promise<boolean> {
