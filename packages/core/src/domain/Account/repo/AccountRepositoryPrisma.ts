@@ -1,12 +1,25 @@
-import { PrismaClient } from "@prisma/client";
+import { Query } from "@/common/Query";
+import { PrismaRepo } from "@/common/repo/PrismaRepo";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
 
 export class AccountRepositoryPrisma
-  extends PrismaClient
+  extends PrismaRepo
   implements AccountRepository
 {
+  constructor() {
+    super();
+  }
+
+  public async findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number | undefined,
+    limit?: number | undefined
+  ): Promise<AccountProps[]> {
+    return await this.db.findMany({ where: query, skip, take: limit });
+  }
+
   private db = this.account;
   public async add(data: Account): Promise<void> {
     await this.db.create({ data });
