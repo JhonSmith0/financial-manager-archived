@@ -13,6 +13,7 @@ import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateU
 import { RouterModule } from "@nestjs/core";
 import AuthModule from "./AuthModule";
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers";
+import { AccountModule } from "./AccountModule";
 
 const htmlPath = require.resolve("@financial/client/lib/index.html");
 const libPath = dirname(htmlPath);
@@ -66,6 +67,7 @@ const providers: Provider[] = [
       {
         path: "api",
         module: OnlyLoggedUsers,
+        children: [AccountModule],
       },
     ]),
     ServeStaticModule.forRoot({
@@ -73,6 +75,7 @@ const providers: Provider[] = [
     }),
     AuthModule,
     OnlyLoggedUsers,
+    AccountModule,
   ],
   providers,
   exports: providers,

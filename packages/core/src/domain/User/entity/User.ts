@@ -36,6 +36,8 @@ export default class User extends Entity {
     obj.password = await Hash.hash(obj.password, 12);
     obj.id ||= randomUUID();
 
+    obj.photo ||= "";
+
     return obj;
   }
 }
