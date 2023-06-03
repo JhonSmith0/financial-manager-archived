@@ -25,7 +25,5 @@ export function loadEnv(type: keyof typeof strategy, override = true) {
 
   process.env["DATABASE_URL"] = resolveDatabase(process.env.DATABASE_URL);
 
-  console.log({ obj: process.env.DATABASE_URL });
-
   return obj;
 }
