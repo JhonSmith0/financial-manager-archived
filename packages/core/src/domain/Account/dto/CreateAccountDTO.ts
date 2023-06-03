@@ -12,7 +12,7 @@ import {
 export default class CreateAccountDTO extends DTO {
   @Expose()
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(24)
   public name: string;
 
