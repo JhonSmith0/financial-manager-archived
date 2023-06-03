@@ -8,6 +8,7 @@ const prisma = new AccountRepositoryPrisma();
 describe("AccountRepository", () => {
   beforeAll(async () => {
     await prisma.$connect();
+    await prisma.db.deleteMany({});
   });
 
   accountRepositoryCommon("InMemory", memory);
