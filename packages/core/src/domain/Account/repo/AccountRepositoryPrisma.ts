@@ -11,13 +11,29 @@ export class AccountRepositoryPrisma
   constructor() {
     super();
   }
-
-  public async findByQuery<T extends AccountProps>(
+  findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number | undefined,
+    limit?: 1 | undefined
+  ): Promise<AccountProps>;
+  findByQuery<T extends AccountProps>(
     query: Query<T>,
     skip?: number | undefined,
     limit?: number | undefined
-  ): Promise<AccountProps[]> {
-    return await this.db.findMany({ where: query, skip, take: limit });
+  ): Promise<AccountProps[]>;
+  public async findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip: number = 0,
+    limit: number = 1
+  ): Promise<AccountProps | AccountProps[] | void> {
+    if (limit === 1)
+      return (await this.db.findFirst({
+        where: query,
+        skip,
+        take: limit,
+      })) as any;
+
+    return (await this.db.findMany({ where: query, skip, take: limit })) as any;
   }
 
   public db = this.account;
@@ -42,32 +58,5 @@ export class AccountRepositoryPrisma
         },
       },
     }));
-  }
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: false
-  ): Promise<AccountProps[]>;
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: true
-  ): Promise<void | AccountProps>;
-  async findByProp(
-    prop: any,
-    value: any,
-    unique: any
-  ): Promise<void | AccountProps | AccountProps[]> {
-    if (unique) {
-      return (await this.db.findUnique({
-        where: {
-          [prop]: value,
-        },
-      })) as any;
-    }
-    return await this.db.findMany({ where: { [prop]: value } });
-  }
-  findByUserIdAndName(userId: string, name: string): Promise<AccountProps[]> {
-    throw new Error("Method not implemented.");
   }
 }

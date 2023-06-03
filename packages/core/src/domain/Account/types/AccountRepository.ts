@@ -13,21 +13,11 @@ export default interface AccountRepository {
 
   exists(acc: AccountProps): Promise<boolean>;
 
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: false
-  ): Promise<AccountProps[]>;
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: true
+  findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number,
+    limit?: 1
   ): Promise<AccountProps | void>;
-  findByUserIdAndName(
-    userId: User["id"],
-    name: AccountProps["name"]
-  ): Promise<AccountProps[]>;
-
   findByQuery<T extends AccountProps>(
     query: Query<T>,
     skip?: number,
