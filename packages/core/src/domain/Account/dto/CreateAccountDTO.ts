@@ -1,7 +1,13 @@
 import DTO from "@/common/DTO/DTO";
 import { Transformer } from "@/common/Transformer";
 import { Expose } from "class-transformer";
-import { IsString, MaxLength, MinLength } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  MinLength,
+  IsNotEmpty,
+  IsEmpty,
+} from "class-validator";
 
 export default class CreateAccountDTO extends DTO {
   @Expose()
@@ -13,7 +19,7 @@ export default class CreateAccountDTO extends DTO {
   @Expose()
   @IsString()
   @MaxLength(128)
-  public description: string;
+  public description: string = "";
 
   public static create(data: ClassProperties<CreateAccountDTO>) {
     return Transformer.plainToInstance(CreateAccountDTO, data);

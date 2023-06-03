@@ -7,6 +7,7 @@ import {
 export class Transformer {
   public static toInstanceConfigs: ClassTransformOptions = {
     excludeExtraneousValues: true,
+    exposeDefaultValues: true,
   };
 
   public static plainToInstance<K, T>(
