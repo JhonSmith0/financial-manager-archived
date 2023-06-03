@@ -18,6 +18,8 @@ export class AccountController {
     @Body() body: ClassProperties<CreateAccountDTO>
   ) {
     const parsedObj = CreateAccountDTO.create(body);
+    const validation = await parsedObj.validate();
+    if (validation.length) throw validation;
 
     return await this.createUseCase.exec({
       ...parsedObj,

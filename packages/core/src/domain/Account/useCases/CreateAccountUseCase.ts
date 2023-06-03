@@ -9,6 +9,9 @@ export default class CreateAccountUseCase {
 
   public async exec(data: OptionalProps<AccountProps, "id">) {
     const account = Account.create(data);
+
+    console.log({ account });
+
     if (await this.repo.exists(account))
       return left(new AlreadyExistsError("Account already exists!", ["name"]));
 
