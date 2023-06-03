@@ -23,7 +23,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: "dev" | "prod" | "test";
-      DB_URL: string;
+      DATABASE_URL: string;
     }
   }
 }
