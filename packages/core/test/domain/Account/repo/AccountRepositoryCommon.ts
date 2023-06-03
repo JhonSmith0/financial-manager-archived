@@ -1,93 +1,113 @@
 import Account from "@/domain/Account/entity";
-import AccountProps from "@/domain/Account/types/AccountProps";
 import AccountRepository from "@/domain/Account/types/AccountRepository";
-import User from "@/domain/User/entity/User";
-import { randomUUID } from "crypto";
 
 export function accountRepositoryCommon(name: string, repo: AccountRepository) {
   describe(`AccountRepository tests for ${name}`, () => {
-    let account: Account;
-    let user: User;
-
-    const user1 = "1234";
-    const user2 = "12";
-
-    beforeAll(async () => {
-      user = await User.create(User.dataForTest);
-
-      account = Account.create({
-        description: "testing",
-        name: "Hello!",
-        userId: user.id,
+    // add
+    // remove
+    it("should add remove an account", async () => {
+      const acc = Account.create({
+        description: "jkhjk",
+        name: "kjhjkhkhjkjkh",
+        userId: "ljljljkjlj",
       });
 
-      await repo.add(
-        Account.create({
-          description: "hello",
-          name: "Account1",
-          userId: user1,
-        })
+      await repo.add(acc);
+
+      expect(await repo.findByQuery({ id: { equals: acc.id } })).toMatchObject(
+        acc
       );
-      await repo.add(
-        Account.create({
-          description: "hello",
-          name: "Account2",
-          userId: user1,
-        })
-      );
-      await repo.add(
-        Account.create({
-          description: "hello",
-          name: "test",
-          userId: user2,
-        })
-      );
-      await repo.add(
-        Account.create({
-          description: "hello",
-          name: "john",
-          userId: user2,
-        })
-      );
+
+      await repo.remove(acc.id);
     });
 
-    it("should create an account", async () => {
-      await repo.add(account);
-      expect(await repo.findByProp("id", account.id, true)).toMatchObject(
-        account
+    // update
+    it("should update an account", async () => {
+      const acc = Account.create({
+        description: "jkhjk",
+        name: "kjhjkhkhjkjkh",
+        userId: "ljljljkjlj",
+      });
+
+      await repo.add(acc);
+
+      const newAcc = { ...acc, name: "updated name" };
+
+      await repo.update(acc.id, { name: newAcc.name });
+
+      expect(await repo.findByQuery({ id: { equals: acc.id } })).toMatchObject(
+        newAcc
       );
-    });
-    it("should update the account", async () => {
-      const newDescription = randomUUID();
 
-      await repo.update(account.id, { description: newDescription });
-
-      const found = (await repo.findByProp(
-        "description",
-        newDescription,
-        true
-      )) as AccountProps;
-
-      expect(found.description).toBe(newDescription);
+      await repo.remove(acc.id);
     });
 
-    it("should remove the account ", async () => {
-      await repo.remove(account.id);
-      expect(await repo.findByProp("id", account.id, true)).toBeFalsy();
+    // exists
+    it("should verify if account exists", async () => {
+      const acc = Account.create({
+        description: "jkhjk",
+        name: "kjhjkhkhjkjkh",
+        userId: "ljljljkjlj",
+      });
+
+      await repo.add(acc);
+
+      expect(await repo.exists(acc)).toBeTruthy();
     });
 
-    it("should match all the lenghts", async () => {});
+    // findByQuery
+    it("should find by query", async () => {
+      const acc = Account.create({
+        description: "jkhjk",
+        name: "acc1",
+        userId: "user1",
+      });
 
-    it("should pass", async () => {
-      const proms = [
-        await repo.findByUserIdAndName(user1, "account"),
-        await repo.findByUserIdAndName(user2, "account"),
-        await repo.findByUserIdAndName(user2, "john"),
-      ];
+      const acc2 = Account.create({
+        description: "jkhjk",
+        name: "acc2",
+        userId: "user1",
+      });
 
-      expect(proms[0]).toHaveLength(2);
-      expect(proms[1]).toHaveLength(0);
-      expect(proms[2]).toHaveLength(1);
+      const acc3 = Account.create({
+        description: "jkhjk",
+        name: "acc3",
+        userId: "user2",
+      });
+
+      const acc4 = Account.create({
+        description: "jkhjk",
+        name: "ac4",
+        userId: "user2",
+      });
+
+      await repo.add(acc);
+      await repo.add(acc2);
+      await repo.add(acc3);
+      await repo.add(acc4);
+
+      expect(
+        await repo.findByQuery(
+          {
+            userId: {
+              equals: acc.userId,
+            },
+          },
+          0,
+          2
+        )
+      ).toHaveLength(2);
+      expect(
+        await repo.findByQuery(
+          {
+            userId: {
+              equals: acc3.userId,
+            },
+          },
+          0,
+          2
+        )
+      ).toHaveLength(2);
     });
   });
 }
