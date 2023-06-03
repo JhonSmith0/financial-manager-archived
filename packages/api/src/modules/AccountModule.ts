@@ -3,6 +3,7 @@ import Tokens from "@financial/core/dist/domain/Account/di/AccountTokens";
 import { AccountRepositoryPrisma } from "@financial/core/dist/domain/Account/repo/AccountRepositoryPrisma";
 import { AccountController } from "@/controllers/AccountController";
 import CreateAccountUseCase from "@financial/core/dist/domain/Account/useCases/CreateAccountUseCase";
+import { SearchAccountUseCase } from "@financial/core/dist/domain/Account/useCases/SearchAccountUseCase";
 
 const providers: Provider[] = [
   {
@@ -18,6 +19,13 @@ const providers: Provider[] = [
     inject: [Tokens.accountRepository],
     async useFactory(repo) {
       return new CreateAccountUseCase(repo);
+    },
+  },
+  {
+    provide: SearchAccountUseCase,
+    inject: [Tokens.accountRepository],
+    async useFactory(repo) {
+      return new SearchAccountUseCase(repo);
     },
   },
 ];
