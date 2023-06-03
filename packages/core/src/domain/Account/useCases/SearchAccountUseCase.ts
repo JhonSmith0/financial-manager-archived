@@ -13,8 +13,10 @@ export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
     super();
   }
 
+  private resultsPerPage = 60;
+
   public async execute({ dto, user }: SearchAccountUseCaseProps) {
-    const result = await this.repo.findByQuery(
+    const results = await this.repo.findByQuery(
       {
         name: {
           startsWith: dto.name,
@@ -26,9 +28,9 @@ export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
           equals: user.id,
         },
       },
-      0,
-      10
+      (dto.page - 1) * this.resultsPerPage,
+      dto.page * this.resultsPerPage
     );
-    return result;
+    return { results, page: dto.page };
   }
 }
