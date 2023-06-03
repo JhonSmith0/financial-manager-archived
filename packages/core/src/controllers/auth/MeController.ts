@@ -9,7 +9,6 @@ function ifCatch<T extends Function>(fn: T) {
     try {
       return fn();
     } catch (error) {
-      console.log({ error });
       throw newError;
     }
   };
