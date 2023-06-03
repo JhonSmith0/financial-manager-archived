@@ -5,6 +5,7 @@ import { AccountController } from "@/controllers/AccountController";
 import CreateAccountUseCase from "@financial/core/dist/domain/Account/useCases/CreateAccountUseCase";
 import { SearchAccountUseCase } from "@financial/core/dist/domain/Account/useCases/SearchAccountUseCase";
 import { UpdateAccountUseCase } from "@financial/core/dist/domain/Account/useCases/UpdateAccountUseCase";
+import { DeleteAccountUseCase } from "@financial/core/dist/domain/Account/useCases/DeleteAccountUseCase";
 
 const providers: Provider[] = [
   {
@@ -34,6 +35,13 @@ const providers: Provider[] = [
     inject: [Tokens.accountRepository],
     async useFactory(repo) {
       return new UpdateAccountUseCase(repo);
+    },
+  },
+  {
+    provide: DeleteAccountUseCase,
+    inject: [Tokens.accountRepository],
+    async useFactory(repo) {
+      return new DeleteAccountUseCase(repo);
     },
   },
 ];

@@ -7,15 +7,27 @@ import CreateAccountUseCase from "@financial/core/dist/domain/Account/useCases/C
 import { SearchAccountUseCase } from "@financial/core/dist/domain/Account/useCases/SearchAccountUseCase";
 import { UpdateAccountUseCase } from "@financial/core/dist/domain/Account/useCases/UpdateAccountUseCase";
 import User from "@financial/core/dist/domain/User/entity/User";
-import { Body, Controller, Get, Patch, Post, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from "@nestjs/common";
 import { AdaptErrors } from "../adapters/adaptErrors";
+import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO";
+import { DeleteAccountUseCase } from "@financial/core/dist/domain/Account/useCases/DeleteAccountUseCase";
 
 @Controller("account")
 export class AccountController {
   constructor(
     private createUseCase: CreateAccountUseCase,
     private searchUseCase: SearchAccountUseCase,
-    private updateUseCase: UpdateAccountUseCase
+    private updateUseCase: UpdateAccountUseCase,
+    private deleteUseCase: DeleteAccountUseCase
   ) {}
 
   @Post()
@@ -59,5 +71,16 @@ export class AccountController {
     if (validation.length) throw validation;
 
     return await this.updateUseCase.execute({ user, dto });
+  }
+
+  @Delete("/:id")
+  @AdaptErrors()
+  @LeftRightHandler()
+  async deleteAccount(@UserEntity() user: User, @Param() params: any) {
+    const obj = DeleteAccountDTO.create(params);
+    const validation = await obj.validate();
+    if (validation.length) throw validation;
+
+    return await this.deleteUseCase.execute({ dto: obj, user });
   }
 }
