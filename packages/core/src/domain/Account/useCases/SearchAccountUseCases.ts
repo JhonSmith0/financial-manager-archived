@@ -23,7 +23,7 @@ export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
           startsWith: dto.description,
         },
         userId: {
-          eq: user.id,
+          equals: user.id,
         },
       },
       0,
