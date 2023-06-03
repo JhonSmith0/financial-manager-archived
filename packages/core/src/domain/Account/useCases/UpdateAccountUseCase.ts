@@ -11,12 +11,12 @@ interface Props {
   user: { id: User["id"] };
 }
 
-export class UpdateAccountUseCase<T extends Props> extends UseCase<T> {
+export class UpdateAccountUseCase extends UseCase<Props> {
   constructor(private accountsRepo: AccountRepository) {
     super();
   }
 
-  public async execute({ user, dto }: T) {
+  public async execute({ user, dto }: Props) {
     //Verify if account with that id exists
     const accountById = await this.accountsRepo.findByQuery({
       id: { equals: dto.id },
@@ -36,7 +36,7 @@ export class UpdateAccountUseCase<T extends Props> extends UseCase<T> {
         equals: user.id,
       },
       id: {
-        equals: dto.id,
+        nte: dto.id,
       },
     });
 
