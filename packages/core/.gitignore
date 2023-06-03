@@ -1,1 +1,7 @@
 lib/
+prisma/*
+!prisma/schema.prisma
+prisma/*
+
+.env*
+!.env*template

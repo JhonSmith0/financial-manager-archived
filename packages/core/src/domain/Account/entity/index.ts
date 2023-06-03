@@ -1,7 +1,7 @@
 import Entity from "@/common/Entity/Entity";
-import AccountProps from "../types/AccountProps";
+import { Transformer } from "@/common/Transformer";
 import { randomUUID } from "crypto";
-import { plainToInstance } from "class-transformer";
+import AccountProps from "../types/AccountProps";
 
 export default class Account extends Entity {
   public name: string;
@@ -10,7 +10,9 @@ export default class Account extends Entity {
 
   public static create(data: OptionalProps<AccountProps, "id">) {
     data.id ||= randomUUID();
-    return plainToInstance(Account, data);
+    return Transformer.plainToInstance(Account, data, {
+      excludeExtraneousValues: false,
+    });
   }
 
   public static linkProto(obj: any): Account {

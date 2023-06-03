@@ -1,13 +1,16 @@
 {
   "name": "financial",
   "private": true,
-  "packageManager": "pnpm@8.5.1",
+  "packageManager": "yarn@1.22.19",
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  },
   "scripts": {
     "prepare": "husky install",
-    "generate": "prisma generate",
-    "migrate:dev": "prisma migrate dev",
     "start": "node ./server.js",
-    "build": "pnpm run -r build"
+    "build": "nx run-many -t build"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
@@ -24,6 +27,7 @@
     "commitlint": "^17.6.3",
     "commitlint-config-gitmoji": "^2.3.1",
     "husky": "^8.0.3",
+    "nx": "^16.2.2",
     "nx-cloud": "latest",
     "prisma": "^4.13.0",
     "rollup": "^3.23.0",
@@ -36,6 +40,6 @@
     }
   },
   "dependencies": {
-    "@financial/api": "workspace:*"
+    "@financial/api": "*"
   }
 }

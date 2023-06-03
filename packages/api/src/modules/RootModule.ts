@@ -1,27 +1,35 @@
-import { Module, Provider } from '@nestjs/common';
+import { Global, Module, Provider } from "@nestjs/common";
 
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { dirname } from 'path';
-import AuthController from '../controllers/AuthController';
-import UserToken from '@financial/core/dist/domain/User/di/UserTokens';
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { dirname } from "path";
 
-import UserRepositoryInMemory from '@financial/core/dist/domain/User/repo/UserRepositoryInMemory';
-import LoginController from '@financial/core/dist/controllers/auth/LoginController';
-import RegisterController from '@financial/core/dist/controllers/auth/RegisterController';
-import JWT from '@financial/core/dist/common/JWT/JWT';
-import CreateUserUseCase from '@financial/core/dist/domain/User/useCases/CreateUserUseCase';
+import JWT from "@financial/core/dist/common/JWT/JWT";
+import LoginController from "@financial/core/dist/controllers/auth/LoginController";
+import MeController from "@financial/core/dist/controllers/auth/MeController";
+import RegisterController from "@financial/core/dist/controllers/auth/RegisterController";
+import UserToken from "@financial/core/dist/domain/User/di/UserTokens";
+import UserRepositoryPrisma from "@financial/core/dist/domain/User/repo/UserRepositoryPrisma";
+import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateUserUseCase";
+import { RouterModule } from "@nestjs/core";
+import AuthModule from "./AuthModule";
+import { OnlyLoggedUsers } from "./OnlyLoggedUsers";
+import { AccountModule } from "./AccountModule";
 
-const htmlPath = require.resolve('@financial/client/lib/index.html');
+const htmlPath = require.resolve("@financial/client/lib/index.html");
 const libPath = dirname(htmlPath);
 
 const providers: Provider[] = [
   {
     provide: UserToken.userRepository,
-    useValue: new UserRepositoryInMemory(),
+    async useFactory() {
+      const repo = new UserRepositoryPrisma();
+      await repo.$connect();
+      return repo;
+    },
   },
   {
     provide: JWT,
-    useValue: new JWT('123'),
+    useValue: new JWT("123"),
   },
   {
     provide: LoginController,
@@ -44,15 +52,32 @@ const providers: Provider[] = [
       return new CreateUserUseCase(repo);
     },
   },
+  {
+    provide: MeController,
+    inject: [UserToken.userRepository, JWT],
+    useFactory(repo, jwt) {
+      return new MeController(repo, jwt);
+    },
+  },
 ];
-
+@Global()
 @Module({
   imports: [
+    RouterModule.register([
+      {
+        path: "api",
+        module: OnlyLoggedUsers,
+        children: [AccountModule],
+      },
+    ]),
     ServeStaticModule.forRoot({
       rootPath: libPath,
     }),
+    AuthModule,
+    OnlyLoggedUsers,
+    AccountModule,
   ],
-  controllers: [AuthController],
-  providers: [...providers],
+  providers,
+  exports: providers,
 })
 export default class RootModule {}

@@ -1,5 +1,7 @@
+import User from "@/domain/User/entity/User";
 import Account from "../entity";
 import AccountProps from "./AccountProps";
+import { Query } from "@/common/Query";
 
 export default interface AccountRepository {
   add(acc: Account): Promise<void>;
@@ -11,14 +13,14 @@ export default interface AccountRepository {
 
   exists(acc: AccountProps): Promise<boolean>;
 
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: false
-  ): Promise<AccountProps[]>;
-  findByProp<T extends keyof AccountProps>(
-    prop: T,
-    value: AccountProps[T],
-    unique: true
+  findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number,
+    limit?: 1
   ): Promise<AccountProps | void>;
+  findByQuery<T extends AccountProps>(
+    query: Query<T>,
+    skip?: number,
+    limit?: number
+  ): Promise<AccountProps[]>;
 }

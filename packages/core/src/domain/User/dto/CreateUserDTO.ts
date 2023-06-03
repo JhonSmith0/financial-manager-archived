@@ -1,9 +1,9 @@
 import DTO from "@/common/DTO/DTO";
+import { Transformer } from "@/common/Transformer";
+import { Expose } from "class-transformer";
+import { MaxLength, MinLength } from "class-validator";
 import UserProps from "../types/UserProps";
-import { Expose, plainToInstance } from "class-transformer";
-import { IsEmail, MinLength, MaxLength } from "class-validator";
 import LoginUserDTO from "./LoginUserDTO";
-import plainToInstanceConfigs from "@/common/configs/plainToInstanceConfigs";
 
 export default class CreateUserDTO
   extends LoginUserDTO
@@ -18,6 +18,6 @@ export default class CreateUserDTO
   public photo: string;
 
   public static create(data: Omit<CreateUserDTO, keyof DTO>) {
-    return plainToInstance(CreateUserDTO, data, plainToInstanceConfigs);
+    return Transformer.plainToInstance(CreateUserDTO, data);
   }
 }

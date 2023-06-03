@@ -1,8 +1,11 @@
 import jwt from "jsonwebtoken";
 
-type EncodeOptions = Parameters<(typeof jwt)["sign"]>[2];
-type DecodeOptions = Parameters<(typeof jwt)["decode"]>[1];
-type VerifyOptions = Parameters<(typeof jwt)["verify"]>[2];
+type EncodeOptions = OptionalProps<
+  Parameters<typeof jwt["sign"]>[2],
+  "algorithm"
+>;
+type DecodeOptions = Parameters<typeof jwt["decode"]>[1];
+type VerifyOptions = Parameters<typeof jwt["verify"]>[2];
 
 export default class JWT {
   constructor(private secret: string) {}
