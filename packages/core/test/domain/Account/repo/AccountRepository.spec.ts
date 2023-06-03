@@ -11,6 +11,10 @@ describe("AccountRepository", () => {
     await prisma.db.deleteMany({});
   });
 
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
   accountRepositoryCommon("InMemory", memory);
   accountRepositoryCommon("Prisma", prisma);
 });
