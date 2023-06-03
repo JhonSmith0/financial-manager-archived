@@ -20,7 +20,7 @@ describe("CreateAccountDTO", () => {
   it("should fail", async () => {
     const nameTest = CreateAccountDTO.create(dto);
 
-    nameTest.name = "1234";
+    nameTest.name = "123";
     expect(await nameTest.validate()).toHaveLength(1);
 
     nameTest.name = "1".repeat(25);

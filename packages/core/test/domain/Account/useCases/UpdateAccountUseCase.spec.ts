@@ -25,27 +25,33 @@ describe("UpdateAccountUseCase", () => {
 
   //Try to update an account but that will make it a duplicate
   it("should give already exists error", async () => {
-    const acc = Account.create({
+    const acc1 = Account.create({
       description: "Test",
       name: "Hello!",
       userId: "389798",
     });
+    const acc2 = Account.create({
+      description: "Test",
+      name: "Hello2!",
+      userId: "389798",
+    });
 
-    await repo.add(acc);
+    await repo.add(acc1);
+    await repo.add(acc2);
 
     const result = await useCase.execute({
       dto: {
-        id: acc.id,
-        name: acc.name,
+        id: acc2.id,
+        name: acc1.name,
       },
       user: {
-        id: acc.userId,
+        id: acc2.userId,
       },
     });
 
     expect((result as any).left).toBeInstanceOf(AlreadyExistsError);
 
-    await repo.remove(acc.id);
+    await repo.remove(acc1.id);
   });
 
   it("should update and block id change", async () => {
