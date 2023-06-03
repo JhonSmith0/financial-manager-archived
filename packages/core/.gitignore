@@ -4,3 +4,4 @@ prisma/*
 prisma/*
 
 .env*
+!.env*template
