@@ -20,7 +20,7 @@ export class AccountRepositoryPrisma
     return await this.db.findMany({ where: query, skip, take: limit });
   }
 
-  private db = this.account;
+  public db = this.account;
   public async add(data: Account): Promise<void> {
     await this.db.create({ data });
   }
