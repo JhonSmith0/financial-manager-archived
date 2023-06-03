@@ -12,8 +12,6 @@ const strategy = {
 };
 
 export function loadEnv(type: keyof typeof strategy, override = true) {
-  console.log({ type }, type in strategy);
-
   if (!(type in strategy)) throw new Error("Invalid env type!");
 
   return config({ path: strategy[type] });
