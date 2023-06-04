@@ -24,5 +24,21 @@ model Account {
   name        String
   description String
 
+  FromTransaction Transaction[] @relation("from")
+  ToTransaction   Transaction[] @relation("to")
+
   @@unique([name, userId])
+}
+
+model Transaction {
+  id          String   @id
+  amount      Float
+  description String
+  date        DateTime
+
+  fromAccount   Account @relation("from", fields: [fromAccountId], references: [id])
+  fromAccountId String
+
+  toAccount   Account @relation("to", fields: [toAccountId], references: [id])
+  toAccountId String
 }
