@@ -1,7 +1,7 @@
 import DTO from "@/common/DTO/DTO";
 import { Transformer } from "@/common/Transformer";
 import { Expose } from "class-transformer";
-import { Allow, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 export class SearchAccountDTO extends DTO {
   @Expose()
@@ -15,6 +15,7 @@ export class SearchAccountDTO extends DTO {
 
   @IsNumber()
   @Expose()
+  @Min(1)
   public page: number = 1;
 
   public static create(data: ClassProperties<SearchAccountDTO>) {
