@@ -16,6 +16,13 @@ body {
   font-family: sans-serif;
   font-size: 1.6rem;
 
-  background: #111;
-  color: white;
+  background: #f8f9fa;
+  color: #212529;
+
+  button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
 }
