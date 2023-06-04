@@ -1,8 +1,5 @@
 import { Global, Module, Provider } from "@nestjs/common";
 
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { dirname } from "path";
-
 import JWT from "@financial/core/dist/common/JWT/JWT";
 import LoginController from "@financial/core/dist/controllers/auth/LoginController";
 import MeController from "@financial/core/dist/controllers/auth/MeController";
@@ -11,12 +8,9 @@ import UserToken from "@financial/core/dist/domain/User/di/UserTokens";
 import UserRepositoryPrisma from "@financial/core/dist/domain/User/repo/UserRepositoryPrisma";
 import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateUserUseCase";
 import { RouterModule } from "@nestjs/core";
+import { AccountModule } from "./AccountModule";
 import AuthModule from "./AuthModule";
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers";
-import { AccountModule } from "./AccountModule";
-
-const htmlPath = require.resolve("@financial/client/lib/index.html");
-const libPath = dirname(htmlPath);
 
 const providers: Provider[] = [
   {
@@ -70,9 +64,7 @@ const providers: Provider[] = [
         children: [AccountModule],
       },
     ]),
-    ServeStaticModule.forRoot({
-      rootPath: libPath,
-    }),
+
     AuthModule,
     OnlyLoggedUsers,
     AccountModule,
