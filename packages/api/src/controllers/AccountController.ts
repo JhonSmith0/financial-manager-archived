@@ -62,11 +62,15 @@ export class AccountController {
     return await this.searchUseCase.execute({ dto, user: { id: user.id } });
   }
 
-  @Patch()
+  @Patch("/:id")
   @AdaptErrors()
   @LeftRightHandler()
-  async updateAccount(@UserEntity() user: User, @Body() body: any) {
-    const dto = UpdateAccountDTO.create(body);
+  async updateAccount(
+    @UserEntity() user: User,
+    @Body() body: any,
+    @Param() params: { id: string }
+  ) {
+    const dto = UpdateAccountDTO.create({ ...body, id: params.id });
     const validation = await dto.validate();
     if (validation.length) throw validation;
 
