@@ -9,3 +9,16 @@ export interface IUser {
   photo: string;
   email: string;
 }
+
+export interface IAccount {
+  userId: string;
+  description: string;
+  name: string;
+  id: string;
+}
+export interface AccountCreate extends Pick<IAccount, "description" | "name"> {}
+
+export interface SearchAccount {
+  name: string;
+  page: number;
+}
