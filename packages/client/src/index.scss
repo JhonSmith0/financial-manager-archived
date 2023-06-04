@@ -10,9 +10,13 @@
 
 html {
   font-size: 62.5%;
+  overflow: hidden;
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
+
   font-family: "Inter", sans-serif;
   font-size: 1.6rem;
 
@@ -24,6 +28,11 @@ body {
     border: none;
     outline: none;
     cursor: pointer;
+    height: max-content;
+    width: max-content;
+
+    display: grid;
+    align-items: center;
   }
 }
 svg {
