@@ -4,7 +4,7 @@ class HTTP extends Axios {}
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: "/",
+  baseURL: "http://localhost:3000/",
 });
 
 export default api;
