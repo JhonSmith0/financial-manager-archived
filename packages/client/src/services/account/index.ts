@@ -12,3 +12,7 @@ export async function searchAccounts(data: SearchAccount) {
 export async function removeAccount(id: string) {
   return await api.delete(`/api/account/${id}`);
 }
+
+export async function updateAccount(id: string, data: AccountCreate) {
+  return (await api.patch(`/api/account/${id}`, data)).data as IAccount;
+}

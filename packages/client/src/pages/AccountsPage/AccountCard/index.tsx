@@ -1,8 +1,11 @@
 import { IAccount } from "@/interface";
-import { remove } from "@/state/accountsState";
+import { remove, stateUpdateAccount } from "@/state/accountsState";
 import styled from "styled-components";
-import { StyledBar } from "@/components/styled";
-import { HiOutlineTrash } from "react-icons/hi";
+import { StyledBar, StyledIconsList } from "@/components/styled";
+import { HiOutlineTrash, HiOutlineCog } from "react-icons/hi";
+import { useHookstate } from "@hookstate/core";
+import { UpdateAccountCard } from "../UpdateAccountCard";
+import { updateAccount } from "@/services/account";
 
 interface Props {
   data: IAccount;
@@ -23,6 +26,11 @@ export const StyledAccountCard = styled.div`
     justify-content: space-between;
 
     padding: 0 var(--padding-inline) !important;
+
+    .icons {
+      display: flex;
+      gap: 0.6rem;
+    }
   }
 
   svg {
@@ -38,17 +46,40 @@ export const StyledAccountCard = styled.div`
 `;
 
 export function AccountCard({ data }: Props) {
+  const editing = useHookstate(false);
+
+  function onClose() {
+    editing.set(false);
+  }
+
+  async function onSave(data: IAccount) {
+    const newAcc = await updateAccount(data.id, data);
+    onClose();
+    stateUpdateAccount(data.id, newAcc);
+  }
+
   return (
     <StyledAccountCard>
+      {editing.get() && (
+        <UpdateAccountCard data={data} onClose={onClose} onSave={onSave} />
+      )}
       <StyledBar as={"header"}>
         <span>{data.name}</span>
-        <button
-          onClick={async () => {
-            await remove(data.id);
-          }}
-        >
-          <HiOutlineTrash />
-        </button>
+        <StyledIconsList>
+          <button onClick={() => editing.set(true)}>
+            <HiOutlineCog />
+          </button>
+          <button
+            onClick={async () => {
+              const value = confirm(
+                `Are you sure you want to delete ${data.name}?`
+              );
+              value && (await remove(data.id));
+            }}
+          >
+            <HiOutlineTrash />
+          </button>
+        </StyledIconsList>
       </StyledBar>
       <div className="content">
         <p>{data.description}</p>

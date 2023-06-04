@@ -2,8 +2,19 @@ import styled from "styled-components";
 
 export const StyledContainer = styled.div``;
 
-export const StyledTitle = styled.h2`
-  font-size: 3.2rem !important;
+const StyledTitleSizes = {
+  small: "1.8rem",
+  medium: "2.4rem",
+  big: "3.2rem",
+  large: "4.2rem",
+};
+export const StyledTitle = styled.h2<{ size?: keyof typeof StyledTitleSizes }>`
+  font-size: ${(props) => {
+    return StyledTitleSizes[props.size || "big"];
+  }} !important;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export const StyledForm = styled.form``;
@@ -24,6 +35,7 @@ export const StyledInput = styled.input`
 
   border: solid 1px #999;
   outline: none;
+  width: max-content;
 
   &:focus-visible {
     background: #f1f3f5;
@@ -50,3 +62,21 @@ export const StyledBar = styled.div`
 `;
 
 export const StyledHomeOutLet = styled.div``;
+
+export const StyledCard = styled.div`
+  min-width: 20rem;
+  box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+
+  --padding-inline: 1.4rem;
+  background: #fff;
+`;
+
+export const StyledIconsList = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: max-content;
+  width: max-content;
+`;

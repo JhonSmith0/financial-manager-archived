@@ -23,4 +23,11 @@ export async function remove(id: string) {
   accountsState.set(newState);
 }
 
+export function stateUpdateAccount(id: IAccount["id"], data: IAccount) {
+  const state = accountsState.find((e) => e.id.value === id);
+  if (state) {
+    state.merge(data);
+  }
+}
+
 export default accountsState;
