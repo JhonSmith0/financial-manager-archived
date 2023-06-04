@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.6rem;
 
   background: #f8f9fa;
@@ -25,4 +25,7 @@ body {
     outline: none;
     cursor: pointer;
   }
+}
+svg {
+  color: inherit;
 }
