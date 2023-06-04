@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledSideBar = styled.div`
-  flex: 0.33;
   border-right: solid 1px #222;
 
   --inline-padding: 1.2rem;
@@ -18,6 +17,8 @@ export const StyledSideBar = styled.div`
     padding-inline: var(--inline-padding);
   }
 
+  background: rgb(0, 0, 169);
+  color: white;
   nav {
     ul {
       list-style-type: none;
