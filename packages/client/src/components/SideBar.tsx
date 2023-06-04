@@ -4,20 +4,18 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledSideBar = styled.div`
-  border-right: solid 1px #222;
-
   --inline-padding: 1.2rem;
 
   display: grid;
   grid-template-rows: auto 1fr;
 
   header {
-    border-bottom: solid 1px #222;
     padding: 1.2rem;
     padding-inline: var(--inline-padding);
   }
 
-  background: rgb(0, 0, 169);
+  /* background: rgb(0, 0, 169); */
+  background: #26378b;
   color: white;
   nav {
     ul {
@@ -30,7 +28,7 @@ export const StyledSideBar = styled.div`
       li {
         height: max-content;
         &:hover {
-          background: #222;
+          background: #7284d8;
         }
         cursor: pointer;
 
