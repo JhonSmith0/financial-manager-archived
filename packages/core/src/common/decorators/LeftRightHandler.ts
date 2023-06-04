@@ -1,5 +1,3 @@
-import { isAsyncFunction } from "util/types";
-
 export function LeftRightHandler(isAsync = true) {
   return <T>(target: T, property: keyof T, desc: PropertyDescriptor) => {
     const fn = desc.value;
