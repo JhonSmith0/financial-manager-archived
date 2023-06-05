@@ -1,8 +1,8 @@
 import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryInMemory";
 import { accountRepositoryCommon } from "./AccountRepositoryCommon";
 
-const memory = new AccountRepositoryInMemory();
+const repo = new AccountRepositoryInMemory();
 
 describe("AccountRepository", () => {
-  accountRepositoryCommon("InMemory", memory);
+  accountRepositoryCommon("InMemory", repo);
 });
