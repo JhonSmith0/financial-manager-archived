@@ -1,8 +1,10 @@
 import loginSchema from "@/schemas/loginSchema";
+import newTransactionSchema from "@/schemas/newTransactionSchema";
 import registerSchema from "@/schemas/registerSchema";
 import * as y from "yup";
 export interface ILoginSchema extends y.InferType<typeof loginSchema> {}
 export interface IRegisterSchema extends y.InferType<typeof registerSchema> {}
+
 export interface IUser {
   name: string;
   id: string;
@@ -16,6 +18,19 @@ export interface IAccount {
   name: string;
   id: string;
 }
+
+export interface ITransaction {
+  date: string;
+  description: string;
+  amount: number;
+  id: string;
+  fromAccountId: string;
+  toAccountId: string;
+}
+
+export interface TransactionCreate
+  extends y.InferType<typeof newTransactionSchema> {}
+
 export interface AccountCreate extends Pick<IAccount, "description" | "name"> {}
 
 export interface SearchAccount {
