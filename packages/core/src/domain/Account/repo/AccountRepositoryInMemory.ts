@@ -2,6 +2,7 @@ import { Query, handlerObj } from "@/common/Query";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
+import { handleQuery } from "@/common/repo/handleQuery";
 
 export default class AccountRepositoryInMemory implements AccountRepository {
   findByQuery<T extends AccountProps>(
@@ -19,11 +20,7 @@ export default class AccountRepositoryInMemory implements AccountRepository {
     skip: number = 0,
     limit: number = 1
   ): Promise<void | AccountProps | AccountProps[]> {
-    if (limit === 1) return this.data.find((obj) => handlerObj(obj, query));
-
-    return this.data
-      .filter((obj) => handlerObj(obj, query))
-      .slice(skip, skip + limit);
+    return handleQuery(query, this.data, skip, limit);
   }
 
   private data: Account[] = [];
