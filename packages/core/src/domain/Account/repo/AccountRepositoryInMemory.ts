@@ -20,7 +20,7 @@ export default class AccountRepositoryInMemory implements AccountRepository {
     skip: number = 0,
     limit: number = 1
   ): Promise<void | AccountProps | AccountProps[]> {
-    return handleQuery(query, this.data, skip, limit);
+    return handleQuery(query, this.data as any, skip, limit);
   }
 
   private data: Account[] = [];
