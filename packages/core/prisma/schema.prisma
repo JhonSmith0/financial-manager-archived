@@ -11,18 +11,21 @@ datasource db {
 }
 
 model User {
-  id       String @id
-  email    String @unique
+  id       String    @id
+  email    String    @unique
   name     String
   password String
   photo    String
+  Account  Account[]
 }
 
 model Account {
   id          String @id
-  userId      String
   name        String
   description String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   FromTransaction Transaction[] @relation("from")
   ToTransaction   Transaction[] @relation("to")
