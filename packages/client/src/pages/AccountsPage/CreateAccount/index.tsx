@@ -13,7 +13,12 @@ import {
   StyledTitle,
 } from "@/components/styled";
 
-export const StyledNewAccount = styled(StyledContainer)``;
+export const StyledNewAccount = styled(StyledContainer)`
+  ${StyledButton} {
+    padding-block: 0.6rem;
+    align-self: end;
+  }
+`;
 
 export function NewAccount() {
   const { register, handleSubmit, reset } =
@@ -21,8 +26,9 @@ export function NewAccount() {
 
   return (
     <StyledNewAccount>
-      <StyledTitle>New Account</StyledTitle>
+      <StyledTitle size="medium">New Account</StyledTitle>
       <StyledForm
+        direction="row"
         onSubmit={handleSubmit(async (data) => {
           const acc = await createAccount(data);
           addAccount(acc);

@@ -28,6 +28,7 @@ export function SearchAccount() {
 
   return (
     <StyledForm
+      direction="row"
       onSubmit={handleSubmit(async (data) => {
         await search(data);
       })}

@@ -1,6 +1,8 @@
-import styled from "styled-components";
+import styled, { CSSProperties, StyledProps } from "styled-components";
 
-export const StyledContainer = styled.div``;
+export const StyledContainer = styled.div`
+  margin-block: 4.8rem;
+`;
 
 const StyledTitleSizes = {
   small: "1.8rem",
@@ -8,19 +10,35 @@ const StyledTitleSizes = {
   big: "3.2rem",
   large: "4.2rem",
 };
+
+const StyledTitleMargin = {
+  small: ".9rem",
+  medium: "1.2rem",
+  big: "1.6rem",
+  large: "2.1rem",
+};
 export const StyledTitle = styled.h2<{ size?: keyof typeof StyledTitleSizes }>`
   font-size: ${(props) => {
     return StyledTitleSizes[props.size || "big"];
   }} !important;
 
+  margin-bottom: ${(props) => StyledTitleMargin[props.size || "big"]};
+
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
-export const StyledForm = styled.form``;
+export const StyledForm = styled.form<{
+  direction?: CSSProperties["flexDirection"];
+}>`
+  display: flex;
+  gap: 1.2rem;
+  align-items: ${(props) => (props.direction === "row" ? "center" : "unset")};
+  flex-direction: ${(props) => props.direction || "column"};
+  flex-wrap: wrap;
+`;
 
 export const StyledFieldSet = styled.fieldset`
-  margin-block: 1.2rem;
   border: none;
   font-size: 1.8rem;
 `;
@@ -61,7 +79,12 @@ export const StyledBar = styled.div`
   font-size: 1.8rem;
 `;
 
-export const StyledHomeOutLet = styled.div``;
+export const StyledHomeOutLet = styled.div`
+  --inline-padding: 2.4rem;
+  --block-padding: 4.2rem;
+  padding-inline: var(--inline-padding);
+  padding-block: var(--block-padding);
+`;
 
 export const StyledCard = styled.div`
   min-width: 20rem;

@@ -10,16 +10,12 @@ export const StyledAccountsPage = styled(StyledHomeOutLet)`
   display: flex;
   flex-direction: column;
 
-  --inline-padding: 2.4rem;
-
   ${StyledBar} {
     padding-inline: var(--inline-padding);
   }
 
   & > .content {
     flex: 1;
-    padding: var(--inline-padding);
-    padding-block: 3.2rem;
 
     display: flex;
     flex-direction: column;
