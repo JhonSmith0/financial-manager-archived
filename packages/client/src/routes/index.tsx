@@ -3,6 +3,7 @@ import { AccountsPage } from "@/pages/AccountsPage";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
+import { TransactionsPage } from "@/pages/TransactionsPage";
 import me from "@/services/me";
 import currentUser from "@/state/currentUser";
 import authorizationToken from "@/utils/authorizationToken";
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         }}
       >
         <Route path="accounts" element={<AccountsPage />}></Route>
+        <Route path="transactions" element={<TransactionsPage />}></Route>
       </Route>
     </>
   )
