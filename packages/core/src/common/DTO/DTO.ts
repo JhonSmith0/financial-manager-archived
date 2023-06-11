@@ -6,7 +6,7 @@ export default abstract class DTO {
   public async validate() {
     const obj = await validate(this);
 
-    if (!obj.length) return obj;
+    if (!obj.length) return new ValidationError("Invalid Data!", []);
 
     return new ValidationError(
       "Invalid data!",

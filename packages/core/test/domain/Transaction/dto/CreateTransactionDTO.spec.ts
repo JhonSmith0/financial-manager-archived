@@ -51,4 +51,13 @@ describe("CreateTransactionDTO", () => {
 
     expect(validation).toHaveLength(1);
   });
+
+  it("should give equal props error", async () => {
+    const obj = await new CreateTransactionDTO({
+      ...data,
+      fromAccountId: data.toAccountId,
+      toAccountId: data.toAccountId,
+    }).validate();
+    expect(obj.length).toBe(2);
+  });
 });
