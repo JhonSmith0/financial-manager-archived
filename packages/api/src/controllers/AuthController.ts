@@ -65,7 +65,7 @@ export default class AuthController {
   @Get("me")
   @AdaptErrors()
   async me(@Headers() headers: Request["headers"]) {
-    const { authorization } = parse(headers.cookie);
+    const { authorization } = parse(headers.cookie ?? "");
     const result = await this.meController.handle(authorization);
     return result;
   }
