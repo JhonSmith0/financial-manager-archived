@@ -57,7 +57,7 @@ export class CreateTransactionDTO extends DTO {
           "fromAccountId and toAccountId cannot be equal!"
         );
         const e2 = new FieldError(
-          "fromAccountId",
+          "toAccountId",
           "fromAccountId and toAccountId cannot be equal!"
         );
 
