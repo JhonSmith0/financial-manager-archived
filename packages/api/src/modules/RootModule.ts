@@ -11,6 +11,7 @@ import { RouterModule } from "@nestjs/core";
 import { AccountModule } from "./AccountModule";
 import AuthModule from "./AuthModule";
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers";
+import { TransactionsModule } from "./TransactionsModule";
 
 const providers: Provider[] = [
   {
@@ -61,7 +62,7 @@ const providers: Provider[] = [
       {
         path: "api",
         module: OnlyLoggedUsers,
-        children: [AccountModule],
+        children: [AccountModule, TransactionsModule],
       },
     ]),
 
