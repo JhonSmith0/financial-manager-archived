@@ -3,20 +3,7 @@ import { PrismaRepo } from "@/common/repo/PrismaRepo";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
-
-//The query options interface is {equals: ... and nte: ..}
-//but prisma can only understand {equals: ... and not: {equals: ....}}
-function adaptQueryOptionsToPrisma<T>(query: QueryOptions<T>) {
-  const copy = { ...query };
-  if (copy["nte"]) {
-    const equals = copy.nte;
-    delete copy["nte"];
-    //@ts-ignore
-    copy.not = { equals };
-  }
-
-  return copy as any;
-}
+import { adaptQueryOptionsToPrisma } from "@/common/repo/adaptQueryOptionsToPrisma";
 
 export class AccountRepositoryPrisma
   extends PrismaRepo
