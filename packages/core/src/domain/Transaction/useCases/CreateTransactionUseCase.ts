@@ -6,35 +6,19 @@ import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionRepository } from "@/domain/Transaction/types/TransactionRepository";
 import User from "@/domain/User/entity/User";
 import { left, right } from "fp-ts/lib/Either";
+import { TransactionUseCase } from "./TransactionUseCase";
 
 interface Props {
   dto: ClassProperties<CreateTransactionDTO>;
   user: { id: User["id"] };
 }
 
-export class CreateTransactionUseCase extends UseCase<Props> {
+export class CreateTransactionUseCase extends TransactionUseCase {
   constructor(
-    private transactionRepo: TransactionRepository,
-    private accountRepo: AccountRepository
+    transactionRepo: TransactionRepository,
+    accountRepo: AccountRepository
   ) {
-    super();
-  }
-
-  private async isAccountsOwner(ids: string[], userId: string) {
-    const [acc1, acc2] = await Promise.all(
-      ids.map((each) =>
-        this.accountRepo.findByQuery({
-          id: {
-            equals: each,
-          },
-          userId: {
-            equals: userId,
-          },
-        })
-      )
-    );
-
-    return acc1 && acc2;
+    super(transactionRepo, accountRepo);
   }
 
   public async execute({ dto, user }: Props) {
