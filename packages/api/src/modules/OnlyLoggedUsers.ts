@@ -1,12 +1,12 @@
-import { TransactionController } from "@/controllers/TransactionController";
+
 import { GetMeController } from "../controllers/MeController";
 import { VerifyJWT } from "../middlewares/VerifyJWT";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { TransactionsModule } from "./TransactionsModule";
+import {  TransactionModule } from "./TransactionModule";
 
 @Module({
   controllers: [GetMeController],
-  imports: [TransactionsModule],
+  imports: [TransactionModule],
 })
 export class OnlyLoggedUsers implements NestModule {
   constructor() {}
