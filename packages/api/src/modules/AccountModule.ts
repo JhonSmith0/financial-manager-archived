@@ -1,7 +1,7 @@
 import { Module, Provider } from "@nestjs/common";
 import Tokens from "@financial/core/dist/domain/Account/di/AccountTokens";
 import { AccountRepositoryPrisma } from "@financial/core/dist/domain/Account/repo/AccountRepositoryPrisma";
-import { AccountController } from "@/controllers/AccountController";
+import { AccountController } from "../controllers/AccountController";
 import CreateAccountUseCase from "@financial/core/dist/domain/Account/useCases/CreateAccountUseCase";
 import { SearchAccountUseCase } from "@financial/core/dist/domain/Account/useCases/SearchAccountUseCase";
 import { UpdateAccountUseCase } from "@financial/core/dist/domain/Account/useCases/UpdateAccountUseCase";
