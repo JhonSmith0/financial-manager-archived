@@ -1,14 +1,13 @@
-import { ILoginSchema } from "@/interface";
-import { useForm } from "react-hook-form";
+import { IRegisterSchema } from "@/interface";
+import registerSchema from "@/schemas/auth/registerSchema";
+import register from "@/services/register";
 import { yupResolver } from "@hookform/resolvers/yup";
-import loginSchema from "@/schemas/loginSchema";
-import login from "@/services/login";
-import { AxiosError, AxiosResponse } from "axios";
 import { useHookstate } from "@hookstate/core";
+import { useForm } from "react-hook-form";
 
-export default function useLoginForm(onSucess: () => any) {
-  const form = useForm<ILoginSchema>({
-    resolver: yupResolver(loginSchema),
+export default function useRegisterForm(onSucess: () => any) {
+  const form = useForm<IRegisterSchema>({
+    resolver: yupResolver(registerSchema),
     mode: "onBlur",
   });
 
@@ -19,7 +18,7 @@ export default function useLoginForm(onSucess: () => any) {
     form: {
       onSubmit: form.handleSubmit(async (data) => {
         try {
-          const result = await login(data);
+          const result = await register(data);
           onSucess();
         } catch (e) {
           error.set((e as any).response.data.message);

@@ -1,6 +1,6 @@
-import { TransactionCreate } from "@/interface";
+import { ITransaction, TransactionCreate } from "@/interface";
 import axios from "axios";
 
-export async function createTransaction(data: TransactionCreate) {
-  return (await axios.post("/api/transaction", data)).data;
+export async function newTransactionService(data: TransactionCreate) {
+  return (await axios.post("/api/transaction", data)).data as ITransaction;
 }

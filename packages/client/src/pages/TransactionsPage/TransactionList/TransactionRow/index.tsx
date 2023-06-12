@@ -1,18 +1,21 @@
-import { StyledTableRow, StyledTableRowItem } from "@/components/styled/StyledTable";
+import {
+  StyledTableRow,
+  StyledTableRowItem,
+} from "@/components/styled/StyledTable";
 import { ITransaction } from "@/interface";
 
 interface Props {
-    data: ITransaction;
+  data: ITransaction;
 }
 
-export function TransactionRow(props: Props) {
+export function TransactionRow({ data }: Props) {
   return (
     <StyledTableRow>
-      <StyledTableRowItem>Data</StyledTableRowItem>
-      <StyledTableRowItem>Amount</StyledTableRowItem>
-      <StyledTableRowItem>Description</StyledTableRowItem>
-      <StyledTableRowItem>From Account</StyledTableRowItem>
-      <StyledTableRowItem>To Account</StyledTableRowItem>
+      <StyledTableRowItem>{data.date}</StyledTableRowItem>
+      <StyledTableRowItem>{data.amount}</StyledTableRowItem>
+      <StyledTableRowItem>{data.description}</StyledTableRowItem>
+      <StyledTableRowItem>{data.fromAccountId}</StyledTableRowItem>
+      <StyledTableRowItem>{data.toAccountId}</StyledTableRowItem>
     </StyledTableRow>
   );
 }

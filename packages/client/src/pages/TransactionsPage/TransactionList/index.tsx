@@ -30,13 +30,17 @@ export const StyledTransactionList = styled(StyledContainer)`
 interface Props {
   data: ITransaction[];
 }
-export function TransactionList(props: Props) {
+export function TransactionList({ data }: Props) {
   return (
     <StyledTransactionList>
       <StyledTitle size="medium">Transactions</StyledTitle>
-      <StyledTable>
-        <TransactionRow data={1 as any} />
-      </StyledTable>
+      {!!data.length && (
+        <StyledTable>
+          {data.map((e) => (
+            <TransactionRow data={e} key={e.id} />
+          ))}
+        </StyledTable>
+      )}
     </StyledTransactionList>
   );
 }

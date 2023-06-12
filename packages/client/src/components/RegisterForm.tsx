@@ -1,4 +1,4 @@
-import useRegisterForm from "@/hooks/useRegisterForm";
+import useRegisterForm from "@/hooks/auth/useRegisterForm";
 import { IRegisterSchema } from "@/interface";
 import { HTMLInputTypeAttribute, useCallback } from "react";
 import { useNavigate } from "react-router-dom";

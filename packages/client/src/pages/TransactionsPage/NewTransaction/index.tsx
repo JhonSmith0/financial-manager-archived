@@ -7,13 +7,10 @@ import {
   StyledLabel,
   StyledTitle,
 } from "@/components/styled";
-import { TransactionCreate } from "@/interface";
-import newTransactionSchema from "@/schemas/newTransactionSchema";
+import { useNewTransaction } from "@/hooks/transactions/useNewTransaction";
 import accountsS, { search } from "@/state/accountsState";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useHookstate } from "@hookstate/core";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 export const StyledNewTransaction = styled(StyledContainer)`
@@ -31,30 +28,39 @@ export const StyledNewTransaction = styled(StyledContainer)`
   }
 `;
 
-export function NewTransaction() {
+export function NewTransactionForm() {
   const accountsState = useHookstate(accountsS);
   const accounts = accountsState.get();
 
-  const { register, handleSubmit } = useForm<TransactionCreate>({
-    resolver: yupResolver(newTransactionSchema),
-  });
+  const {
+    form: { register, onSubmit, watch },
+  } = useNewTransaction();
 
   useEffect(() => {
     search({ name: "", page: 1 });
   }, []);
 
+  const values = watch();
+
+  const fromAccountList = useMemo(
+    () => accounts.filter((e) => e.id !== values.toAccountId),
+    [accounts, values]
+  );
+
+  const toAccountList = useMemo(
+    () => accounts.filter((e) => e.id !== values.fromAccountId),
+    [accounts, values]
+  );
+
   return (
-    <StyledNewTransaction
-      onSubmit={handleSubmit((data) => {
-        console.log(data);
-      })}
-    >
+    <StyledNewTransaction onSubmit={onSubmit}>
       <StyledTitle size="medium">New Transaction</StyledTitle>
       <StyledForm direction="row">
         <StyledFieldSet>
           <StyledLabel>Date</StyledLabel>
           <StyledInput
             type="date"
+            defaultValue={new Date().toISOString().slice(0, 10)}
             {...register("date", { valueAsDate: true })}
           />
         </StyledFieldSet>
@@ -72,7 +78,7 @@ export function NewTransaction() {
         <StyledFieldSet>
           <StyledLabel>From Account</StyledLabel>
           <select {...register("fromAccountId")}>
-            {accounts.map((obj) => (
+            {fromAccountList.map((obj) => (
               <option key={obj.id} value={obj.id}>
                 {obj.name}
               </option>
@@ -82,7 +88,7 @@ export function NewTransaction() {
         <StyledFieldSet>
           <StyledLabel>To Account</StyledLabel>
           <select {...register("toAccountId")}>
-            {accounts.map((obj) => (
+            {toAccountList.map((obj) => (
               <option key={obj.id} value={obj.id}>
                 {obj.name}
               </option>

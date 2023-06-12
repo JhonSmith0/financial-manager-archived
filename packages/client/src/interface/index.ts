@@ -1,6 +1,6 @@
-import loginSchema from "@/schemas/loginSchema";
-import newTransactionSchema from "@/schemas/newTransactionSchema";
-import registerSchema from "@/schemas/registerSchema";
+import loginSchema from "@/schemas/auth/loginSchema";
+import newTransactionSchema from "@/schemas/transaction/newTransactionSchema";
+import registerSchema from "@/schemas/auth/registerSchema";
 import * as y from "yup";
 export interface ILoginSchema extends y.InferType<typeof loginSchema> {}
 export interface IRegisterSchema extends y.InferType<typeof registerSchema> {}

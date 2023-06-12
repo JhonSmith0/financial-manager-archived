@@ -1,7 +1,7 @@
 import * as y from "yup";
 
 const newTransactionSchema = y.object({
-  date: y.string(),
+  date: y.date().required(),
   description: y.string().optional().default(""),
   amount: y.number().min(0).required(),
   fromAccountId: y
@@ -9,8 +9,7 @@ const newTransactionSchema = y.object({
     .required()
     .test({
       test(value, ctx) {
-        console.log(value, ctx.resolve("toAccountId"));
-        return value === ctx.resolve("toAccountId");
+        return !(value === ctx.parent.toAccountId);
       },
     }),
   toAccountId: y.string().required(),
