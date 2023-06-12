@@ -1,45 +1,16 @@
 {
   "name": "financial",
-  "private": true,
-  "packageManager": "yarn@1.22.19",
-  "workspaces": {
-    "packages": [
-      "./packages/*"
-    ]
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "prepare": "husky install",
-    "start": "node ./server.js",
-    "build": "nx run-many -t build"
+    "build": "lerna run build"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@jest/globals": "^29.5.0",
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-swc": "^0.1.1",
-    "@rollup/plugin-typescript": "^11.1.1",
-    "@types/bcrypt": "^5.0.0",
-    "@types/jest": "^29.5.1",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/node": "^20.0.0",
-    "commitizen": "^4.3.0",
-    "commitlint": "^17.6.3",
-    "commitlint-config-gitmoji": "^2.3.1",
-    "husky": "^8.0.3",
-    "nx": "^16.2.2",
-    "nx-cloud": "latest",
-    "prisma": "^4.13.0",
-    "rollup": "^3.23.0",
-    "timbo-cz-conventional-changelog": "^0.1.0",
-    "typescript": "^5.0.4"
-  },
-  "config": {
-    "commitizen": {
-      "path": "timbo-cz-conventional-changelog"
-    }
-  },
-  "dependencies": {
-    "@financial/api": "*"
+    "lerna": "^6.6.2",
+    "nx": "16.3.2"
   }
 }

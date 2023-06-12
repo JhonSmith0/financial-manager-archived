@@ -21,9 +21,8 @@ import { AdaptErrors } from "../adapters/adaptErrors";
 import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO";
 import { DeleteAccountUseCase } from "@financial/core/dist/domain/Account/useCases/DeleteAccountUseCase";
 //@ts-ignore
-import { Left, Right } from "fp-ts/Either";
-
-type a = Left<any> & Right<any>;
+// import { Left, Right } from "fp-ts/Either";
+// type a = Left<any> & Right<any>;
 
 @Controller("account")
 export class AccountController {
