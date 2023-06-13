@@ -4,18 +4,18 @@ import {
   ValidationArguments,
 } from "class-validator";
 
-export function IsNotEqualToProperty(
-  property: string,
+export function IsNotEqualToProperty<T>(
+  property: keyof T,
   validationOptions?: ValidationOptions
 ) {
-  return function (object: Object, propertyName: string) {
+  return function (object: T, propertyName: string) {
     registerDecorator({
       name: "IsEqualToProperty",
-      target: object.constructor,
+      target: (object as any).constructor,
       propertyName: propertyName,
       constraints: [property],
       options: {
-        message: `${propertyName} cannot be equal to ${property}`,
+        message: `${propertyName} cannot be equal to ${String(property)}`,
         ...validationOptions,
       },
       validator: {
