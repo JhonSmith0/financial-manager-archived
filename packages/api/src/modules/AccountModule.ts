@@ -49,5 +49,6 @@ const providers: Provider[] = [
 @Module({
   controllers: [AccountController],
   providers,
+  exports: providers
 })
 export class AccountModule {}
