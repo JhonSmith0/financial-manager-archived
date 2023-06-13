@@ -49,8 +49,6 @@ export class CreateTransactionDTO extends DTO {
   public override async validate() {
     let result = await super.validate();
     if (this.toAccountId === this.fromAccountId) {
-      console.log(result, this);
-
       if (result instanceof ValidationError) {
         const e1 = new FieldError(
           "fromAccountId",
