@@ -1,4 +1,3 @@
-import { UseCase } from "@/common/UseCase";
 import NotFoundError from "@/common/errors/NotFoundError";
 import AccountRepository from "@/domain/Account/types/AccountRepository";
 import { CreateTransactionDTO } from "@/domain/Transaction/dto/CreateTransactionDTO";
@@ -6,8 +5,8 @@ import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionRepository } from "@/domain/Transaction/types/TransactionRepository";
 import User from "@/domain/User/entity/User";
 
-import { TransactionUseCase } from "./TransactionUseCase";
 import { left, right } from "@/common/ErrorHandlingTypes";
+import { TransactionUseCase } from "./TransactionUseCase";
 
 interface Props {
   dto: ClassProperties<CreateTransactionDTO>;
