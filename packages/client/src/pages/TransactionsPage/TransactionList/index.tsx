@@ -4,18 +4,21 @@ import {
   StyledTitle,
 } from "@/components/styled";
 import StyledTable, {
-  StyledTableRow,
-  StyledTableRowItem,
+  StyledTableRow
 } from "@/components/styled/StyledTable";
-import styled from "styled-components";
-import { HiOutlineTrash, HiOutlineCog } from "react-icons/hi";
 import { ITransaction } from "@/interface";
+import styled from "styled-components";
 import { TransactionRow } from "./TransactionRow";
 
 export const StyledTransactionList = styled(StyledContainer)`
   ${StyledTableRow} {
     display: grid;
     grid-template-columns: repeat(5, 1fr) auto;
+  }
+
+  ${StyledTable} {
+    max-height: 100vh;
+    overflow-y: auto;
   }
 
   ${StyledIconsList} {

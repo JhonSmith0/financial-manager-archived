@@ -9,6 +9,8 @@ import { TransactionList } from "./TransactionList";
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
   padding-top: 2.8rem;
+
+  overflow: auto;
 `;
 
 export function TransactionsPage() {
