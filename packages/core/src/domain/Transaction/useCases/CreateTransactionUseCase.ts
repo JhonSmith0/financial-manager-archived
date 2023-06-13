@@ -36,7 +36,7 @@ export class CreateTransactionUseCase extends TransactionUseCase {
         ])
       );
 
-    const acc = Transaction.create(dto);
+    const acc = Transaction.create({ ...dto, userId: user.id });
     await this.transactionRepo.add(acc);
     return right(acc);
   }

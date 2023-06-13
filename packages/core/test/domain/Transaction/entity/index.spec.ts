@@ -6,6 +6,7 @@ describe("Transaction", () => {
     description: "Hello!",
     fromAccountId: "1",
     toAccountId: "2",
+    userId: '123'
   };
 
   it("should create a transaction", () => {

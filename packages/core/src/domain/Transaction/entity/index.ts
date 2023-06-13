@@ -1,6 +1,5 @@
 import Entity from "@/common/Entity/Entity";
 import { Transformer } from "@/common/Transformer";
-import { randomUUID } from "crypto";
 import { TransactionProps } from "../types/TransactionProps";
 
 export class Transaction extends Entity {
@@ -9,6 +8,7 @@ export class Transaction extends Entity {
   public date: string = new Date().toDateString();
   public fromAccountId: string;
   public toAccountId: string;
+  public userId: string;
 
   public static create(
     data: OptionalProps<TransactionProps, "id" | "date" | "description">

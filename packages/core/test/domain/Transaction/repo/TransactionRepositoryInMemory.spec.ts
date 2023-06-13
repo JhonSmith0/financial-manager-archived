@@ -8,6 +8,7 @@ describe("TransactionRepositoryInMemory", () => {
     description: "",
     fromAccountId: "1",
     toAccountId: "2",
+    userId: '123'
   });
 
   //query
