@@ -19,4 +19,11 @@ describe("SearchAccountDTO", () => {
     expect(validation.length).toBe(1);
   });
 
+  it("should fill optional props", async () => {
+    const dto = SearchAccountDTO.create({
+      name: "123",
+    });
+    expect(dto.description).toBe('')
+    expect(dto.page).toBe(1)
+  });
 });
