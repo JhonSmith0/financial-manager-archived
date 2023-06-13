@@ -1,4 +1,5 @@
 import { Query } from "@/common/Query";
+import { adaptQueryToPrisma } from "@/common/repo/adaptQueryToPrisma";
 import { prismaFindByQuery } from "@/common/repo/prismaFindByQuery";
 import { PrismaClient } from "@prisma/client";
 import { TransactionProps } from "../types/TransactionProps";
@@ -8,6 +9,14 @@ export class TransactionRepositoryPrisma
   extends PrismaClient
   implements TransactionRepository
 {
+  public async deleteByQuery<T extends TransactionProps>(
+    query: Query<T>,
+    limit?: number | undefined
+  ): Promise<void> {
+    await this.db.deleteMany({
+      where: adaptQueryToPrisma(query),
+    });
+  }
   private db = this.transaction;
   public async update(
     id: string,

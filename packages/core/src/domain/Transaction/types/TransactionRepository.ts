@@ -20,4 +20,8 @@ export interface TransactionRepository
     skip?: number,
     limit?: number
   ): Promise<TransactionProps[]>;
+  deleteByQuery<T extends TransactionProps>(
+    query: Query<T>,
+    limit?: number
+  ): Promise<void>;
 }

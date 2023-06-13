@@ -4,6 +4,15 @@ import { TransactionProps } from "../types/TransactionProps";
 import { TransactionRepository } from "../types/TransactionRepository";
 
 export class TransactionRepositoryInMemory implements TransactionRepository {
+  public async deleteByQuery<T extends TransactionProps>(
+    query: Query<T>,
+    limit: number = 0
+  ): Promise<void> {
+    if (limit === 0) limit = this.data.length;
+    const accs = handleQuery(query, this.data, 0, limit);
+
+    await Promise.all(accs.map((e) => this.remove(e.id)));
+  }
   public async update(
     id: string,
     data: Partial<TransactionProps>

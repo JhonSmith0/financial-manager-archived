@@ -8,7 +8,7 @@ describe("TransactionRepositoryInMemory", () => {
     description: "",
     fromAccountId: "1",
     toAccountId: "2",
-    userId: '123'
+    userId: "123",
   });
 
   //query
@@ -25,6 +25,34 @@ describe("TransactionRepositoryInMemory", () => {
   });
   it("should update remove transaction", async () => {
     await repo.remove(tr.id);
-    expect(await repo.findByQuery({ id: { equals: tr.id } })).toBeFalsy()
+    expect(await repo.findByQuery({ id: { equals: tr.id } })).toBeFalsy();
+  });
+
+  it("should delete the transactions", async () => {
+    const accs = Array.from({ length: 100 }, (_, i) =>
+      Transaction.create({
+        description: "",
+        amount: 100,
+        fromAccountId: "1",
+        toAccountId: "2",
+        userId: "specificid",
+      })
+    );
+
+    await Promise.all(accs.map((e) => repo.add(e)));
+
+    await repo.deleteByQuery({
+      userId: {
+        equals: accs[0].userId,
+      },
+    });
+
+    expect(
+      await repo.findByQuery({
+        userId: {
+          equals: accs[0].userId,
+        },
+      })
+    ).toBeFalsy();
   });
 });
