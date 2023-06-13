@@ -58,6 +58,6 @@ describe("CreateTransactionDTO", () => {
       fromAccountId: data.toAccountId,
       toAccountId: data.toAccountId,
     }).validate();
-    expect(obj.length).toBe(2);
+    expect(obj.length).toBe(1);
   });
 });
