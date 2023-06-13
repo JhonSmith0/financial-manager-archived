@@ -2,6 +2,7 @@ import { UseCase } from "@/common/UseCase";
 import { SearchAccountDTO } from "../dto/SearchAccountDTO";
 import AccountRepository from "../types/AccountRepository";
 import User from "@/domain/User/entity/User";
+import { right } from "@/common/ErrorHandlingTypes";
 
 export interface SearchAccountUseCaseProps {
   dto: SearchAccountDTO;
@@ -31,6 +32,6 @@ export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
       (dto.page - 1) * this.resultsPerPage,
       dto.page * this.resultsPerPage
     );
-    return { results, page: dto.page };
+    return right({ results, page: dto.page });
   }
 }

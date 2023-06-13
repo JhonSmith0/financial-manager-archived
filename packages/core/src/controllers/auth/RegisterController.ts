@@ -1,8 +1,8 @@
 import Controller from "@/common/Controller";
+import { left, right } from "@/common/ErrorHandlingTypes";
 import JWT from "@/common/JWT/JWT";
 import CreateUserDTO from "@/domain/User/dto/CreateUserDTO";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
-import { isLeft, left, right } from "fp-ts/Either";
 
 export default class RegisterController extends Controller<CreateUserDTO, any> {
   constructor(private createUserUseCase: CreateUserUseCase, private jwt: JWT) {
@@ -15,9 +15,9 @@ export default class RegisterController extends Controller<CreateUserDTO, any> {
     if (errors.length) return left(errors);
 
     const user = await this.createUserUseCase.execute(data);
-    if (isLeft(user)) return left(user.left);
+    if (user.isLeft()) return left(user.value);
 
-    const token = this.jwt.encode({ id: user.right.id });
+    const token = this.jwt.encode({ id: user.value.id });
     return right(token);
   }
 }

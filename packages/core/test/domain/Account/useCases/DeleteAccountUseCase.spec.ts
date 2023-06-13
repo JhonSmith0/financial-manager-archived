@@ -18,7 +18,8 @@ describe("DeleteAccountUseCase.spec", () => {
     };
     const result = await useCase.execute(data);
 
-    expect((result as any).left).toBeInstanceOf(NotFoundError);
+    expect(result.isLeft()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(NotFoundError);
   });
   it("should remove", async () => {
     const acc = Account.create({
@@ -38,6 +39,7 @@ describe("DeleteAccountUseCase.spec", () => {
       },
     });
 
-    expect(result).toBeFalsy();
+    expect(result.isRight()).toBeTruthy();
+    expect(result.value).toBeFalsy();
   });
 });

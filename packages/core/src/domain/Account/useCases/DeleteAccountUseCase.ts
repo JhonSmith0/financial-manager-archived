@@ -2,8 +2,8 @@ import { UseCase } from "@/common/UseCase";
 import User from "@/domain/User/entity/User";
 import { DeleteAccountDTO } from "../dto/DeleteAccountDTO";
 import AccountRepository from "../types/AccountRepository";
-import { left, right } from "fp-ts/lib/Either";
 import NotFoundError from "@/common/errors/NotFoundError";
+import { left, right } from "@/common/ErrorHandlingTypes";
 
 interface Prop {
   user: { id: User["id"] };
@@ -31,5 +31,6 @@ export class DeleteAccountUseCase extends UseCase<Prop> {
       );
 
     await this.repo.remove(dto.id);
+    return right(null)
   }
 }

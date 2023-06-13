@@ -2,9 +2,9 @@ import { UseCase } from "@/common/UseCase";
 import User from "@/domain/User/entity/User";
 import UpdateAccountDTO from "../dto/UpdateAccountDTO";
 import AccountRepository from "../types/AccountRepository";
-import { left, right } from "fp-ts/lib/Either";
 import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
 import NotFoundError from "@/common/errors/NotFoundError";
+import { left, right } from "@/common/ErrorHandlingTypes";
 
 interface Props {
   dto: ClassProperties<UpdateAccountDTO>;
