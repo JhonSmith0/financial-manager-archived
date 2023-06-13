@@ -16,3 +16,7 @@ export async function removeAccount(id: string) {
 export async function updateAccount(id: string, data: AccountCreate) {
   return (await api.patch(`/api/account/${id}`, data)).data as IAccount;
 }
+
+export async function readAccount(id: string) {
+  return (await api.get(`/api/account/${id}`)).data as IAccount;
+}
