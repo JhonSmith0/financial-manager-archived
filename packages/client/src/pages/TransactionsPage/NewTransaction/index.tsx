@@ -42,15 +42,7 @@ export function NewTransactionForm() {
 
   const values = watch();
 
-  const fromAccountList = useMemo(
-    () => accounts.filter((e) => e.id !== values.toAccountId),
-    [accounts, values]
-  );
 
-  const toAccountList = useMemo(
-    () => accounts.filter((e) => e.id !== values.fromAccountId),
-    [accounts, values]
-  );
 
   return (
     <StyledNewTransaction onSubmit={onSubmit}>
@@ -78,7 +70,7 @@ export function NewTransactionForm() {
         <StyledFieldSet>
           <StyledLabel>From Account</StyledLabel>
           <select {...register("fromAccountId")}>
-            {fromAccountList.map((obj) => (
+            {accounts.map((obj) => (
               <option key={obj.id} value={obj.id}>
                 {obj.name}
               </option>
@@ -88,7 +80,7 @@ export function NewTransactionForm() {
         <StyledFieldSet>
           <StyledLabel>To Account</StyledLabel>
           <select {...register("toAccountId")}>
-            {toAccountList.map((obj) => (
+            {accounts.map((obj) => (
               <option key={obj.id} value={obj.id}>
                 {obj.name}
               </option>

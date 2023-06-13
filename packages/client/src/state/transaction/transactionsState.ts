@@ -7,4 +7,5 @@ export function addTransaction(transaction: ITransaction) {
   transactionsState.merge([transaction]);
 }
 
+
 export default transactionsState;

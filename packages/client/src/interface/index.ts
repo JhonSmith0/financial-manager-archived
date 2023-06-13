@@ -30,6 +30,9 @@ export interface ITransaction {
 
 export interface TransactionCreate
   extends y.InferType<typeof newTransactionSchema> {}
+export interface GetTransactions {
+  page?: number;
+}
 
 export interface AccountCreate extends Pick<IAccount, "description" | "name"> {}
 
