@@ -5,8 +5,9 @@ import { CreateTransactionDTO } from "@/domain/Transaction/dto/CreateTransaction
 import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionRepository } from "@/domain/Transaction/types/TransactionRepository";
 import User from "@/domain/User/entity/User";
-import { left, right } from "fp-ts/lib/Either";
+
 import { TransactionUseCase } from "./TransactionUseCase";
+import { left, right } from "@/common/ErrorHandlingTypes";
 
 interface Props {
   dto: ClassProperties<CreateTransactionDTO>;

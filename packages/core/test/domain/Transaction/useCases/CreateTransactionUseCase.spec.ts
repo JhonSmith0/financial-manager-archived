@@ -39,9 +39,9 @@ describe("CreateTransactionUseCase", () => {
       user,
     });
 
-    //@ts-ignore
-    const acc = result.right as Account;
+    const acc = result.value as any as Account;
 
+    expect(result.isRight()).toBeTruthy();
     expect(acc).toBeInstanceOf(Transaction);
     expect(await repo.findByQuery({ id: { equals: acc.id } })).toBeInstanceOf(
       Transaction
@@ -57,8 +57,7 @@ describe("CreateTransactionUseCase", () => {
       user: { id: "otherId" },
     });
 
-    //@ts-ignore
-    const error = result.left as any;
+    const error = result.value;
 
     expect(error).toBeInstanceOf(NotFoundError);
   });
