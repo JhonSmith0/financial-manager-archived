@@ -1,8 +1,9 @@
 import Tokens from "@financial/core/dist/domain/Account/di/AccountTokens";
 import { AccountRepositoryPrisma } from "@financial/core/dist/domain/Account/repo/AccountRepositoryPrisma";
 import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases";
-import { Module, Provider } from "@nestjs/common";
+import { Module, Provider, forwardRef } from "@nestjs/common";
 import { AccountController } from "../controllers/AccountController";
+import { TransactionModule } from "./TransactionModule";
 
 const providers: Provider[] = [
   {
@@ -26,5 +27,6 @@ const providers: Provider[] = [
   controllers: [AccountController],
   providers,
   exports: providers,
+  imports: [forwardRef(() => TransactionModule)],
 })
 export class AccountModule {}

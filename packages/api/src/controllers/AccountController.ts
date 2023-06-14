@@ -2,8 +2,10 @@ import { LeftRightHandler } from "@financial/core/dist/common/decorators/LeftRig
 import CreateAccountDTO from "@financial/core/dist/domain/Account/dto/CreateAccountDTO";
 import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO";
 import { ReadAccountDTO } from "@financial/core/dist/domain/Account/dto/ReadAccountDTO";
+import { SearchAccountDTO } from "@financial/core/dist/domain/Account/dto/SearchAccountDTO";
 import UpdateAccountDTO from "@financial/core/dist/domain/Account/dto/UpdateAccountDTO";
 import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases";
+import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory";
 import User from "@financial/core/dist/domain/User/entity/User";
 import {
   Body,
@@ -13,15 +15,17 @@ import {
   Param,
   Patch,
   Post,
-  Query,
+  Query
 } from "@nestjs/common";
 import { AdaptErrors } from "../adapters/adaptErrors";
 import { UserEntity } from "../decorators/UserEntity";
-import { SearchAccountDTO } from "@financial/core/dist/domain/Account/dto/SearchAccountDTO";
 
 @Controller("account")
 export class AccountController {
-  constructor(private useCases: AccountUseCases) {}
+  constructor(
+    private accountUseCases: AccountUseCases,
+    private transactionUseCases: TransactionUseCasesFactory
+  ) {}
 
   @Post()
   @AdaptErrors()
@@ -34,7 +38,7 @@ export class AccountController {
     const validation = await parsedObj.validate();
     if (validation.length) throw validation;
 
-    return await this.useCases.create.exec({
+    return await this.accountUseCases.create.exec({
       ...parsedObj,
       userId: user.id,
     });
@@ -52,7 +56,10 @@ export class AccountController {
     const validation = await dto.validate();
     if (validation.length) throw validation;
 
-    return await this.useCases.search.execute({ dto, user: { id: user.id } });
+    return await this.accountUseCases.search.execute({
+      dto,
+      user: { id: user.id },
+    });
   }
 
   @Patch("/:id")
@@ -67,7 +74,7 @@ export class AccountController {
     const validation = await dto.validate();
     if (validation.length) throw validation;
 
-    return await this.useCases.update.execute({ user, dto });
+    return await this.accountUseCases.update.execute({ user, dto });
   }
 
   @Delete("/:id")
@@ -78,7 +85,24 @@ export class AccountController {
     const validation = await obj.validate();
     if (validation.length) throw validation;
 
-    return await this.useCases.remove.execute({ dto: obj, user });
+    await this.transactionUseCases.removeAll.execute({
+      userId: {
+        equals: user.id ,
+      }, 
+      fromAccountId: {
+        equals: obj.id
+      }
+    });
+    await this.transactionUseCases.removeAll.execute({
+      userId: {
+        equals: user.id ,
+      }, 
+      toAccountId: {
+        equals: obj.id
+      }
+    });
+
+    return await this.accountUseCases.remove.execute({ dto: obj, user });
   }
 
   @Get("/:id")
@@ -89,6 +113,6 @@ export class AccountController {
     const validation = await obj.validate();
     if (validation.length) throw validation;
 
-    return await this.useCases.read.execute({ accountId: params.id });
+    return await this.accountUseCases.read.execute({ accountId: params.id });
   }
 }
