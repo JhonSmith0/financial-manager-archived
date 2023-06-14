@@ -12,6 +12,15 @@ export class AccountRepositoryPrisma
   constructor() {
     super();
   }
+  public async read(identifier: string): Promise<AccountProps | null> {
+    return await this.db.findUnique({ where: { id: identifier } });
+  }
+  deleteByQuery(
+    query: Query<AccountProps>,
+    limit?: number | undefined
+  ): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
   findByQuery<T extends AccountProps>(
     query: Query<T>,
     skip?: number | undefined,
@@ -50,9 +59,9 @@ export class AccountRepositoryPrisma
   }
   public async update(
     id: string,
-    data: Omit<Partial<AccountProps>, "id">
-  ): Promise<void> {
-    await this.db.update({ where: { id }, data });
+    data: Partial<AccountProps>
+  ): Promise<AccountProps> {
+    return (await this.db.update({ where: { id }, data })) as AccountProps;
   }
   public async exists(acc: AccountProps): Promise<boolean> {
     return !!(await this.db.findUnique({

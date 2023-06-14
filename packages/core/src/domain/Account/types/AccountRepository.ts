@@ -8,7 +8,7 @@ export default interface AccountRepository
   extends BasicRepository<
     AccountProps,
     AccountProps["id"],
-    Omit<Partial<AccountProps>, "id">
+    Partial<AccountProps>
   > {
   exists(data: AccountProps): Promise<boolean>;
 }

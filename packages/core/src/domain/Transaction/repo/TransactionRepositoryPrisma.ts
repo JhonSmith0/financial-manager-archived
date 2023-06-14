@@ -9,6 +9,11 @@ export class TransactionRepositoryPrisma
   extends PrismaClient
   implements TransactionRepository
 {
+  public async read(identifier: string): Promise<TransactionProps | null> {
+    return (await this.db.findUnique({
+      where: { id: identifier },
+    })) as unknown as TransactionProps;
+  }
   public async deleteByQuery<T extends TransactionProps>(
     query: Query<T>,
     limit?: number | undefined
@@ -21,8 +26,11 @@ export class TransactionRepositoryPrisma
   public async update(
     id: string,
     data: Partial<TransactionProps>
-  ): Promise<void> {
-    await this.db.update({ where: { id }, data });
+  ): Promise<TransactionProps> {
+    return (await this.db.update({
+      where: { id },
+      data,
+    })) as unknown as TransactionProps;
   }
   public async remove(id: string): Promise<void> {
     await this.db.delete({ where: { id } });
