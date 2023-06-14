@@ -50,7 +50,7 @@ describe("TransactionRepositoryInMemory", () => {
     expect(
       await repo.findByQuery({
         userId: {
-          equals: accs[0].userId,
+          equals: accs[0].id,
         },
       })
     ).toBeFalsy();
