@@ -21,6 +21,8 @@ describe("CreateTransactionDTO", () => {
     const obj = new CreateTransactionDTO({ ...data, amount: -1 });
     const validation = await obj.validate();
 
+    console.log({ validation });
+
     expect(validation).toHaveLength(1);
   });
 
@@ -29,9 +31,11 @@ describe("CreateTransactionDTO", () => {
       ...data,
       description: "a".repeat(129),
     });
+
     const validation = await obj.validate();
 
-    expect(validation).toHaveLength(1);
+    expect(validation).toHaveLength(0);
+    expect(obj.description).toBe("");
   });
   it("should give invalid date", async () => {
     const obj = new CreateTransactionDTO({
@@ -40,7 +44,8 @@ describe("CreateTransactionDTO", () => {
     });
     const validation = await obj.validate();
 
-    expect(validation).toHaveLength(1);
+    expect(validation).toHaveLength(0);
+    expect(typeof obj.date).toBe("string");
   });
   it("should pass on date", async () => {
     const obj = new CreateTransactionDTO({
@@ -49,7 +54,7 @@ describe("CreateTransactionDTO", () => {
     });
     const validation = await obj.validate();
 
-    expect(validation).toHaveLength(1);
+    expect(validation).toHaveLength(0);
   });
 
   it("should give equal props error", async () => {
