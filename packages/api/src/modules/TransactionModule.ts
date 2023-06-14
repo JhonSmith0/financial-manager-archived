@@ -18,9 +18,9 @@ const providers: Provider[] = [
   },
   {
     provide: TransactionUseCasesFactory,
-    inject: [TransactionsTokens.repository, AccountTokens.accountRepository],
-    async useFactory(tRepo, aRepo) {
-      return new TransactionUseCasesFactory(tRepo, aRepo);
+    inject: [TransactionsTokens.repository],
+    async useFactory(tRepo) {
+      return new TransactionUseCasesFactory(tRepo);
     },
   },
 ];

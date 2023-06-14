@@ -27,7 +27,7 @@ describe("CreateTransactionUseCase", () => {
     await accountsRepo.add(acc2);
   });
 
-  const useCase = new CreateTransactionUseCase(repo, accountsRepo);
+  const useCase = new CreateTransactionUseCase(repo);
 
   it("should create a transaction", async () => {
     const result = await useCase.execute({
@@ -47,18 +47,4 @@ describe("CreateTransactionUseCase", () => {
       Transaction
     );
   }, 10000);
-  it("should fails because user doesnot own accounts", async () => {
-    const result = await useCase.execute({
-      dto: {
-        amount: 100,
-        fromAccountId: acc1.id,
-        toAccountId: acc2.id,
-      },
-      user: { id: "otherId" },
-    });
-
-    const error = result.value;
-
-    expect(error).toBeInstanceOf(NotFoundError);
-  });
 });

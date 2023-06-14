@@ -1,11 +1,10 @@
-import NotFoundError from "@/common/errors/NotFoundError";
 import AccountRepository from "@/domain/Account/types/AccountRepository";
 import { CreateTransactionDTO } from "@/domain/Transaction/dto/CreateTransactionDTO";
 import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionRepository } from "@/domain/Transaction/types/TransactionRepository";
 import User from "@/domain/User/entity/User";
 
-import { left, right } from "@/common/ErrorHandlingTypes";
+import { right } from "@/common/ErrorHandlingTypes";
 import { TransactionUseCase } from "./TransactionUseCase";
 
 interface Props {
@@ -14,27 +13,7 @@ interface Props {
 }
 
 export class CreateTransactionUseCase extends TransactionUseCase {
-  constructor(
-    transactionRepo: TransactionRepository,
-    accountRepo: AccountRepository
-  ) {
-    super(transactionRepo, accountRepo);
-  }
-
   public async execute({ dto, user }: Props) {
-    const isOwner = await this.isAccountsOwner(
-      [dto.fromAccountId, dto.toAccountId],
-      user.id
-    );
-
-    if (!isOwner)
-      return left(
-        new NotFoundError("Account not found!", [
-          "fromAccountId",
-          "toAccountId",
-        ])
-      );
-
     const acc = Transaction.create({ ...dto, userId: user.id });
     await this.transactionRepo.add(acc);
     return right(acc);
