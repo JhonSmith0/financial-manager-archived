@@ -33,6 +33,9 @@ export const StyledTableRowItem = styled.div`
 
   white-space: nowrap;
 
+  display: flex;
+  align-items: center;
+
   &:not(:last-child) {
     border-right: solid 1px var(--border-color);
   }
