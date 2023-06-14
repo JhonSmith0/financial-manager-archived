@@ -1,9 +1,14 @@
 import DTO from "@/common/DTO/DTO";
+import { Transformer } from "@/common/Transformer";
 import { Expose } from "class-transformer";
 
-class Test extends DTO<Test> {
+class Test extends DTO {
   @Expose()
   public prop: string;
+  constructor(data: ClassProperties<Test>) {
+    super();
+    Transformer.assignPlainToInstance(Test, data, this);
+  }
 }
 
 describe("DTO tests", () => {

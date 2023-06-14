@@ -11,7 +11,7 @@ import {
   Min,
 } from "class-validator";
 
-export class CreateTransactionDTO extends DTO<CreateTransactionDTO> {
+export class CreateTransactionDTO extends DTO {
   @Expose()
   @IsNumber()
   @Min(0)
@@ -36,4 +36,13 @@ export class CreateTransactionDTO extends DTO<CreateTransactionDTO> {
   @IsDateString()
   @IsOptional()
   public date?: string = new Date().toISOString();
+  constructor(data: CreateTransactionDTOProps) {
+    super();
+    Transformer.assignPlainToInstance(CreateTransactionDTO, data, this);
+  }
 }
+
+export interface CreateTransactionDTOProps
+  extends ClassProperties<
+    OptionalProps<CreateTransactionDTO, "description" | "date">
+  > {}

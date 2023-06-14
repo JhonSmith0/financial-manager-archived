@@ -6,7 +6,7 @@ import { IsString } from "class-validator";
 export class ReadAccountDTO extends DTO {
   constructor(obj: any) {
     super();
-    Object.assign(this, Transformer.plainToInstance(ReadAccountDTO, obj));
+    Transformer.assignPlainToInstance(ReadAccountDTO, obj, this);
   }
 
   @Expose()

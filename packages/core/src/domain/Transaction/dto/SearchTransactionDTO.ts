@@ -3,12 +3,18 @@ import { Transformer } from "@/common/Transformer";
 import { Expose } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Min } from "class-validator";
 
-export class SearchTransactionDTO extends DTO<SearchTransactionDTOProps> {
+export class SearchTransactionDTO extends DTO {
   @Expose()
-  @IsOptional()
   @Min(1)
   @IsNumber()
-  public page = 1;
+  @IsOptional()
+  public page: number = 1;
+  constructor(data: SearchTransactionDTOProps) {
+    super();
+    const contructor = SearchTransactionDTO;
+    const transformed = Transformer.plainToInstance(contructor, data);
+    Object.assign(this, transformed);
+  }
 }
 
 export interface SearchTransactionDTOProps

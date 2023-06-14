@@ -11,7 +11,7 @@ import {
   Min,
 } from "class-validator";
 
-export class UpdateTransactionDTO extends DTO<UpdateTransactionDTOProps> {
+export class UpdateTransactionDTO extends DTO {
   @Expose()
   @IsNumber()
   @Min(0)
@@ -39,6 +39,12 @@ export class UpdateTransactionDTO extends DTO<UpdateTransactionDTOProps> {
   @IsDateString()
   @IsOptional()
   public date: string;
+  constructor(data: UpdateTransactionDTOProps) {
+    super();
+    const contructor = UpdateTransactionDTO;
+    const transformed = Transformer.plainToInstance(contructor, data);
+    Object.assign(this, transformed);
+  }
 }
 
 export interface UpdateTransactionDTOProps
