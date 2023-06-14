@@ -9,8 +9,8 @@ export class TransactionRepositoryInMemory implements TransactionRepository {
     limit: number = 0
   ): Promise<void> {
     if (limit === 0) limit = this.data.length;
-    const accs = handleQuery(query, this.data, 0, limit);
-
+    let accs = handleQuery(query, this.data, 0, limit);
+    if (!Array.isArray(accs)) accs = [accs];
     await Promise.all(accs.map((e) => this.remove(e.id)));
   }
   public async update(
