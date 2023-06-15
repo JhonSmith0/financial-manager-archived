@@ -34,7 +34,7 @@ export class AccountRepositoryPrisma
   public async findByQuery<T extends AccountProps>(
     query: Query<T>,
     skip: number = 0,
-    limit: number = 1
+    limit?: number
   ): Promise<AccountProps | AccountProps[] | void> {
     for (const key in query) {
       query[key] = adaptQueryOptionsToPrisma(query[key] as any);
@@ -74,3 +74,4 @@ export class AccountRepositoryPrisma
     }));
   }
 }
+
