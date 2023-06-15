@@ -16,7 +16,7 @@ export class TransactionRepositoryPrisma
   }
   public async deleteByQuery<T extends TransactionProps>(
     query: Query<T>,
-    limit?: number | undefined
+    limit: number = 1
   ): Promise<void> {
     await this.db.deleteMany({
       where: adaptQueryToPrisma(query),
