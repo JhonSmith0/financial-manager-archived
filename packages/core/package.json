@@ -4,13 +4,13 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ",
+    "dev:noBuild": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ",
     "build": "tsc -p ./tsconfig.build.json && resolve-tspaths",
     "build-only": "tsc -p ./tsconfig.build.json && resolve-tspaths",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "migrate:dev": "node ./migrate-db.js",
-    "watch": "nodemon"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
