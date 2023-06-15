@@ -5,6 +5,7 @@ import { SearchTransactionUseCase } from "../useCases/SearchTransactionUseCase";
 import { DeleteAllTransactions } from "../useCases/DeleteAllTransactions";
 import ReadTransactionUseCase from "../useCases/ReadTransactionUseCase";
 import { UpdateTransactionUseCase } from "../useCases/UpdateTransactionUseCase";
+import { DeleteTransactionUseCase } from "../useCases/DeleteTransactionUseCase";
 
 export class TransactionUseCasesFactory {
   constructor(private tRepo: TransactionRepository) {}
@@ -14,4 +15,5 @@ export class TransactionUseCasesFactory {
   public removeAll = new DeleteAllTransactions(this.tRepo);
   public read = new ReadTransactionUseCase(this.tRepo);
   public update = new UpdateTransactionUseCase(this.tRepo);
+  public remove = new DeleteTransactionUseCase(this.tRepo);
 }
