@@ -20,17 +20,20 @@ export class SearchTransactionUseCase extends UseCase<Props> {
     const skip = (data.dto.page - 1) * this.perPage;
     const limit = this.perPage;
 
-    return right({
-      results: await this.repo.findByQuery(
-        {
-          userId: {
-            equals: data.user.id,
-          },
+    const results = await this.repo.search(
+      {
+        userId: {
+          equals: data.user.id,
         },
-        skip,
-        limit
-      ),
+      },
+      skip,
+      limit
+    );
+
+    return right({
+      results,
       page: data.dto.page,
     });
   }
 }
+

@@ -3,103 +3,142 @@ import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryIn
 import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionWithAccountsProps } from "@/domain/Transaction/types/TransactionWithAccountsProps";
 import { TransactionRepositoryInMemory } from "@/domain/Transaction/repo/TransactionRepositoryInMemory";
+import { randomUUID } from "crypto";
 
 describe("TransactionRepositoryInMemory", () => {
-    const accountRepo = new AccountRepositoryInMemory();
-    const transactionRepo = new TransactionRepositoryInMemory(accountRepo);
-    const tr = Transaction.create({
-        amount: 100,
+  const accountRepo = new AccountRepositoryInMemory();
+  const transactionRepo = new TransactionRepositoryInMemory(accountRepo);
+  const tr = Transaction.create({
+    amount: 100,
+    description: "",
+    fromAccountId: "1",
+    toAccountId: "2",
+    userId: "123",
+  });
+
+  const user = { id: randomUUID() };
+
+  const accounts = Array.from({ length: 100 }, (_, i) =>
+    Account.create({
+      description: "",
+      name: "987398" + i,
+      userId: user.id,
+    })
+  );
+
+  const transactions = Array.from({ length: 100 }, (_, i) =>
+    Transaction.create({
+      amount: 100 * i,
+      fromAccountId: accounts[0].id,
+      toAccountId: accounts[1].id,
+      userId: user.id,
+    })
+  );
+
+  beforeAll(() => {
+    accountRepo.data = accounts;
+    transactionRepo.data = transactions;
+  });
+
+  afterEach(() => {
+    accountRepo.data = accounts;
+    transactionRepo.data = transactions;
+  });
+
+  //query
+  //add
+  it("should add a Transaction and make use of query system", async () => {
+    await transactionRepo.add(tr);
+    expect(
+      await transactionRepo.findByQuery({ id: { equals: tr.id } })
+    ).toMatchObject(tr);
+  });
+
+  it("should update transaction", async () => {
+    tr.amount = 200;
+    await transactionRepo.update(tr.id, tr);
+    expect(
+      await transactionRepo.findByQuery({ id: { equals: tr.id } })
+    ).toMatchObject(tr);
+  });
+  it("should update remove transaction", async () => {
+    await transactionRepo.remove(tr.id);
+    expect(
+      await transactionRepo.findByQuery({ id: { equals: tr.id } })
+    ).toBeFalsy();
+  });
+
+  it("should delete the transactions", async () => {
+    const accs = Array.from({ length: 100 }, (_, i) =>
+      Transaction.create({
         description: "",
+        amount: 100,
         fromAccountId: "1",
         toAccountId: "2",
-        userId: "123",
+        userId: "specificid",
+      })
+    );
+
+    await Promise.all(accs.map((e) => transactionRepo.add(e)));
+
+    await transactionRepo.deleteByQuery({
+      userId: {
+        equals: accs[0].userId,
+      },
     });
 
-    //query
-    //add
-    it("should add a Transaction and make use of query system", async () => {
-        await transactionRepo.add(tr);
-        expect(
-            await transactionRepo.findByQuery({ id: { equals: tr.id } })
-        ).toMatchObject(tr);
+    expect(
+      await transactionRepo.findByQuery({
+        userId: {
+          equals: accs[0].id,
+        },
+      })
+    ).toBeFalsy();
+  });
+
+  it("should read the transaction with its accounts", async () => {
+    const acc1 = Account.create({
+      description: "",
+      name: "account1",
+      userId: "1456",
+    });
+    const acc2 = Account.create({
+      description: "",
+      name: "account2",
+      userId: "1456",
     });
 
-    it("should update transaction", async () => {
-        tr.amount = 200;
-        await transactionRepo.update(tr.id, tr);
-        expect(
-            await transactionRepo.findByQuery({ id: { equals: tr.id } })
-        ).toMatchObject(tr);
-    });
-    it("should update remove transaction", async () => {
-        await transactionRepo.remove(tr.id);
-        expect(
-            await transactionRepo.findByQuery({ id: { equals: tr.id } })
-        ).toBeFalsy();
+    const transaction = Transaction.create({
+      amount: 100,
+      fromAccountId: acc1.id,
+      toAccountId: acc2.id,
+      userId: "1456",
     });
 
-    it("should delete the transactions", async () => {
-        const accs = Array.from({ length: 100 }, (_, i) =>
-            Transaction.create({
-                description: "",
-                amount: 100,
-                fromAccountId: "1",
-                toAccountId: "2",
-                userId: "specificid",
-            })
-        );
+    await accountRepo.add(acc1);
+    await accountRepo.add(acc2);
 
-        await Promise.all(accs.map((e) => transactionRepo.add(e)));
+    await transactionRepo.add(transaction);
 
-        await transactionRepo.deleteByQuery({
-            userId: {
-                equals: accs[0].userId,
-            },
-        });
+    const result = await transactionRepo.readTransactionWithAccounts(
+      transaction.id
+    );
 
-        expect(
-            await transactionRepo.findByQuery({
-                userId: {
-                    equals: accs[0].id,
-                },
-            })
-        ).toBeFalsy();
-    });
+    const expectedObj = {
+      ...transaction,
+      fromAccount: acc1,
+      toAccount: acc2,
+    };
 
-    it("should read the transaction with its accounts", async () => {
-        const acc1 = Account.create({
-            description: "",
-            name: "account1",
-            userId: "1456",
-        });
-        const acc2 = Account.create({
-            description: "",
-            name: "account2",
-            userId: "1456",
-        });
+    expect(result).toMatchObject(expectedObj);
+  });
 
-        const transaction = Transaction.create({
-            amount: 100,
-            fromAccountId: acc1.id,
-            toAccountId: acc2.id,
-            userId: "1456",
-        });
+  it("shuold search transactions", async () => {
+    const results = await transactionRepo.search({});
 
-        await accountRepo.add(acc1);
-        await accountRepo.add(acc2);
-
-        await transactionRepo.add(transaction);
-
-        const result = await transactionRepo.readTransactionWithAccounts(
-            transaction.id
-        );
-
-        const expectedObj = {
-            ...transaction,
-            fromAccount: acc1,
-            toAccount: acc2,
-        };
-
-        expect(result).toMatchObject(expectedObj);
-    });
+    expect(results[0].toAccount).toHaveProperty("id");
+    expect(results[0].fromAccount).toHaveProperty("id");
+    expect(results).toHaveLength(100);
+  });
 });
+

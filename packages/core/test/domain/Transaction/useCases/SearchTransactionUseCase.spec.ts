@@ -39,10 +39,12 @@ describe("SearchTransactionUseCase", () => {
       user,
     });
 
+    expect(result.value.results.at(0)).toHaveProperty("fromAccount");
     expect(result.isRight()).toBeTruthy();
     expect(result.value.page).toBe(1);
     expect(result.value.results.length).toBe(300);
   });
+
   it("should 100 transactions", async () => {
     const result = await useCase.execute({
       dto: new SearchTransactionDTO({ page: 2 }),
@@ -54,3 +56,4 @@ describe("SearchTransactionUseCase", () => {
     expect(result.value.results.length).toBe(100);
   });
 });
+
