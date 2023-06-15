@@ -4,7 +4,7 @@ import {
   StyledTitle,
 } from "@/components/styled";
 import StyledTable, { StyledTableRow } from "@/components/styled/StyledTable";
-import { ITransaction } from "@/interface";
+import { ITransactionWithAccounts } from "@/interface";
 import styled from "styled-components";
 import { TransactionRow } from "./TransactionRow";
 
@@ -29,7 +29,7 @@ export const StyledTransactionList = styled(StyledContainer)`
 `;
 
 interface Props {
-  data: ITransaction[];
+  data: ITransactionWithAccounts[];
 }
 export function TransactionList({ data }: Props) {
   return (
@@ -45,3 +45,4 @@ export function TransactionList({ data }: Props) {
     </StyledTransactionList>
   );
 }
+
