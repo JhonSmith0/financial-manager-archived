@@ -40,3 +40,6 @@ export interface SearchAccount {
   name: string;
   page: number;
 }
+
+export type UpdateTransaction = Partial<ITransaction> &
+  Pick<ITransaction, "id">;
