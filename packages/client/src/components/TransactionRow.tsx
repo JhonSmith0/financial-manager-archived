@@ -3,6 +3,10 @@ import {
   StyledTableRow,
   StyledTableRowItem,
 } from "@/components/styled/StyledTable";
+import {
+  getTransactionsController,
+  updateTransactionController,
+} from "@/controllers/transaction";
 import { useTransactionRow } from "@/hooks/transactions/useTransactionRow";
 import { ITransactionWithAccounts } from "@/interface";
 import { BiCog } from "react-icons/bi";
@@ -30,7 +34,17 @@ export function TransactionRow({ data }: Props) {
 
   return (
     <>
-      {isOpen && <UpdateTransaction transaction={data} onClose={close} />}
+      {isOpen && (
+        <UpdateTransaction
+          transaction={data}
+          onClose={close}
+          onSave={async (data) => {
+            await updateTransactionController(data);
+            await getTransactionsController({});
+            close();
+          }}
+        />
+      )}
       <StyledTransactionRow>
         <StyledTableRowItem>
           <StyledInput
