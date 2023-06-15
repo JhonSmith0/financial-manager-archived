@@ -23,7 +23,7 @@ export const StyledTransactionList = styled(StyledContainer)`
     svg {
       width: 2.4rem;
       height: 2.4rem;
-      color: #222;
+      /* color: #222; */
     }
   }
 `;
