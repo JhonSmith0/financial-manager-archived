@@ -5,7 +5,7 @@ import { InferStateValueType, useHookstate } from "@hookstate/core";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { NewTransactionForm } from "./NewTransaction";
-import { TransactionList } from "./TransactionList";
+import { TransactionList } from "@/components/TransactionList";
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
   padding-top: 2.8rem;

@@ -3,9 +3,7 @@ import {
   StyledIconsList,
   StyledTitle,
 } from "@/components/styled";
-import StyledTable, {
-  StyledTableRow
-} from "@/components/styled/StyledTable";
+import StyledTable, { StyledTableRow } from "@/components/styled/StyledTable";
 import { ITransaction } from "@/interface";
 import styled from "styled-components";
 import { TransactionRow } from "./TransactionRow";

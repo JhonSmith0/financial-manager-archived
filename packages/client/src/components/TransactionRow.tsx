@@ -1,17 +1,20 @@
-import { StyledInput } from "@/components/styled";
+import { StyledIconsList, StyledInput } from "@/components/styled";
 import {
   StyledTableRow,
   StyledTableRowItem,
 } from "@/components/styled/StyledTable";
-import { useTransactionRowInfos } from "@/hooks/transactions/useTransactionRowInfos";
+import { useTransactionRow } from "@/hooks/transactions/useTransactionRow";
 import { ITransaction } from "@/interface";
+import { FiTrash2 } from "react-icons/fi";
+import { BiCog } from "react-icons/bi";
+import { removeTransactionController } from "@/controllers/transaction/removeTransactionController";
 
 interface Props {
   data: ITransaction;
 }
 
 export function TransactionRow({ data }: Props) {
-  const { fromAccount, toAccount } = useTransactionRowInfos(data);
+  const { fromAccount, toAccount, remove } = useTransactionRow(data);
 
   return (
     <StyledTableRow>
@@ -26,6 +29,16 @@ export function TransactionRow({ data }: Props) {
       <StyledTableRowItem>{data.description}</StyledTableRowItem>
       <StyledTableRowItem>{fromAccount?.name}</StyledTableRowItem>
       <StyledTableRowItem>{toAccount?.name}</StyledTableRowItem>
+      <StyledTableRowItem>
+        <StyledIconsList>
+          <button onClick={remove}>
+            <FiTrash2 />
+          </button>
+          <button>
+            <BiCog />
+          </button>
+        </StyledIconsList>
+      </StyledTableRowItem>
     </StyledTableRow>
   );
 }

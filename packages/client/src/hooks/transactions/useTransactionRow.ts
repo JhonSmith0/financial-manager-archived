@@ -1,9 +1,10 @@
 import { readAccountController } from "@/controllers/account";
+import { removeTransactionController } from "@/controllers/transaction/removeTransactionController";
 import { IAccount, ITransaction } from "@/interface";
 import { useHookstate } from "@hookstate/core";
 import { useEffect } from "react";
 
-export function useTransactionRowInfos(data: ITransaction) {
+export function useTransactionRow(data: ITransaction) {
   const fromAccountState = useHookstate<IAccount | null>(null);
   const toAccountState = useHookstate<IAccount | null>(null);
 
@@ -22,5 +23,9 @@ export function useTransactionRowInfos(data: ITransaction) {
   return {
     fromAccount,
     toAccount,
+    async remove() {
+      if (!confirm("Are you sure?")) return;
+      await removeTransactionController(data);
+    },
   };
 }
