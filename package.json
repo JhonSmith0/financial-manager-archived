@@ -1,16 +1,26 @@
 {
-  "name": "financial",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "lerna run build"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "lerna": "^6.6.2",
-    "nx": "16.3.2"
-  }
+    "name": "financial",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "lerna run build",
+        "prepare": "husky install"
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "commitizen": "^4.3.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "husky": "^8.0.0",
+        "lerna": "^6.6.2",
+        "lint-staged": "^13.2.2",
+        "nx": "16.3.2"
+    }
 }
