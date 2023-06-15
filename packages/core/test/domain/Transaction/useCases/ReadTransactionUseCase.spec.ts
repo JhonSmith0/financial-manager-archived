@@ -37,7 +37,7 @@ describe("ReadTransactionUseCase", () => {
     });
 
     it("should give not found error", async () => {
-        const result = await useCase.execute(transaction.id);
+        const result = await useCase.execute("invalid id");
 
         expect(result.isLeft()).toBeTruthy();
         expect(result.value).toBeInstanceOf(NotFoundError);
@@ -52,3 +52,4 @@ describe("ReadTransactionUseCase", () => {
         expect(value).toBeInstanceOf(TransactionWithAccounts);
     });
 });
+
