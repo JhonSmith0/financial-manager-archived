@@ -6,7 +6,9 @@ export async function createAccount(data: AccountCreate) {
 }
 
 export async function searchAccounts(data: SearchAccount) {
-  return (await api.get("/api/account/search", { params: data })).data;
+  return (await api.get("/api/account/search", { params: data })).data as {
+    results: IAccount[];
+  };
 }
 
 export async function removeAccount(id: string) {
@@ -20,3 +22,4 @@ export async function updateAccount(id: string, data: AccountCreate) {
 export async function readAccount(id: string) {
   return (await api.get(`/api/account/${id}`)).data as IAccount;
 }
+
