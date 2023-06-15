@@ -1,22 +1,23 @@
 import { readAccountController } from "@/controllers/account";
 import { removeTransactionController } from "@/controllers/transaction";
-import { IAccount, ITransaction } from "@/interface";
+import { IAccount, ITransaction, ITransactionWithAccounts } from "@/interface";
+import {
+    getTransactionService,
+    readTransactionService,
+} from "@/services/transaction";
 import { useHookstate } from "@hookstate/core";
 import { useEffect } from "react";
 
 export function useTransactionRow(data: ITransaction) {
-    const fromAccountState = useHookstate<IAccount | null>(null);
-    const toAccountState = useHookstate<IAccount | null>(null);
+    const transaction = useHookstate<ITransactionWithAccounts | null>(null);
 
-    const fromAccount = fromAccountState.ornull?.get();
-    const toAccount = toAccountState.ornull?.get();
+    const fromAccount = transaction.ornull?.get().fromAccount;
+    const toAccount = transaction.ornull?.get().toAccount;
 
     useEffect(() => {
         (async function () {
-            const from = await readAccountController(data.fromAccountId);
-            const to = await readAccountController(data.toAccountId);
-            from && fromAccountState.set(from);
-            to && toAccountState.set(to);
+            const result = await readTransactionService(data);
+            transaction.set(result);
         })();
     }, [data]);
 
@@ -36,10 +37,10 @@ export function useTransactionRow(data: ITransaction) {
             openState.set(!isOpen);
         },
         close() {
-            openState.set(false)
-        }, 
+            openState.set(false);
+        },
         open() {
-            openState.set(true)
-        }
+            openState.set(true);
+        },
     };
 }
