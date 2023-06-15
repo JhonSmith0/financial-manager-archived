@@ -1,7 +1,7 @@
 import Account from "@/domain/Account/entity";
 import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryInMemory";
 import { Transaction } from "@/domain/Transaction/entity";
-import { TransactionWithAccounts } from "@/domain/Transaction/types/TransactionWithAccounts";
+import { TransactionWithAccountsProps } from "@/domain/Transaction/types/TransactionWithAccountsProps";
 import { TransactionRepositoryInMemory } from "@/domain/Transaction/repo/TransactionRepositoryInMemory";
 
 describe("TransactionRepositoryInMemory", () => {

@@ -1,6 +1,6 @@
 import { BasicRepository } from "@/common/repo/BasicRepository";
 import { TransactionProps } from "./TransactionProps";
-import { TransactionWithAccounts } from "./TransactionWithAccounts";
+import { TransactionWithAccountsProps } from "./TransactionWithAccountsProps";
 import { Transaction } from "../entity";
 
 export interface TransactionRepository
@@ -11,5 +11,5 @@ export interface TransactionRepository
     > {
     readTransactionWithAccounts(
         id: Transaction["id"]
-    ): Promise<TransactionWithAccounts>;
+    ): Promise<TransactionWithAccountsProps | void>;
 }

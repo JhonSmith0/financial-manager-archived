@@ -4,7 +4,7 @@ import AccountProps from "@/domain/Account/types/AccountProps";
 import AccountRepository from "@/domain/Account/types/AccountRepository";
 import { TransactionProps } from "../types/TransactionProps";
 import { TransactionRepository } from "../types/TransactionRepository";
-import { TransactionWithAccounts } from "../types/TransactionWithAccounts";
+import { TransactionWithAccountsProps } from "../types/TransactionWithAccountsProps";
 
 export class TransactionRepositoryInMemory
     extends RepositoryInMemory<TransactionProps>
@@ -18,8 +18,10 @@ export class TransactionRepositoryInMemory
 
     public async readTransactionWithAccounts(
         id: string
-    ): Promise<TransactionWithAccounts> {
+    ): Promise<TransactionWithAccountsProps | void> {
         const transaction = (await this.read(id)) as TransactionProps;
+        if (!transaction) return;
+
         const fromAccount = (await this.accountsRepo.read(
             transaction.fromAccountId
         )) as AccountProps;
@@ -27,10 +29,12 @@ export class TransactionRepositoryInMemory
             transaction.toAccountId
         )) as AccountProps;
 
-        return ({
+        if (!fromAccount || !toAccount) return;
+
+        return {
             ...transaction,
             fromAccount,
             toAccount,
-        });
+        };
     }
 }
