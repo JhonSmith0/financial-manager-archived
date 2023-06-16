@@ -32,3 +32,4 @@ export interface SearchAccountDTOProps
     ClassProperties<SearchAccountDTO>,
     "page" | "description"
   > {}
+

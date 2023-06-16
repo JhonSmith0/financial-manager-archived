@@ -26,3 +26,4 @@ export default class Account extends Entity {
     return inst;
   }
 }
+

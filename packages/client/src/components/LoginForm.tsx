@@ -21,8 +21,6 @@ export default function LoginForm(props: { children?: any }) {
     loading,
     error,
   } = useLoginForm(() => nav("/"));
-  
-  
 
   return (
     <StyledLoginForm as={"form"} onSubmit={onSubmit}>
@@ -41,3 +39,4 @@ export default function LoginForm(props: { children?: any }) {
     </StyledLoginForm>
   );
 }
+

@@ -16,3 +16,4 @@ export default abstract class DTO {
     );
   }
 }
+

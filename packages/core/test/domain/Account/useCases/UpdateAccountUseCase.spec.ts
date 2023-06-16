@@ -18,7 +18,7 @@ describe("UpdateAccountUseCase", () => {
       },
     });
 
-    expect(result.isLeft()).toBeTruthy()
+    expect(result.isLeft()).toBeTruthy();
     expect(result.value).toBeInstanceOf(NotFoundError);
   });
 
@@ -75,11 +75,10 @@ describe("UpdateAccountUseCase", () => {
       user: { id: acc.id },
     });
 
-    
-
-    expect(result.isRight()).toBeTruthy()
+    expect(result.isRight()).toBeTruthy();
     expect(result.value).toMatchObject(dto);
 
     await repo.remove(acc.id);
   });
 });
+

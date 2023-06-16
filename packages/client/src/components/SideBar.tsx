@@ -79,3 +79,4 @@ export function SideBar() {
     </StyledSideBar>
   );
 }
+

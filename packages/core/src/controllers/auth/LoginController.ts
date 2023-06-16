@@ -28,3 +28,4 @@ export default class LoginController extends Controller<LoginUserDTO> {
     return right(this.jwt.encode({ id: user.id }));
   }
 }
+

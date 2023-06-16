@@ -6,3 +6,4 @@ const repo = new AccountRepositoryInMemory();
 describe("AccountRepository", () => {
   accountRepositoryCommon("InMemory", repo);
 });
+

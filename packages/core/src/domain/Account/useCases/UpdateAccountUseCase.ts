@@ -48,3 +48,4 @@ export class UpdateAccountUseCase extends UseCase<Props> {
     return right({ ...accountById, ...dto });
   }
 }
+

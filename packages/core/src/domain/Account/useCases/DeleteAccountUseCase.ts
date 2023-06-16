@@ -31,6 +31,7 @@ export class DeleteAccountUseCase extends UseCase<Prop> {
       );
 
     await this.repo.remove(dto.id);
-    return right(null)
+    return right(null);
   }
 }
+

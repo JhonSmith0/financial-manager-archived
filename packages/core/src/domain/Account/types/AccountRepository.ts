@@ -12,3 +12,4 @@ export default interface AccountRepository
   > {
   exists(data: AccountProps): Promise<boolean>;
 }
+

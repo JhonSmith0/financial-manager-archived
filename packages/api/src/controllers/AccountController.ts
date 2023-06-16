@@ -15,7 +15,7 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
 } from "@nestjs/common";
 import { AdaptErrors } from "../adapters/adaptErrors";
 import { UserEntity } from "../decorators/UserEntity";
@@ -87,19 +87,19 @@ export class AccountController {
 
     await this.transactionUseCases.removeAll.execute({
       userId: {
-        equals: user.id ,
-      }, 
+        equals: user.id,
+      },
       fromAccountId: {
-        equals: obj.id
-      }
+        equals: obj.id,
+      },
     });
     await this.transactionUseCases.removeAll.execute({
       userId: {
-        equals: user.id ,
-      }, 
+        equals: user.id,
+      },
       toAccountId: {
-        equals: obj.id
-      }
+        equals: obj.id,
+      },
     });
 
     return await this.accountUseCases.remove.execute({ dto: obj, user });
@@ -116,3 +116,4 @@ export class AccountController {
     return await this.accountUseCases.read.execute({ accountId: params.id });
   }
 }
+

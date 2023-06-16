@@ -19,3 +19,4 @@ export default class CreateUserUseCase {
     return right(user);
   }
 }
+

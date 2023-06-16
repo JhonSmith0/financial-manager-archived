@@ -71,3 +71,4 @@ export default class AuthController {
     return result;
   }
 }
+

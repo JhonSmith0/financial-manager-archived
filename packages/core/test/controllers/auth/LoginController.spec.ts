@@ -18,19 +18,18 @@ describe("LoginController", () => {
   });
 
   it("should return a jwt", async () => {
-    const result = (await controller.handle(
-      LoginUserDTO.create(data)
-    )) 
+    const result = await controller.handle(LoginUserDTO.create(data));
 
     expect(result.isRight()).toBeTruthy();
-    expect(typeof result.value).toBe('string');
+    expect(typeof result.value).toBe("string");
   });
   it("should give invalid data", async () => {
-    const result = (await controller.handle(
+    const result = await controller.handle(
       LoginUserDTO.create({ ...data, password: "18767867864" })
-    )) 
+    );
 
-    expect(result.isLeft()).toBeTruthy()
+    expect(result.isLeft()).toBeTruthy();
     expect(result.value).toBeInstanceOf(GenericError);
   });
 });
+

@@ -18,7 +18,7 @@ describe("DeleteAccountUseCase.spec", () => {
     };
     const result = await useCase.execute(data);
 
-    expect(result.isLeft()).toBeTruthy()
+    expect(result.isLeft()).toBeTruthy();
     expect(result.value).toBeInstanceOf(NotFoundError);
   });
   it("should remove", async () => {
@@ -43,3 +43,4 @@ describe("DeleteAccountUseCase.spec", () => {
     expect(result.value).toBeFalsy();
   });
 });
+

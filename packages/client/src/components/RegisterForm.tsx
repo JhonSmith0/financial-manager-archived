@@ -60,3 +60,4 @@ export default function RegisterForm(props: { children?: any }) {
     </StyledRegisterForm>
   );
 }
+

@@ -26,3 +26,4 @@ export class Transformer {
     Object.assign(obj, this.plainToInstance(constructor, data));
   }
 }
+

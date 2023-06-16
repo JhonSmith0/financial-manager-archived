@@ -30,3 +30,4 @@ const providers: Provider[] = [
   imports: [forwardRef(() => TransactionModule)],
 })
 export class AccountModule {}
+

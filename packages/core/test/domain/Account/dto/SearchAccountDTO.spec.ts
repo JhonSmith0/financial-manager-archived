@@ -23,7 +23,8 @@ describe("SearchAccountDTO", () => {
     const dto = SearchAccountDTO.create({
       name: "123",
     });
-    expect(dto.description).toBe('')
-    expect(dto.page).toBe(1)
+    expect(dto.description).toBe("");
+    expect(dto.page).toBe(1);
   });
 });
+
