@@ -8,21 +8,26 @@ import NotFoundError from "@/common/errors/NotFoundError";
 import { linkProto } from "@/common/utils/linkProto";
 
 interface Props {
-  dto: UpdateTransactionDTO;
-  transaction: { id: Transaction["id"] };
+	dto: UpdateTransactionDTO;
+	transaction: { id: Transaction["id"] };
 }
 
 export class UpdateTransactionUseCase extends TransactionUseCase {
-  public async execute(data: Props) {
-    const transaction = await this.transactionRepo.findByQuery(
-      { id: { equals: data.transaction.id } },
-      0,
-      1
-    );
-    if (!transaction)
-      return left(new NotFoundError("Transaction not found", ["id"]));
+	public async execute(data: Props) {
+		const transaction = await this.transactionRepo.db.findUnique({
+			where: {
+				id: data.transaction.id,
+			},
+		});
+		if (!transaction)
+			return left(new NotFoundError("Transaction not found", ["id"]));
 
-    await this.transactionRepo.update(transaction.id, data.dto);
-    return right(Transaction.create({ ...transaction, ...data.dto }));
-  }
+		await this.transactionRepo.db.update({
+			where: {
+				id: transaction.id,
+			},
+			data: data.dto,
+		});
+		return right(Transaction.create({ ...transaction, ...data.dto }));
+	}
 }

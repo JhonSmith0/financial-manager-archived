@@ -38,7 +38,7 @@ export class AccountController {
     const validation = await parsedObj.validate();
     if (validation.length) throw validation;
 
-    return await this.accountUseCases.create.exec({
+    return await this.accountUseCases.create.execute({
       ...parsedObj,
       userId: user.id,
     });
@@ -86,20 +86,12 @@ export class AccountController {
     if (validation.length) throw validation;
 
     await this.transactionUseCases.removeAll.execute({
-      userId: {
-        equals: user.id,
-      },
-      fromAccountId: {
-        equals: obj.id,
-      },
+      userId:  user.id,
+      fromAccountId:  obj.id,
     });
     await this.transactionUseCases.removeAll.execute({
-      userId: {
-        equals: user.id,
-      },
-      toAccountId: {
-        equals: obj.id,
-      },
+      userId:  user.id,
+      toAccountId:  obj.id,
     });
 
     return await this.accountUseCases.remove.execute({ dto: obj, user });

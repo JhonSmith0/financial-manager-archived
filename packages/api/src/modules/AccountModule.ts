@@ -1,16 +1,19 @@
 import Tokens from "@financial/core/dist/domain/Account/di/AccountTokens";
-import { AccountRepositoryPrisma } from "@financial/core/dist/domain/Account/repo/AccountRepositoryPrisma";
+
 import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases";
 import { Module, Provider, forwardRef } from "@nestjs/common";
 import { AccountController } from "../controllers/AccountController";
 import { TransactionModule } from "./TransactionModule";
+import { AccountRepository } from "@financial/core/dist/domain/Account/repo/AccountRepository";
+
+console.log(123)
 
 const providers: Provider[] = [
   {
     provide: Tokens.accountRepository,
     async useFactory() {
-      const obj = new AccountRepositoryPrisma();
-      await obj.$connect();
+      const obj = new AccountRepository();
+      await obj.$connect()
       return obj;
     },
   },

@@ -1,7 +1,6 @@
-import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory";
 import { TransactionsTokens } from "@financial/core/dist/domain/Transaction/di/TransactionTokens";
-import { TransactionRepositoryPrisma } from "@financial/core/dist/domain/Transaction/repo/TransactionRepositoryPrisma";
-import AccountTokens from "@financial/core/dist/domain/Account/di/AccountTokens";
+import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory";
+import { TransactionRepository } from "@financial/core/dist/domain/Transaction/repo/TransactionRepository";
 import { Module, Provider, forwardRef } from "@nestjs/common";
 import { TransactionController } from "../controllers/TransactionController";
 import { AccountModule } from "./AccountModule";
@@ -11,7 +10,7 @@ const providers: Provider[] = [
     provide: TransactionsTokens.repository,
     inject: [],
     async useFactory() {
-      const obj = new TransactionRepositoryPrisma();
+      const obj = new TransactionRepository();
       await obj.$connect();
       return obj;
     },

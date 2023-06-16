@@ -5,19 +5,20 @@ import LoginController from "@financial/core/dist/controllers/auth/LoginControll
 import MeController from "@financial/core/dist/controllers/auth/MeController";
 import RegisterController from "@financial/core/dist/controllers/auth/RegisterController";
 import UserToken from "@financial/core/dist/domain/User/di/UserTokens";
-import UserRepositoryPrisma from "@financial/core/dist/domain/User/repo/UserRepositoryPrisma";
+
 import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateUserUseCase";
 import { RouterModule } from "@nestjs/core";
 import { AccountModule } from "./AccountModule";
 import AuthModule from "./AuthModule";
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers";
 import { TransactionModule } from "./TransactionModule";
+import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository";
 
 const providers: Provider[] = [
   {
     provide: UserToken.userRepository,
     async useFactory() {
-      const repo = new UserRepositoryPrisma();
+      const repo = new UserRepository();
       await repo.$connect();
       return repo;
     },

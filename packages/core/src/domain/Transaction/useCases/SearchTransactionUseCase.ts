@@ -1,39 +1,36 @@
 import { UseCase } from "@/common/UseCase";
-import { TransactionRepository } from "../types/TransactionRepository";
+import { TransactionRepository } from "../repo/TransactionRepository";
+
 import { right } from "@/common/ErrorHandlingTypes";
-import { SearchTransactionDTO } from "../dto/SearchTransactionDTO";
 import User from "@/domain/User/entity/User";
+import { SearchTransactionDTO } from "../dto/SearchTransactionDTO";
+import { TransactionProps } from "../types/TransactionProps";
 
 interface Props {
-  dto: SearchTransactionDTO;
-  user: { id: User["id"] };
+	dto: SearchTransactionDTO;
+	user: { id: User["id"] };
 }
 
 export class SearchTransactionUseCase extends UseCase<Props> {
-  private perPage = 300;
+	private perPage = 300;
 
-  constructor(private repo: TransactionRepository) {
-    super();
-  }
+	constructor(private repo: TransactionRepository) {
+		super();
+	}
 
-  public async execute(data: Props) {
-    const skip = (data.dto.page - 1) * this.perPage;
-    const limit = this.perPage;
+	public async execute(data: Props) {
+		const skip = (data.dto.page - 1) * this.perPage;
+		const limit = this.perPage;
 
-    const results = await this.repo.search(
-      {
-        userId: {
-          equals: data.user.id,
-        },
-      },
-      skip,
-      limit
-    );
+		const results = (await this.repo.db.findMany({
+			where: {
+				userId: data.user.id,
+			},
+		})) as TransactionProps[];
 
-    return right({
-      results,
-      page: data.dto.page,
-    });
-  }
+		return right({
+			results,
+			page: data.dto.page,
+		});
+	}
 }
-

@@ -1,7 +1,7 @@
 import JWT from "@financial/core/dist/common/JWT/JWT";
 import UserToken from "@financial/core/dist/domain/User/di/UserTokens";
 import User from "@financial/core/dist/domain/User/entity/User";
-import UserRepository from "@financial/core/dist/domain/User/types/UserRepository";
+import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository";
 import {
   Injectable,
   NestMiddleware,
@@ -38,7 +38,7 @@ export class VerifyJWT implements NestMiddleware {
     }
 
     //@ts-ignore (for some reason id is not being recognized as keyof UserProps)
-    const user = (await this.repo.findByProp("id", id, true)) as UserProps;
+    const user = (await this.repo.db.findUnique({where: {id}})) as UserProps;
     if (!user) throw error;
 
     req.user = User.fromPlain(user);

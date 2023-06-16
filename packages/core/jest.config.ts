@@ -12,7 +12,7 @@ const jestConfig: JestConfigWithTsJest = {
   moduleNameMapper: pathsToModuleNameMapper(
     compilerOptions.paths /*, { prefix: '<rootDir>/' } */
   ),
-  setupFiles: ["./test/setup/index.ts"],
+  setupFiles: ["./test/setup/index.mjs"],
 };
 
 export default jestConfig;

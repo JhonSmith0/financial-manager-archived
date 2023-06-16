@@ -1,18 +1,20 @@
 import { UseCase } from "@/common/UseCase";
-import { TransactionRepository } from "../types/TransactionRepository";
-import { Query } from "@/common/Query";
-import { Transaction } from "../entity";
-import { right } from "@/common/ErrorHandlingTypes";
+import { TransactionRepository } from "../repo/TransactionRepository";
 
-interface Props extends Query<Transaction> {}
+import { right } from "@/common/ErrorHandlingTypes";
+import { TransactionProps } from "../types/TransactionProps";
+
+type Props = Partial<TransactionProps>;
 
 export class DeleteAllTransactions extends UseCase<Props> {
-  constructor(private repo: TransactionRepository) {
-    super();
-  }
+	constructor(private repo: TransactionRepository) {
+		super();
+	}
 
-  public async execute(data: Props) {
-    await this.repo.deleteByQuery(data);
-    return right(null);
-  }
+	public async execute(data: Props) {
+		await this.repo.db.delete({
+			where: data,
+		});
+		return right(null);
+	}
 }
