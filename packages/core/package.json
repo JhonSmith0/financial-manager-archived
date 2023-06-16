@@ -4,23 +4,24 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ",
+    "dev:noBuild": "tsnd --respawn --transpile-only -r tsconfig-paths/register src/index.ts ",
     "build": "tsc -p ./tsconfig.build.json && resolve-tspaths",
     "build-only": "tsc -p ./tsconfig.build.json && resolve-tspaths",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "migrate:dev": "node ./migrate-db.js",
-    "watch": "nodemon"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/async": "^3.2.20",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^20.0.0",
-    "fp-ts": "^2.15.0",
     "jest": "29.5.0",
     "nodemon": "^2.0.22",
     "prisma": "^4.13.0",
@@ -32,6 +33,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
+    "async": "^3.2.4",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -39,3 +41,4 @@
     "jsonwebtoken": "^9.0.0"
   }
 }
+

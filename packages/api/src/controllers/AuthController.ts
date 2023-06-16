@@ -21,6 +21,7 @@ import ControllerType from "@financial/core/dist/common/Controller";
 import { Request, Response } from "express";
 import adaptErrors, { AdaptErrors } from "../adapters/adaptErrors";
 import { parse } from "cookie";
+import { Either } from "@financial/core/dist/common/ErrorHandlingTypes";
 
 @Controller("auth")
 export default class AuthController {
@@ -32,7 +33,7 @@ export default class AuthController {
 
   @AdaptErrors()
   private async handle<T>(
-    controller: ControllerType<T, any>,
+    controller: ControllerType<T, Either<any, any>>,
     dto: { create(data: T): any },
     res: Response,
     body: T
@@ -40,8 +41,8 @@ export default class AuthController {
     const obj = dto.create(body);
     const result = await controller.handle(obj);
 
-    if (result._tag == "Left") throw result.left;
-    this.setJWTOnCookie(res, result.right).end();
+    if (result.isLeft()) throw result.value;
+    this.setJWTOnCookie(res, result.value).end();
   }
 
   private setJWTOnCookie(res: Response, jwt: string) {
@@ -65,8 +66,9 @@ export default class AuthController {
   @Get("me")
   @AdaptErrors()
   async me(@Headers() headers: Request["headers"]) {
-    const { authorization } = parse(headers.cookie);
+    const { authorization } = parse(headers.cookie ?? "");
     const result = await this.meController.handle(authorization);
     return result;
   }
 }
+

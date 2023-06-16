@@ -1,7 +1,7 @@
+import { left, right } from "@/common/ErrorHandlingTypes";
 import CreateUserDTO from "../dto/CreateUserDTO";
 import User from "../entity/User";
 import UserRepository from "../types/UserRepository";
-import { left, right } from "fp-ts/Either";
 import GenericError from "@/common/errors/GenericError";
 
 export default class CreateUserUseCase {
@@ -19,3 +19,4 @@ export default class CreateUserUseCase {
     return right(user);
   }
 }
+

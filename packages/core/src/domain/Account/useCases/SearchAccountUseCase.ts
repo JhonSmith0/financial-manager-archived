@@ -2,6 +2,7 @@ import { UseCase } from "@/common/UseCase";
 import { SearchAccountDTO } from "../dto/SearchAccountDTO";
 import AccountRepository from "../types/AccountRepository";
 import User from "@/domain/User/entity/User";
+import { right } from "@/common/ErrorHandlingTypes";
 
 export interface SearchAccountUseCaseProps {
   dto: SearchAccountDTO;
@@ -16,21 +17,19 @@ export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
   private resultsPerPage = 60;
 
   public async execute({ dto, user }: SearchAccountUseCaseProps) {
-    const results = await this.repo.findByQuery(
-      {
-        name: {
-          startsWith: dto.name,
-        },
-        description: {
-          startsWith: dto.description,
-        },
-        userId: {
-          equals: user.id,
-        },
+    const results = await this.repo.findByQuery({
+      name: {
+        startsWith: dto.name,
       },
-      (dto.page - 1) * this.resultsPerPage,
-      dto.page * this.resultsPerPage
-    );
-    return { results, page: dto.page };
+      description: {
+        startsWith: dto.description,
+      },
+      userId: {
+        equals: user.id,
+      },
+    });
+
+    return right({ results, page: dto.page });
   }
 }
+

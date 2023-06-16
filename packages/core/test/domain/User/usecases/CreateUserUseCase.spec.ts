@@ -17,11 +17,14 @@ describe("CreateUserUseCase", () => {
   });
 
   it("should return an user", async () => {
-    const { right: value } = (await createUser.execute(data)) as any;
-    expect(value).toBeInstanceOf(User);
+    const result = await createUser.execute(data);
+    expect(result.isRight()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(User);
   });
   it("should return an already exists error", async () => {
-    const { left: value } = (await createUser.execute(data)) as any;
-    expect(value).toBeInstanceOf(GenericError);
+    const result = await createUser.execute(data);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(GenericError);
   });
 });
+

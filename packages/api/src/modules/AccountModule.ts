@@ -1,11 +1,9 @@
-import { Module, Provider } from "@nestjs/common";
 import Tokens from "@financial/core/dist/domain/Account/di/AccountTokens";
 import { AccountRepositoryPrisma } from "@financial/core/dist/domain/Account/repo/AccountRepositoryPrisma";
-import { AccountController } from "@/controllers/AccountController";
-import CreateAccountUseCase from "@financial/core/dist/domain/Account/useCases/CreateAccountUseCase";
-import { SearchAccountUseCase } from "@financial/core/dist/domain/Account/useCases/SearchAccountUseCase";
-import { UpdateAccountUseCase } from "@financial/core/dist/domain/Account/useCases/UpdateAccountUseCase";
-import { DeleteAccountUseCase } from "@financial/core/dist/domain/Account/useCases/DeleteAccountUseCase";
+import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases";
+import { Module, Provider, forwardRef } from "@nestjs/common";
+import { AccountController } from "../controllers/AccountController";
+import { TransactionModule } from "./TransactionModule";
 
 const providers: Provider[] = [
   {
@@ -17,31 +15,10 @@ const providers: Provider[] = [
     },
   },
   {
-    provide: CreateAccountUseCase,
+    provide: AccountUseCases,
     inject: [Tokens.accountRepository],
-    async useFactory(repo) {
-      return new CreateAccountUseCase(repo);
-    },
-  },
-  {
-    provide: SearchAccountUseCase,
-    inject: [Tokens.accountRepository],
-    async useFactory(repo) {
-      return new SearchAccountUseCase(repo);
-    },
-  },
-  {
-    provide: UpdateAccountUseCase,
-    inject: [Tokens.accountRepository],
-    async useFactory(repo) {
-      return new UpdateAccountUseCase(repo);
-    },
-  },
-  {
-    provide: DeleteAccountUseCase,
-    inject: [Tokens.accountRepository],
-    async useFactory(repo) {
-      return new DeleteAccountUseCase(repo);
+    useFactory(repo) {
+      return new AccountUseCases(repo);
     },
   },
 ];
@@ -49,5 +26,8 @@ const providers: Provider[] = [
 @Module({
   controllers: [AccountController],
   providers,
+  exports: providers,
+  imports: [forwardRef(() => TransactionModule)],
 })
 export class AccountModule {}
+

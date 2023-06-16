@@ -1,9 +1,11 @@
 import { GetMeController } from "../controllers/MeController";
 import { VerifyJWT } from "../middlewares/VerifyJWT";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { TransactionModule } from "./TransactionModule";
 
 @Module({
   controllers: [GetMeController],
+  imports: [TransactionModule],
 })
 export class OnlyLoggedUsers implements NestModule {
   constructor() {}
@@ -12,3 +14,4 @@ export class OnlyLoggedUsers implements NestModule {
     consumer.apply(VerifyJWT).forRoutes("/api/*");
   }
 }
+

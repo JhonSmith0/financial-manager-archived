@@ -17,4 +17,13 @@ export class Transformer {
   ) {
     return plainToInstance(cl, data, { ...this.toInstanceConfigs, ...configs });
   }
+
+  public static assignPlainToInstance(
+    constructor: ClassConstructor<any>,
+    data: any,
+    obj: any
+  ) {
+    Object.assign(obj, this.plainToInstance(constructor, data));
+  }
 }
+

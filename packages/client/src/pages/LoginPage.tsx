@@ -1,4 +1,5 @@
 import LoginForm from "@/components/LoginForm";
+import { StyledButton } from "@/components/styled";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
@@ -8,8 +9,9 @@ export default function LoginPage() {
         <p>
           Dont have an account? <Link to={"/register"}>register here</Link>{" "}
         </p>
-        <button type="submit">Login</button>
+        <StyledButton type="submit">Login</StyledButton>
       </LoginForm>
     </div>
   );
 }
+

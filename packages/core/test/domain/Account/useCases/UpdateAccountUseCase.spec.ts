@@ -18,9 +18,8 @@ describe("UpdateAccountUseCase", () => {
       },
     });
 
-    const left = (result as any).left;
-
-    expect(left).toBeInstanceOf(NotFoundError);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotFoundError);
   });
 
   //Try to update an account but that will make it a duplicate
@@ -49,7 +48,8 @@ describe("UpdateAccountUseCase", () => {
       },
     });
 
-    expect((result as any).left).toBeInstanceOf(AlreadyExistsError);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(AlreadyExistsError);
 
     await repo.remove(acc1.id);
   });
@@ -75,10 +75,10 @@ describe("UpdateAccountUseCase", () => {
       user: { id: acc.id },
     });
 
-    const value = (result as any).right;
-
-    expect(value).toMatchObject(dto);
+    expect(result.isRight()).toBeTruthy();
+    expect(result.value).toMatchObject(dto);
 
     await repo.remove(acc.id);
   });
 });
+

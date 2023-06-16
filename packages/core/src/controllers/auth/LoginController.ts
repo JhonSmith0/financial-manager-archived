@@ -1,14 +1,14 @@
 import Controller from "@/common/Controller";
+import { left, right } from "@/common/ErrorHandlingTypes";
 import JWT from "@/common/JWT/JWT";
 import GenericError from "@/common/errors/GenericError";
 import LoginUserDTO from "@/domain/User/dto/LoginUserDTO";
 import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/types/UserRepository";
-import { left, right } from "fp-ts/Either";
 
 const error = new GenericError("Invalid email or password!", 400);
 
-export default class LoginController extends Controller<LoginUserDTO, any> {
+export default class LoginController extends Controller<LoginUserDTO> {
   constructor(private repo: UserRepository, private jwt: JWT) {
     super();
   }
@@ -28,3 +28,4 @@ export default class LoginController extends Controller<LoginUserDTO, any> {
     return right(this.jwt.encode({ id: user.id }));
   }
 }
+

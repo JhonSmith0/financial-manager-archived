@@ -15,24 +15,28 @@ describe("RegisterController", () => {
   const controller = new RegisterController(useCase, jwt);
 
   it("should return a token", async () => {
-    const { right: result } = (await controller.handle(
+    const result = await controller.handle(
       CreateUserDTO.create(User.dataForTest)
-    )) as any;
+    );
 
-    expect(typeof result === "string").toBeTruthy();
+    expect(result.isRight()).toBeTruthy();
+    expect(typeof result.value).toBe("string");
   });
   it("should give already exists error", async () => {
-    const { left: result } = (await controller.handle(
+    const result = await controller.handle(
       CreateUserDTO.create(User.dataForTest)
-    )) as any;
+    );
 
-    expect(result).toBeInstanceOf(GenericError);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(GenericError);
   });
   it("should give validation error", async () => {
-    const { left: result } = (await controller.handle(
+    const result = await controller.handle(
       CreateUserDTO.create({ ...User.dataForTest, password: "12344" })
-    )) as any;
+    );
 
-    expect(result).toBeInstanceOf(ValidationError);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(ValidationError);
   });
 });
+

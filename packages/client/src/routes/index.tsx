@@ -1,7 +1,9 @@
 import GoTo from "@/components/GoTo";
+import { AccountsPage } from "@/pages/AccountsPage";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
+import { TransactionsPage } from "@/pages/TransactionsPage";
 import me from "@/services/me";
 import currentUser from "@/state/currentUser";
 import authorizationToken from "@/utils/authorizationToken";
@@ -10,6 +12,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -26,10 +29,12 @@ const router = createBrowserRouter(
           return user;
         }}
       >
-        <Route path="accounts" element={<h1>Hello!</h1>}></Route>
+        <Route path="accounts" element={<AccountsPage />}></Route>
+        <Route path="transactions" element={<TransactionsPage />}></Route>
       </Route>
     </>
   )
 );
 
 export default router;
+

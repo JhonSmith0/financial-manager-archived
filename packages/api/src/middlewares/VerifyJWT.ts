@@ -26,7 +26,7 @@ export class VerifyJWT implements NestMiddleware {
   ) {
     const error = new ForbiddenException("Invalid token!");
 
-    const { authorization } = parse(req.headers.cookie);
+    const { authorization } = parse(req.headers.cookie ?? "");
     if (!authorization) throw error;
 
     let id: string;
@@ -45,3 +45,4 @@ export class VerifyJWT implements NestMiddleware {
     next();
   }
 }
+

@@ -10,6 +10,8 @@ export default class Account extends Entity {
 
   public static create(data: OptionalProps<AccountProps, "id">) {
     data.id ||= randomUUID();
+    data.name = data.name.toLowerCase();
+
     return Transformer.plainToInstance(Account, data, {
       excludeExtraneousValues: false,
     });
@@ -24,3 +26,4 @@ export default class Account extends Entity {
     return inst;
   }
 }
+

@@ -69,6 +69,8 @@ const envsWithDBurl = envs.map(readEnv).filter((e) => e.object["DATABASE_URL"]);
 const execAsync = promisify(exec);
 
 void (async function () {
+  await execAsync("npx prisma generate");
+
   for (const each of envsWithDBurl) {
     rootEnv.write(each.content);
 

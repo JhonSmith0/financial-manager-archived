@@ -1,8 +1,8 @@
 import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
-import { left, right } from "fp-ts/Either";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
+import { left, right } from "@/common/ErrorHandlingTypes";
 
 export default class CreateAccountUseCase {
   constructor(private repo: AccountRepository) {}
@@ -19,3 +19,4 @@ export default class CreateAccountUseCase {
     return right(account);
   }
 }
+

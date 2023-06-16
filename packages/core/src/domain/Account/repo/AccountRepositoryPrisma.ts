@@ -3,20 +3,7 @@ import { PrismaRepo } from "@/common/repo/PrismaRepo";
 import Account from "../entity";
 import AccountProps from "../types/AccountProps";
 import AccountRepository from "../types/AccountRepository";
-
-//The query options interface is {equals: ... and nte: ..}
-//but prisma can only understand {equals: ... and not: {equals: ....}}
-function adaptQueryOptionsToPrisma<T>(query: QueryOptions<T>) {
-  const copy = { ...query };
-  if (copy["nte"]) {
-    const equals = copy.nte;
-    delete copy["nte"];
-    //@ts-ignore
-    copy.not = { equals };
-  }
-
-  return copy as any;
-}
+import { adaptQueryOptionsToPrisma } from "@/common/repo/adaptQueryOptionsToPrisma";
 
 export class AccountRepositoryPrisma
   extends PrismaRepo
@@ -24,6 +11,15 @@ export class AccountRepositoryPrisma
 {
   constructor() {
     super();
+  }
+  public async read(identifier: string): Promise<AccountProps | null> {
+    return await this.db.findUnique({ where: { id: identifier } });
+  }
+  deleteByQuery(
+    query: Query<AccountProps>,
+    limit?: number | undefined
+  ): Promise<void> {
+    throw new Error("Method not implemented.");
   }
   findByQuery<T extends AccountProps>(
     query: Query<T>,
@@ -38,7 +34,7 @@ export class AccountRepositoryPrisma
   public async findByQuery<T extends AccountProps>(
     query: Query<T>,
     skip: number = 0,
-    limit: number = 1
+    limit?: number
   ): Promise<AccountProps | AccountProps[] | void> {
     for (const key in query) {
       query[key] = adaptQueryOptionsToPrisma(query[key] as any);
@@ -63,9 +59,9 @@ export class AccountRepositoryPrisma
   }
   public async update(
     id: string,
-    data: Omit<Partial<AccountProps>, "id">
-  ): Promise<void> {
-    await this.db.update({ where: { id }, data });
+    data: Partial<AccountProps>
+  ): Promise<AccountProps> {
+    return (await this.db.update({ where: { id }, data })) as AccountProps;
   }
   public async exists(acc: AccountProps): Promise<boolean> {
     return !!(await this.db.findUnique({
@@ -78,3 +74,4 @@ export class AccountRepositoryPrisma
     }));
   }
 }
+
