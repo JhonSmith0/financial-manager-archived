@@ -7,3 +7,6 @@ export const Content = styled.div`
 
     padding-bottom: 2.4rem;
 `;
+
+
+

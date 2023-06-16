@@ -2,8 +2,8 @@ import loginSchema from "@/schemas/auth/loginSchema";
 import newTransactionSchema from "@/schemas/transaction/newTransactionSchema";
 import registerSchema from "@/schemas/auth/registerSchema";
 import * as y from "yup";
-export interface ILoginSchema extends y.InferType<typeof loginSchema> {}
-export interface IRegisterSchema extends y.InferType<typeof registerSchema> {}
+export type ILoginSchema = y.InferType<typeof loginSchema>
+export type IRegisterSchema = y.InferType<typeof registerSchema>
 
 export interface IUser {
   name: string;
@@ -32,13 +32,12 @@ export interface ITransactionWithAccounts extends ITransaction {
   toAccount: IAccount;
 }
 
-export interface TransactionCreate
-  extends y.InferType<typeof newTransactionSchema> {}
+export type TransactionCreate = y.InferType<typeof newTransactionSchema>
 export interface GetTransactions {
   page?: number;
 }
 
-export interface AccountCreate extends Pick<IAccount, "description" | "name"> {}
+export type AccountCreate = Pick<IAccount, "description" | "name">
 
 export interface SearchAccount {
   name: string;

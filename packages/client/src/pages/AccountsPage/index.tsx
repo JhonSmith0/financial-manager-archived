@@ -30,12 +30,12 @@ export const StyledAccountsPage = styled(StyledHomeOutLet)`
 `;
 
 export function AccountsPage() {
-  return (
-    <StyledAccountsPage>
-      <div className="content">
-        <NewAccount />
-        <AccountList />
-      </div>
-    </StyledAccountsPage>
-  );
+	return (
+		<StyledAccountsPage>
+			<div className="content">
+				<NewAccount />
+				<AccountList />
+			</div>
+		</StyledAccountsPage>
+	);
 }

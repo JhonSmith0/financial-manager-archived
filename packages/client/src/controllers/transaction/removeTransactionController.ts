@@ -5,6 +5,6 @@ import { getTransactionsController } from ".";
 export async function removeTransactionController(transaction: {
   id: ITransaction["id"];
 }) {
-  await removeTransactionService(transaction);
-  await getTransactionsController({});
+	await removeTransactionService(transaction);
+	await getTransactionsController({});
 }

@@ -1,5 +1,4 @@
-import { SideBar, StyledSideBar } from "@/components/SideBar";
-import { StyledBar, StyledHomeOutLet } from "@/components/styled";
+import { SideBar } from "@/components/SideBar";
 import currentUser from "@/state/currentUser";
 import { useHookstate } from "@hookstate/core";
 import { Outlet } from "react-router-dom";
@@ -15,14 +14,14 @@ export const StyledHomePage = styled.div`
 `;
 
 export default function HomePage() {
-  const user = useHookstate(currentUser);
-  const values = user.get();
+	const user = useHookstate(currentUser);
+	const values = user.get();
 
-  return (
-    <StyledHomePage>
-      <SideBar />
-      <Outlet />
-    </StyledHomePage>
-  );
+	return (
+		<StyledHomePage>
+			<SideBar />
+			<Outlet />
+		</StyledHomePage>
+	);
 }
 

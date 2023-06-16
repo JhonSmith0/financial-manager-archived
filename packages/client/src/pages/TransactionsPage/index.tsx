@@ -14,20 +14,20 @@ const StyledTransactionsPage = styled(StyledHomeOutLet)`
 `;
 
 export function TransactionsPage() {
-  const state = useHookstate(transactionsState);
-  const data = state.get() as InferStateValueType<typeof state>;
+	const state = useHookstate(transactionsState);
+	const data = state.get() as InferStateValueType<typeof state>;
 
-  useEffect(() => {
-    (async () => {
-      await getTransactionsController({});
-    })();
-  }, []);
+	useEffect(() => {
+		(async () => {
+			await getTransactionsController({});
+		})();
+	}, []);
 
-  return (
-    <StyledTransactionsPage>
-      <StyledTitle>Transactions</StyledTitle>
-      <NewTransactionForm />
-      <TransactionList data={data} />
-    </StyledTransactionsPage>
-  );
+	return (
+		<StyledTransactionsPage>
+			<StyledTitle>Transactions</StyledTitle>
+			<NewTransactionForm />
+			<TransactionList data={data} />
+		</StyledTransactionsPage>
+	);
 }

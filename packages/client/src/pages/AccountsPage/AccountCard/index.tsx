@@ -46,44 +46,44 @@ export const StyledAccountCard = styled.div`
 `;
 
 export function AccountCard({ data }: Props) {
-  const editing = useHookstate(false);
+	const editing = useHookstate(false);
 
-  function onClose() {
-    editing.set(false);
-  }
+	function onClose() {
+		editing.set(false);
+	}
 
-  async function onSave(data: IAccount) {
-    const newAcc = await updateAccount(data.id, data);
-    onClose();
-    stateUpdateAccount(data.id, newAcc);
-  }
+	async function onSave(data: IAccount) {
+		const newAcc = await updateAccount(data.id, data);
+		onClose();
+		stateUpdateAccount(data.id, newAcc);
+	}
 
-  return (
-    <StyledAccountCard>
-      {editing.get() && (
-        <UpdateAccountCard data={data} onClose={onClose} onSave={onSave} />
-      )}
-      <StyledBar as={"header"}>
-        <span>{data.name}</span>
-        <StyledIconsList>
-          <button onClick={() => editing.set(true)}>
-            <HiOutlineCog />
-          </button>
-          <button
-            onClick={async () => {
-              const value = confirm(
-                `Are you sure you want to delete ${data.name}?`
-              );
-              value && (await remove(data.id));
-            }}
-          >
-            <HiOutlineTrash />
-          </button>
-        </StyledIconsList>
-      </StyledBar>
-      <div className="content">
-        <p>{data.description}</p>
-      </div>
-    </StyledAccountCard>
-  );
+	return (
+		<StyledAccountCard>
+			{editing.get() && (
+				<UpdateAccountCard data={data} onClose={onClose} onSave={onSave} />
+			)}
+			<StyledBar as={"header"}>
+				<span>{data.name}</span>
+				<StyledIconsList>
+					<button onClick={() => editing.set(true)}>
+						<HiOutlineCog />
+					</button>
+					<button
+						onClick={async () => {
+							const value = confirm(
+								`Are you sure you want to delete ${data.name}?`
+							);
+							value && (await remove(data.id));
+						}}
+					>
+						<HiOutlineTrash />
+					</button>
+				</StyledIconsList>
+			</StyledBar>
+			<div className="content">
+				<p>{data.description}</p>
+			</div>
+		</StyledAccountCard>
+	);
 }

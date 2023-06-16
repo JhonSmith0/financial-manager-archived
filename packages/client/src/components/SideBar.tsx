@@ -52,31 +52,31 @@ export const StyledSideBar = styled.div`
   }
 `;
 export function SideBar() {
-  const user = useHookstate(currentUser);
-  const values = user.get();
+	const user = useHookstate(currentUser);
+	const values = user.get();
 
-  return (
-    <StyledSideBar>
-      <header>
-        <h2>Hello, {values.name}</h2>
-      </header>
-      <nav>
-        <ul>
-          <li>
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li>
-            <Link to={"transactions"}>Transactions</Link>
-          </li>
-          <li>
-            <Link to={"accounts"}>Accounts</Link>
-          </li>
-          <li>
-            <Link to={"/login"}>Log-out</Link>
-          </li>
-        </ul>
-      </nav>
-    </StyledSideBar>
-  );
+	return (
+		<StyledSideBar>
+			<header>
+				<h2>Hello, {values.name}</h2>
+			</header>
+			<nav>
+				<ul>
+					<li>
+						<Link to={"/"}>Home</Link>
+					</li>
+					<li>
+						<Link to={"transactions"}>Transactions</Link>
+					</li>
+					<li>
+						<Link to={"accounts"}>Accounts</Link>
+					</li>
+					<li>
+						<Link to={"/login"}>Log-out</Link>
+					</li>
+				</ul>
+			</nav>
+		</StyledSideBar>
+	);
 }
 

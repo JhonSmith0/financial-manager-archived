@@ -1,13 +1,13 @@
-import { IAccount, ITransaction } from "@/interface";
+import { IAccount } from "@/interface";
 import accountsState from "@/state/accountsState";
 import { useHookstate } from "@hookstate/core";
 import { SearchAccount } from "../SearchAccount";
 import styled from "styled-components";
 import { AccountCard } from "../AccountCard";
 import {
-  StyledButton,
-  StyledContainer,
-  StyledTitle,
+	StyledButton,
+	StyledContainer,
+	StyledTitle,
 } from "@/components/styled";
 
 export const StyledAccountList = styled(StyledContainer)`
@@ -30,18 +30,18 @@ margin-top: 0;
 
 
 export function AccountList() {
-  const state = useHookstate<IAccount[]>(accountsState);
-  const accounts = state.get();
+	const state = useHookstate<IAccount[]>(accountsState);
+	const accounts = state.get();
 
-  return (
-    <StyledAccountList>
-      <StyledTitle size="medium">Accounts</StyledTitle>
-      <SearchAccount />
-      <div className="list">
-        {accounts.map((data) => (
-          <AccountCard data={data} key={data.id} />
-        ))}
-      </div>
-    </StyledAccountList>
-  );
+	return (
+		<StyledAccountList>
+			<StyledTitle size="medium">Accounts</StyledTitle>
+			<SearchAccount />
+			<div className="list">
+				{accounts.map((data) => (
+					<AccountCard data={data} key={data.id} />
+				))}
+			</div>
+		</StyledAccountList>
+	);
 }
