@@ -12,8 +12,32 @@ interface Props {
 
 export class CreateTransactionUseCase extends TransactionUseCase {
 	public async execute({ dto, user }: Props) {
-		const acc = Transaction.create({ ...dto, userId: user.id });
-		await this.transactionRepo.db.create({ data: acc });
-		return right(acc);
+		const transaction = Transaction.create({ ...dto, userId: user.id });
+		const data = dto;
+		await this.transactionRepo.db.create({
+			data: {
+				amount: transaction.amount,
+				date: transaction.date,
+				description: transaction.description,
+				id: transaction.id,
+
+				fromAccount: {
+					connect: {
+						id: data.fromAccountId,
+					},
+				},
+				toAccount: {
+					connect: {
+						id: data.toAccountId,
+					},
+				},
+				user: {
+					connect: {
+						id: user.id,
+					},
+				},
+			},
+		});
+		return right(Transaction.create(transaction));
 	}
 }

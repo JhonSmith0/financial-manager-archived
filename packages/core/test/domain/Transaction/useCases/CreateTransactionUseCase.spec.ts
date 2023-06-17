@@ -1,59 +1,50 @@
-import Account from "@/domain/Account/entity";
 import { AccountRepository } from "@/domain/Account/repo/AccountRepository";
 import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase";
 import { Transaction } from "@/domain/Transaction/entity";
 import { TransactionRepository } from "@/domain/Transaction/repo/TransactionRepository";
 import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTransactionUseCase";
-import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
+import { usersForTests, genAccounts } from "../../../setup";
+import ReadTransactionUseCase from "@/domain/Transaction/useCases/ReadTransactionUseCase";
 
 describe("CreateTransactionUseCase", () => {
+	const tranRepo = new TransactionRepository();
+	const accRepo = new AccountRepository();
 	const userRepo = new UserRepository();
-	const accountRepo = new AccountRepository();
-	const transactionRepo = new TransactionRepository();
 
-	const createUser = new CreateUserUseCase(userRepo);
-	const createAccount = new CreateAccountUseCase(accountRepo);
-	const createTransaction = new CreateTransactionUseCase(transactionRepo);
+	const user = usersForTests[0];
+	const from = genAccounts(user)[0];
+	const to = genAccounts(user)[1];
 
-	const user = User.dataForTest;
-
-	const acc1 = Account.create({
-		description: "",
-		name: "Acc1",
-		userId: user.id,
-	});
-	const acc2 = Account.create({
-		description: "",
-		name: "Acc2",
-		userId: user.id,
-	});
+	const createTransaction = new CreateTransactionUseCase(tranRepo);
+	const readTransaction = new ReadTransactionUseCase(tranRepo);
 
 	beforeAll(async () => {
-		await createUser.execute(user as any);
-		await createAccount.execute(acc1);
-		await createAccount.execute(acc2);
+		const createUser = new CreateUserUseCase(userRepo);
+		const createAccount = new CreateAccountUseCase(accRepo);
+
+		await createUser.execute(user);
+		await createAccount.execute(from);
+		await createAccount.execute(to);
 	});
 
 	it("should create a transaction", async () => {
-
-    return ;
 		const result = await createTransaction.execute({
 			dto: {
 				amount: 100,
-				fromAccountId: acc1.id,
-				toAccountId: acc2.id,
+				fromAccountId: from.id,
+				toAccountId: to.id,
 			},
 			user,
 		});
 
-		const acc = result.value as any as Account;
+		console.log({ result });
 
 		expect(result.isRight()).toBeTruthy();
-		expect(acc).toBeInstanceOf(Transaction);
+		expect(result.value).toBeInstanceOf(Transaction);
 		expect(
-			await transactionRepo.db.findUnique({ where: { id: acc.id } })
+			(await readTransaction.execute(result.value.id)).value
 		).toMatchObject(result.value);
 	}, 10000);
 });
