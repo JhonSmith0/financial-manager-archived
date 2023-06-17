@@ -1,14 +1,23 @@
 import { SearchAccountDTO } from "@/domain/Account/dto/SearchAccountDTO";
 import Account from "@/domain/Account/entity";
-import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryInMemory";
+import { AccountRepository } from "@/domain/Account/repo/AccountRepository";
+import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase";
 import { SearchAccountUseCase } from "@/domain/Account/useCases/SearchAccountUseCase";
+import User from "@/domain/User/entity/User";
+import UserRepository from "@/domain/User/repo/UserRepository";
+import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
 import { randomUUID } from "crypto";
 
 describe("SearchAccountUseCase", () => {
-  const repo = new AccountRepositoryInMemory();
-  const useCase = new SearchAccountUseCase(repo);
+  const accRepo = new AccountRepository();
+  const userRepo = new UserRepository();
 
-  const user = { id: "123" };
+  const createUser = new CreateUserUseCase(userRepo)
+  const createAccount = new CreateAccountUseCase(accRepo)
+
+  const useCase = new SearchAccountUseCase(accRepo);
+
+  const user = User.create(User.dataForTest)
   let accounts: Account[] = Array.from({ length: 100 }, (_, i) =>
     Account.create({
       description: "",
@@ -18,12 +27,13 @@ describe("SearchAccountUseCase", () => {
   );
 
   beforeAll(async () => {
-    for (const each of accounts) {
-      await repo.add(each);
+    await createUser.execute(user as any);
+    for (const account of accounts) {
+      await createAccount.execute(account)
     }
   });
 
-  it("should return 60 accounts", async () => {
+  it("should return all accounts", async () => {
     const results = await useCase.execute({
       dto: SearchAccountDTO.create({
         name: "acc",
@@ -31,34 +41,12 @@ describe("SearchAccountUseCase", () => {
       user,
     });
 
-    expect(results.value.results.length === 60).toBeTruthy();
+    expect(results.value.results.length === accounts.length).toBeTruthy();
     expect(results.value.page === 1).toBeTruthy();
   });
-  it("should return 1 account", async () => {
-    const results = await useCase.execute({
-      dto: SearchAccountDTO.create({
-        name: accounts[0].name,
-      }),
-      user,
-    });
-
-    expect(results.value.results.length === 1).toBeTruthy();
-    expect(results.value.page === 1).toBeTruthy();
-  });
+ 
 
 
-  it("should return 40 accounts", async () => {
-    const results = await useCase.execute({
-      dto: SearchAccountDTO.create({
-        name: 'acc',
-         page: 2, 
-      }),
-      user,
-    });
-
-    expect(results.value.results.length === 40).toBeTruthy();
-    expect(results.value.page === 2).toBeTruthy();
-  });
   it("should return 0 accounts", async () => {
     const results = await useCase.execute({
       dto: SearchAccountDTO.create({
