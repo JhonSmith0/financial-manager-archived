@@ -9,7 +9,7 @@ export function useAccounts(initial: IAccount[] = [], deps: any[] = []) {
 	const accounts = accountsState.get() as IAccount[];
 
 	async function read() {
-		searchAccounts({ name: "", page: 1 }).then((e) => {
+		searchAccounts({ name: "" }).then((e) => {
 			accountsState.set(e.results);
 		});
 	}
