@@ -39,8 +39,6 @@ describe("CreateTransactionUseCase", () => {
 			user,
 		});
 
-		console.log({ result });
-
 		expect(result.isRight()).toBeTruthy();
 		expect(result.value).toBeInstanceOf(Transaction);
 		expect(
