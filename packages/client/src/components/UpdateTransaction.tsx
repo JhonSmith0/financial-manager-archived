@@ -16,21 +16,21 @@ import {
 } from "./styled";
 
 interface Props {
-  transaction: ITransactionWithAccounts;
-  onClose(): any;
-  onSave(data: ITransaction): any;
+	transaction: ITransactionWithAccounts;
+	onClose(): any;
+	onSave(data: ITransaction): any;
 }
 
 export const StyledUpdateTransaction = styled(StyledCard)`
-  ${StyledInput} {
-    width: 100%;
-  }
-  ${StyledFieldSet} {
-    margin-bottom: 1.8rem;
-  }
-  ${StyledIconsList} {
-    margin-left: auto;
-  }
+	${StyledInput} {
+		width: 100%;
+	}
+	${StyledFieldSet} {
+		margin-bottom: 1.8rem;
+	}
+	${StyledIconsList} {
+		margin-left: auto;
+	}
 `;
 
 export function UpdateTransaction(props: Props) {
@@ -42,10 +42,7 @@ export function UpdateTransaction(props: Props) {
 		resolver: yupResolver(updateTransactionSchema),
 	});
 
-	const { accounts } = useAccounts(
-		[props.transaction.fromAccount, props.transaction.toAccount],
-		[props.transaction]
-	);
+	const { accounts } = useAccounts([], [props]);
 
 	return (
 		<StyledUpdateTransaction onSubmit={handleSubmit(props.onSave)}>
@@ -103,4 +100,3 @@ export function UpdateTransaction(props: Props) {
 		</StyledUpdateTransaction>
 	);
 }
-

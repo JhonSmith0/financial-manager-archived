@@ -10,12 +10,11 @@ export function useAccounts(initial: IAccount[] = [], deps: any[] = []) {
 
 	useEffect(() => {
 		void (async function () {
-			searchAccounts({ name: "", page: 1 }).then((e) =>
-				accountsState.set(e.results)
-			);
+			searchAccounts({ name: "", page: 1 }).then((e) => {
+				accountsState.set(e.results);
+			});
 		})();
 	}, deps);
 
 	return { accounts };
 }
-

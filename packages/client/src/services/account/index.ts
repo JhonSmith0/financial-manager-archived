@@ -1,4 +1,9 @@
-import { AccountCreate, IAccount, SearchAccount } from "@/interface";
+import {
+	AccountCreate,
+	IAccount,
+	ITransactionWithAccounts,
+	SearchAccount,
+} from "@/interface";
 import api from "../http";
 
 export async function createAccount(data: AccountCreate) {
@@ -7,8 +12,8 @@ export async function createAccount(data: AccountCreate) {
 
 export async function searchAccounts(data: SearchAccount) {
 	return (await api.get("/api/account/search", { params: data })).data as {
-    results: IAccount[];
-  };
+		results: IAccount[];
+	};
 }
 
 export async function removeAccount(id: string) {
@@ -23,3 +28,7 @@ export async function readAccount(id: string) {
 	return (await api.get(`/api/account/${id}`)).data as IAccount;
 }
 
+export async function readAccountTransactionsService(id: string) {
+	return (await api.get(`/api/account/${id}/transactions`))
+		.data as ITransactionWithAccounts[];
+}

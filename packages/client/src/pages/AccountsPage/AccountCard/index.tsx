@@ -1,52 +1,60 @@
-import { IAccount } from "@/interface";
+import { IAccount, ITransactionWithAccounts } from "@/interface";
 import { remove, stateUpdateAccount } from "@/state/accountsState";
 import styled from "styled-components";
 import { StyledBar, StyledIconsList } from "@/components/styled";
 import { HiOutlineTrash, HiOutlineCog } from "react-icons/hi";
 import { useHookstate } from "@hookstate/core";
 import { UpdateAccountCard } from "../UpdateAccountCard";
-import { updateAccount } from "@/services/account";
+import {
+	readAccountTransactionsService,
+	updateAccount,
+} from "@/services/account";
+import { useEffect } from "react";
+import {
+	StyledTransactionList,
+	TransactionList,
+} from "@/components/TransactionList";
 
 interface Props {
-  data: IAccount;
+	data: IAccount;
 }
 
 export const StyledAccountCard = styled.div`
-  box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
-  border-radius: 4px;
-  overflow: hidden;
+	box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
+	border-radius: 4px;
+	overflow: hidden;
 
-  --padding-inline: 1.4rem;
+	--padding-inline: 1.4rem;
 
-  ${StyledBar} {
-    font-size: 2.4rem;
-    color: white;
-    background: #364fc7;
+	${StyledBar} {
+		font-size: 2.4rem;
+		color: white;
+		background: #364fc7;
 
-    justify-content: space-between;
+		justify-content: space-between;
 
-    padding: 0 var(--padding-inline) !important;
+		padding: 0 var(--padding-inline) !important;
 
-    .icons {
-      display: flex;
-      gap: 0.6rem;
-    }
-  }
+		.icons {
+			display: flex;
+			gap: 0.6rem;
+		}
+	}
 
-  svg {
-    color: white;
-  }
+	svg {
+		color: #fff;
+	}
 
-  .content {
-    padding: var(--padding-inline);
-    font-size: 1.6rem;
-
-    padding-bottom: 2.4rem;
-  }
+	${StyledTransactionList} {
+		svg {
+			color: black;
+		}
+	}
 `;
 
 export function AccountCard({ data }: Props) {
 	const editing = useHookstate(false);
+	const transactions = useHookstate<ITransactionWithAccounts[]>([]);
 
 	function onClose() {
 		editing.set(false);
@@ -57,6 +65,12 @@ export function AccountCard({ data }: Props) {
 		onClose();
 		stateUpdateAccount(data.id, newAcc);
 	}
+
+	useEffect(() => {
+		void (async function () {
+			readAccountTransactionsService(data.id).then((e) => transactions.set(e));
+		})();
+	}, [data]);
 
 	return (
 		<StyledAccountCard>
@@ -81,9 +95,9 @@ export function AccountCard({ data }: Props) {
 					</button>
 				</StyledIconsList>
 			</StyledBar>
-			<div className="content">
-				<p>{data.description}</p>
-			</div>
+			<TransactionList
+				data={transactions.get() as ITransactionWithAccounts[]}
+			/>
 		</StyledAccountCard>
 	);
 }

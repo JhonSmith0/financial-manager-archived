@@ -18,14 +18,14 @@ import {
 } from "./UpdateTransaction";
 
 interface Props {
-  data: ITransactionWithAccounts;
+	data: ITransactionWithAccounts;
 }
 
 export const StyledTransactionRow = styled(StyledTableRow)`
-  position: relative;
-  ${StyledUpdateTransaction} {
-    position: absolute;
-  }
+	position: relative;
+	${StyledUpdateTransaction} {
+		position: absolute;
+	}
 `;
 
 export function TransactionRow({ data }: Props) {
@@ -71,4 +71,3 @@ export function TransactionRow({ data }: Props) {
 		</>
 	);
 }
-
