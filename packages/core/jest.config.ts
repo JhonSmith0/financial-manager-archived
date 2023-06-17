@@ -14,9 +14,9 @@ const jestConfig: JestConfigWithTsJest = {
 	),
 	// setupFiles: ["./test/setup/index.ts"],
   
-	transform: {
-		"^.+\\.(t|j)sx?$": "@swc/jest",
-	},
+	// transform: {
+	// 	"^.+\\.(t|j)sx?$": "@swc/jest",
+	// },
   setupFilesAfterEnv: ['./test/setup/index.ts']
 };
 
