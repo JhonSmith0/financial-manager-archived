@@ -6,15 +6,17 @@ import { useEffect } from "react";
 export function useAccounts(initial: IAccount[] = [], deps: any[] = []) {
 	const accountsState = useHookstate<IAccount[]>(initial);
 
-	const accounts = accountsState.get();
+	const accounts = accountsState.get() as IAccount[];
+
+	async function read() {
+		searchAccounts({ name: "", page: 1 }).then((e) => {
+			accountsState.set(e.results);
+		});
+	}
 
 	useEffect(() => {
-		void (async function () {
-			searchAccounts({ name: "", page: 1 }).then((e) => {
-				accountsState.set(e.results);
-			});
-		})();
+		read();
 	}, deps);
 
-	return { accounts };
+	return { accounts, read };
 }
