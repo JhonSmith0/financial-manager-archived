@@ -23,6 +23,10 @@ export class SearchTransactionUseCase extends UseCase<Props> {
 			where: {
 				userId: data.user.id,
 			},
+			include: {
+				fromAccount: {},
+				toAccount: {},
+			},
 		})) as TransactionProps[];
 
 		return right({
