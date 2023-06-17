@@ -1,35 +1,34 @@
 import JWT from "@/common/JWT/JWT";
 import GenericError from "@/common/errors/GenericError";
-import ValidationError from "@/common/errors/ValidationError";
 import LoginController from "@/controllers/auth/LoginController";
 import LoginUserDTO from "@/domain/User/dto/LoginUserDTO";
 import User from "@/domain/User/entity/User";
-import UserRepositoryInMemory from "@/domain/User/repo/UserRepositoryInMemory";
+import UserRepository from "@/domain/User/repo/UserRepository";
+import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
 
 describe("LoginController", () => {
-  const repo = new UserRepositoryInMemory();
-  const data = User.dataForTest;
-  let user: User;
-  const controller = new LoginController(repo, new JWT("1"));
+	const repo = new UserRepository();
+	const createUser = new CreateUserUseCase(repo);
 
-  beforeAll(async () => {
-    user = await User.create(data);
-    await repo.add(user);
-  });
+	const user = User.create(User.dataForTest);
+	const controller = new LoginController(repo, new JWT("1"));
 
-  it("should return a jwt", async () => {
-    const result = await controller.handle(LoginUserDTO.create(data));
+	beforeAll(async () => {
+		await createUser.execute(user);
+	});
 
-    expect(result.isRight()).toBeTruthy();
-    expect(typeof result.value).toBe("string");
-  });
-  it("should give invalid data", async () => {
-    const result = await controller.handle(
-      LoginUserDTO.create({ ...data, password: "18767867864" })
-    );
+	it("should return a jwt", async () => {
+		const result = await controller.handle(LoginUserDTO.create(user));
 
-    expect(result.isLeft()).toBeTruthy();
-    expect(result.value).toBeInstanceOf(GenericError);
-  });
+		expect(result.isRight()).toBeTruthy();
+		expect(typeof result.value).toBe("string");
+	});
+	it("should give invalid data", async () => {
+		const result = await controller.handle(
+			LoginUserDTO.create({ ...user, password: "18767867864" })
+		);
+
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.value).toBeInstanceOf(GenericError);
+	});
 });
-
