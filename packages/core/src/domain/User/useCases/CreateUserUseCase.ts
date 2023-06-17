@@ -7,7 +7,7 @@ import UserRepository from "../repo/UserRepository";
 export default class CreateUserUseCase {
 	constructor(private repo: UserRepository) {}
 
-	public async execute(data: CreateUserDTO) {
+	public async execute(data: ClassProperties<CreateUserDTO>) {
 		// Already exists
 		const exists = await this.repo.db.findUnique({
 			where: {
