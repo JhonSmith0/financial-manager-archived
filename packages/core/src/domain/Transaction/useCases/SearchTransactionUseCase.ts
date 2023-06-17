@@ -19,9 +19,6 @@ export class SearchTransactionUseCase extends UseCase<Props> {
 	}
 
 	public async execute(data: Props) {
-		const skip = (data.dto.page - 1) * this.perPage;
-		const limit = this.perPage;
-
 		const results = (await this.repo.db.findMany({
 			where: {
 				userId: data.user.id,
