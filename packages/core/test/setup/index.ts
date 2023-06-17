@@ -8,11 +8,6 @@ loadEnv("test");
 const repo = new PrismaRepo();
 beforeAll(async () => {
 	await resetDb();
-	await repo.$connect();
-});
-
-afterAll(async () => {
-	await repo.$disconnect();
 });
 
 export async function resetDb() {
