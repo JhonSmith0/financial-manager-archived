@@ -5,13 +5,21 @@ import User from "@/domain/User/entity/User";
 import { loadEnv } from "@/utils/loadEnv";
 
 loadEnv("test");
+const repo = new PrismaRepo();
 beforeAll(async () => {
-	const repo = new PrismaRepo();
+	await resetDb();
+	await repo.$connect();
+});
 
+afterAll(async () => {
+	await repo.$disconnect();
+});
+
+export async function resetDb() {
 	await repo.transaction.deleteMany();
 	await repo.account.deleteMany();
 	await repo.user.deleteMany();
-});
+}
 
 export const usersForTests = Array.from({ length: 10 }, (_, i) =>
 	User.create({
