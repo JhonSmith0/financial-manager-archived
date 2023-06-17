@@ -1,8 +1,7 @@
-import { StyledIconsList, StyledInput } from "@/components/styled";
-import {
-	StyledTableRow,
-	StyledTableRowItem,
-} from "@/components/styled/StyledTable";
+import { Input } from "./styled/Input";
+import { IconList } from "./styled/IconList";
+import { TableRowItem } from "./styled/StyledTable/TableRowItem";
+import { TableRow } from "./styled/StyledTable/TableRow";
 import {
 	getTransactionsController,
 	updateTransactionController,
@@ -21,7 +20,7 @@ interface Props {
 	data: ITransactionWithAccounts;
 }
 
-export const StyledTransactionRow = styled(StyledTableRow)`
+export const StyledTransactionRow = styled(TableRow)`
 	position: relative;
 	${StyledUpdateTransaction} {
 		position: absolute;
@@ -46,27 +45,27 @@ export function TransactionRow({ data }: Props) {
 				/>
 			)}
 			<StyledTransactionRow>
-				<StyledTableRowItem>
-					<StyledInput
+				<TableRowItem>
+					<Input
 						value={new Date(data.date).toISOString().slice(0, 10)}
 						type="date"
 						disabled
 					/>
-				</StyledTableRowItem>
-				<StyledTableRowItem>R$ {data.amount}</StyledTableRowItem>
-				<StyledTableRowItem>{data.description}</StyledTableRowItem>
-				<StyledTableRowItem>{fromAccount?.name}</StyledTableRowItem>
-				<StyledTableRowItem>{toAccount?.name}</StyledTableRowItem>
-				<StyledTableRowItem>
-					<StyledIconsList>
+				</TableRowItem>
+				<TableRowItem>R$ {data.amount}</TableRowItem>
+				<TableRowItem>{data.description}</TableRowItem>
+				<TableRowItem>{fromAccount?.name}</TableRowItem>
+				<TableRowItem>{toAccount?.name}</TableRowItem>
+				<TableRowItem>
+					<IconList>
 						<button onClick={remove}>
 							<FiTrash2 />
 						</button>
 						<button onClick={open}>
 							<BiCog />
 						</button>
-					</StyledIconsList>
-				</StyledTableRowItem>
+					</IconList>
+				</TableRowItem>
 			</StyledTransactionRow>
 		</>
 	);

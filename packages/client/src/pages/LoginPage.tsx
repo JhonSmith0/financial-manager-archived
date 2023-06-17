@@ -1,5 +1,5 @@
 import LoginForm from "@/components/LoginForm";
-import { StyledButton } from "@/components/styled";
+import { Button } from "@/components/styled/Button";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
@@ -7,11 +7,10 @@ export default function LoginPage() {
 		<div>
 			<LoginForm>
 				<p>
-          Dont have an account? <Link to={"/register"}>register here</Link>{" "}
+					Dont have an account? <Link to={"/register"}>register here</Link>{" "}
 				</p>
-				<StyledButton type="submit">Login</StyledButton>
+				<Button type="submit">Login</Button>
 			</LoginForm>
 		</div>
 	);
 }
-

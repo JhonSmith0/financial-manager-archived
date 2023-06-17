@@ -1,16 +1,14 @@
 import styled from "styled-components";
-import {
-	StyledBar,
-	StyledContainer,
-	StyledIconsList,
-	StyledTitle,
-} from "./styled";
+import { Container } from "./styled/Container";
+import { Title } from "./styled/Title";
+import { Bar } from "./styled/Bar";
+import { IconList } from "./styled/IconList";
 import { Content } from "./styled/Content";
 import Draggable from "react-draggable";
 import { Icon } from "./styled/Icon";
 import { HiX } from "react-icons/hi";
 
-export const StyledCard = styled(StyledContainer)`
+export const StyledCard = styled(Container)`
 	box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
 	border-radius: 4px;
 	overflow: hidden;
@@ -20,7 +18,7 @@ export const StyledCard = styled(StyledContainer)`
 	background: #fff !important;
 	z-index: 99;
 
-	${StyledBar} {
+	${Bar} {
 		font-size: 2.4rem;
 		color: white;
 		background: #364fc7;
@@ -29,13 +27,13 @@ export const StyledCard = styled(StyledContainer)`
 
 		padding: var(--padding-block, 1.8rem) var(--padding-inline, 1.8rem) !important;
 
-		${StyledIconsList} {
+		${IconList} {
 			display: flex;
 			gap: 0.6rem;
 			color: white;
 		}
 
-		${StyledTitle} {
+		${Title} {
 			margin: 0;
 		}
 	}
@@ -49,18 +47,18 @@ interface Props {
 }
 
 export function Card(data: Props) {
-  console.log('')
+	console.log("");
 	return (
-		<Draggable handle={StyledBar}>
+		<Draggable handle={Bar}>
 			<StyledCard>
-				<StyledBar as={"header"}>
-					<StyledTitle size="small">{data.title}</StyledTitle>
-					<StyledIconsList>
+				<Bar as={"header"}>
+					<Title size="small">{data.title}</Title>
+					<IconList>
 						<Icon as="button" onClick={data.onClose}>
 							<HiX />
 						</Icon>
-					</StyledIconsList>
-				</StyledBar>
+					</IconList>
+				</Bar>
 				<Content>{data.children}</Content>
 			</StyledCard>
 		</Draggable>

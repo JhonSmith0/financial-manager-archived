@@ -1,21 +1,22 @@
-import { StyledIconsList } from "@/components/styled";
-import StyledTable, { StyledTableRow } from "@/components/styled/StyledTable";
+import { IconList } from "./styled/IconList";
+import { TableRow } from "./styled/StyledTable/TableRow";
+import { Table } from "./styled/StyledTable/Table";
 import { ITransactionWithAccounts } from "@/interface";
 import styled from "styled-components";
 import { TransactionRow } from "./TransactionRow";
 
 export const StyledTransactionList = styled.div`
-	${StyledTableRow} {
+	${TableRow} {
 		display: grid;
 		grid-template-columns: repeat(5, 1fr) auto;
 	}
 
-	${StyledTable} {
+	${Table} {
 		max-height: 100vh;
 		overflow-y: auto;
 	}
 
-	${StyledIconsList} {
+	${IconList} {
 		svg {
 			width: 2.4rem;
 			height: 2.4rem;
@@ -31,11 +32,11 @@ export function TransactionList({ data }: Props) {
 	return (
 		<StyledTransactionList>
 			{!!data.length && (
-				<StyledTable>
+				<Table>
 					{data.map((e) => (
 						<TransactionRow data={e} key={e.id} />
 					))}
-				</StyledTable>
+				</Table>
 			)}
 		</StyledTransactionList>
 	);

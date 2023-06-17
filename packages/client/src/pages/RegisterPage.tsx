@@ -1,5 +1,5 @@
 import RegisterForm from "@/components/RegisterForm";
-import { StyledButton } from "@/components/styled";
+import { Button } from "@/components/styled/Button";
 import { Link } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -7,11 +7,10 @@ export default function RegisterPage() {
 		<>
 			<RegisterForm>
 				<p>
-          Already have an account? <Link to={"/login"}>log-in here</Link>
+					Already have an account? <Link to={"/login"}>log-in here</Link>
 				</p>
-				<StyledButton type="submit">Register</StyledButton>
+				<Button type="submit">Register</Button>
 			</RegisterForm>
 		</>
 	);
 }
-

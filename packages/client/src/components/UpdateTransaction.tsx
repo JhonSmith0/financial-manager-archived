@@ -5,15 +5,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Card } from "./Card";
-import {
-	StyledButton,
-	StyledCard,
-	StyledFieldSet,
-	StyledForm,
-	StyledIconsList,
-	StyledInput,
-	StyledLabel,
-} from "./styled";
+import { Form } from "./styled/Form";
+import { FieldSet } from "./styled/FieldSet";
+import { Label } from "./styled/Label";
+import { Input } from "./styled/Input";
+import { Button } from "./styled/Button";
+import { IconList } from "./styled/IconList";
 
 interface Props {
 	transaction: ITransactionWithAccounts;
@@ -21,14 +18,14 @@ interface Props {
 	onSave(data: ITransaction): any;
 }
 
-export const StyledUpdateTransaction = styled(StyledCard)`
-	${StyledInput} {
+export const StyledUpdateTransaction = styled(Card)`
+	${Input} {
 		width: 100%;
 	}
-	${StyledFieldSet} {
+	${FieldSet} {
 		margin-bottom: 1.8rem;
 	}
-	${StyledIconsList} {
+	${IconList} {
 		margin-left: auto;
 	}
 `;
@@ -47,28 +44,25 @@ export function UpdateTransaction(props: Props) {
 	return (
 		<StyledUpdateTransaction onSubmit={handleSubmit(props.onSave)}>
 			<Card title="Update Transaction" onClose={props.onClose}>
-				<StyledForm>
-					<StyledFieldSet>
-						<StyledLabel>Id</StyledLabel>
-						<StyledInput disabled {...register("id")} />
-					</StyledFieldSet>
-					<StyledFieldSet>
-						<StyledLabel>Date</StyledLabel>
-						<StyledInput
-							{...register("date", { valueAsDate: true })}
-							type="date"
-						/>
-					</StyledFieldSet>
-					<StyledFieldSet>
-						<StyledLabel>Description</StyledLabel>
-						<StyledInput {...register("description")} />
-					</StyledFieldSet>
-					<StyledFieldSet>
-						<StyledLabel>Amount</StyledLabel>
-						<StyledInput {...register("amount", { valueAsNumber: true })} />
-					</StyledFieldSet>
-					<StyledFieldSet>
-						<StyledLabel>From Account</StyledLabel>
+				<Form>
+					<FieldSet>
+						<Label>Id</Label>
+						<Input disabled {...register("id")} />
+					</FieldSet>
+					<FieldSet>
+						<Label>Date</Label>
+						<Input {...register("date", { valueAsDate: true })} type="date" />
+					</FieldSet>
+					<FieldSet>
+						<Label>Description</Label>
+						<Input {...register("description")} />
+					</FieldSet>
+					<FieldSet>
+						<Label>Amount</Label>
+						<Input {...register("amount", { valueAsNumber: true })} />
+					</FieldSet>
+					<FieldSet>
+						<Label>From Account</Label>
 						<select {...register("fromAccountId")}>
 							{accounts.map((each) => (
 								<option value={each.id} key={each.id}>
@@ -76,9 +70,9 @@ export function UpdateTransaction(props: Props) {
 								</option>
 							))}
 						</select>
-					</StyledFieldSet>
-					<StyledFieldSet>
-						<StyledLabel>To Account</StyledLabel>
+					</FieldSet>
+					<FieldSet>
+						<Label>To Account</Label>
 						<select {...register("toAccountId")}>
 							{accounts.map((each) => (
 								<option value={each.id} key={each.id}>
@@ -86,16 +80,16 @@ export function UpdateTransaction(props: Props) {
 								</option>
 							))}
 						</select>
-					</StyledFieldSet>
-					<StyledIconsList>
-						<StyledButton>
+					</FieldSet>
+					<IconList>
+						<Button>
 							<span>Salvar</span>
-						</StyledButton>
-						<StyledButton onClick={props.onClose}>
+						</Button>
+						<Button onClick={props.onClose}>
 							<span>Sair</span>
-						</StyledButton>
-					</StyledIconsList>
-				</StyledForm>
+						</Button>
+					</IconList>
+				</Form>
 			</Card>
 		</StyledUpdateTransaction>
 	);

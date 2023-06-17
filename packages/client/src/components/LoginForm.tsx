@@ -1,11 +1,13 @@
 import useLoginForm from "@/hooks/auth/useLoginForm";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { StyledFieldSet, StyledInput, StyledLabel } from "./styled";
+import { FieldSet } from "./styled/FieldSet";
+import { Label } from "./styled/Label";
+import { Input } from "./styled/Input";
 
 const StyledLoginForm = styled.form`
-  width: max-content;
-  margin: 5rem auto;
+	width: max-content;
+	margin: 5rem auto;
 `;
 
 export default function LoginForm(props: { children?: any }) {
@@ -23,19 +25,18 @@ export default function LoginForm(props: { children?: any }) {
 
 	return (
 		<StyledLoginForm as={"form"} onSubmit={onSubmit}>
-			<StyledFieldSet>
-				<StyledLabel>Email</StyledLabel>
-				<StyledInput type="email" {...register("email")} />
+			<FieldSet>
+				<Label>Email</Label>
+				<Input type="email" {...register("email")} />
 				<p>{errors.email?.message}</p>
-			</StyledFieldSet>
-			<StyledFieldSet>
-				<StyledLabel>Password</StyledLabel>
-				<StyledInput type="password" {...register("password")} />
+			</FieldSet>
+			<FieldSet>
+				<Label>Password</Label>
+				<Input type="password" {...register("password")} />
 				<p>{errors.password?.message}</p>
-			</StyledFieldSet>
+			</FieldSet>
 			<p>{error.value}</p>
 			{props.children}
 		</StyledLoginForm>
 	);
 }
-

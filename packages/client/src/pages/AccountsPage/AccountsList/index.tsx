@@ -4,13 +4,11 @@ import { useHookstate } from "@hookstate/core";
 import { SearchAccount } from "../SearchAccount";
 import styled from "styled-components";
 import { AccountCard } from "../AccountCard";
-import {
-	StyledButton,
-	StyledContainer,
-	StyledTitle,
-} from "@/components/styled";
+import { Container } from "@/components/styled/Container";
+import { Title } from "@/components/styled/Title";
+import { Button } from "@/components/styled/Button";
 
-export const StyledAccountList = styled(StyledContainer)`
+export const StyledAccountList = styled(Container)`
 	margin-top: 0;
 	.list {
 		display: grid;
@@ -19,7 +17,7 @@ export const StyledAccountList = styled(StyledContainer)`
 		margin-top: 4.8rem;
 	}
 
-	${StyledButton} {
+	${Button} {
 		padding-block: 0.6rem;
 		align-self: end;
 	}
@@ -34,7 +32,7 @@ export function AccountList() {
 
 	return (
 		<StyledAccountList>
-			<StyledTitle size="medium">Accounts</StyledTitle>
+			<Title size="medium">Accounts</Title>
 			<SearchAccount />
 			<div className="list">
 				{accounts.map((data) => (

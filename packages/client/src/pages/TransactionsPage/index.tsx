@@ -1,4 +1,5 @@
-import { StyledHomeOutLet, StyledTitle } from "@/components/styled";
+import { Title } from "@/components/styled/Title";
+import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet";
 import { getTransactionsController } from "@/controllers/transaction/getTransactionsController";
 import transactionsState from "@/state/transaction/transactionsState";
 import { InferStateValueType, useHookstate } from "@hookstate/core";
@@ -27,7 +28,7 @@ export function TransactionsPage() {
 
 	return (
 		<StyledTransactionsPage>
-			<StyledTitle>Transactions</StyledTitle>
+			<Title>Transactions</Title>
 			<NewTransactionForm />
 			<TransactionList data={data} />
 		</StyledTransactionsPage>

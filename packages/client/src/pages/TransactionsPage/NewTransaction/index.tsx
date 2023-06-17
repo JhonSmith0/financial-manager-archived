@@ -1,31 +1,29 @@
-import {
-	StyledButton,
-	StyledContainer,
-	StyledFieldSet,
-	StyledForm,
-	StyledInput,
-	StyledLabel,
-	StyledTitle,
-} from "@/components/styled";
+import { Container } from "@/components/styled/Container";
+import { Title } from "@/components/styled/Title";
+import { Form } from "@/components/styled/Form";
+import { FieldSet } from "@/components/styled/FieldSet";
+import { Label } from "@/components/styled/Label";
+import { Input } from "@/components/styled/Input";
+import { Button } from "@/components/styled/Button";
 import { useNewTransaction } from "@/hooks/transactions/useNewTransaction";
 import accountsS, { search } from "@/state/accountsState";
 import { useHookstate } from "@hookstate/core";
 import { useEffect } from "react";
 import styled from "styled-components";
 
-export const StyledNewTransaction = styled(StyledContainer)`
-  ${StyledTitle} {
-    margin-bottom: 1.8rem;
-  }
+export const StyledNewTransaction = styled(Container)`
+	${Title} {
+		margin-bottom: 1.8rem;
+	}
 
-  ${StyledForm} {
-    gap: 4rem;
-  }
+	${Form} {
+		gap: 4rem;
+	}
 
-  ${StyledButton} {
-    padding-block: 0.6rem;
-    align-self: end;
-  }
+	${Button} {
+		padding-block: 0.6rem;
+		align-self: end;
+	}
 `;
 
 export function NewTransactionForm() {
@@ -42,33 +40,31 @@ export function NewTransactionForm() {
 
 	const values = watch();
 
-
-
 	return (
 		<StyledNewTransaction onSubmit={onSubmit}>
-			<StyledTitle size="medium">New Transaction</StyledTitle>
-			<StyledForm direction="row">
-				<StyledFieldSet>
-					<StyledLabel>Date</StyledLabel>
-					<StyledInput
+			<Title size="medium">New Transaction</Title>
+			<Form direction="row">
+				<FieldSet>
+					<Label>Date</Label>
+					<Input
 						type="date"
 						defaultValue={new Date().toISOString().slice(0, 10)}
 						{...register("date", { valueAsDate: true })}
 					/>
-				</StyledFieldSet>
-				<StyledFieldSet>
-					<StyledLabel>Amount</StyledLabel>
-					<StyledInput
+				</FieldSet>
+				<FieldSet>
+					<Label>Amount</Label>
+					<Input
 						type="number"
 						{...register("amount", { valueAsNumber: true })}
 					/>
-				</StyledFieldSet>
-				<StyledFieldSet>
-					<StyledLabel>Description</StyledLabel>
-					<StyledInput type="text" {...register("description")} />
-				</StyledFieldSet>
-				<StyledFieldSet>
-					<StyledLabel>From Account</StyledLabel>
+				</FieldSet>
+				<FieldSet>
+					<Label>Description</Label>
+					<Input type="text" {...register("description")} />
+				</FieldSet>
+				<FieldSet>
+					<Label>From Account</Label>
 					<select {...register("fromAccountId")}>
 						{accounts.map((obj) => (
 							<option key={obj.id} value={obj.id}>
@@ -76,9 +72,9 @@ export function NewTransactionForm() {
 							</option>
 						))}
 					</select>
-				</StyledFieldSet>
-				<StyledFieldSet>
-					<StyledLabel>To Account</StyledLabel>
+				</FieldSet>
+				<FieldSet>
+					<Label>To Account</Label>
 					<select {...register("toAccountId")}>
 						{accounts.map((obj) => (
 							<option key={obj.id} value={obj.id}>
@@ -86,9 +82,9 @@ export function NewTransactionForm() {
 							</option>
 						))}
 					</select>
-				</StyledFieldSet>
-				<StyledButton type="submit">Send</StyledButton>
-			</StyledForm>
+				</FieldSet>
+				<Button type="submit">Send</Button>
+			</Form>
 		</StyledNewTransaction>
 	);
 }

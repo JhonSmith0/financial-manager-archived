@@ -3,11 +3,12 @@ import { IRegisterSchema } from "@/interface";
 import { HTMLInputTypeAttribute, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { StyledFieldSet, StyledInput, StyledLabel } from "./styled";
+import { FieldSet } from "./styled/FieldSet";
+import { Label } from "./styled/Label";
 
 export const StyledRegisterForm = styled.form`
-  margin: 5rem auto;
-  width: max-content;
+	margin: 5rem auto;
+	width: max-content;
 `;
 
 export default function RegisterForm(props: { children?: any }) {
@@ -28,12 +29,12 @@ export default function RegisterForm(props: { children?: any }) {
 			type,
 			registerKey,
 		}: {
-      registerKey: keyof IRegisterSchema;
-      type: HTMLInputTypeAttribute;
-    }) {
+			registerKey: keyof IRegisterSchema;
+			type: HTMLInputTypeAttribute;
+		}) {
 			return (
 				<>
-					<StyledInput type={type} {...register(registerKey)} />
+					<Input type={type} {...register(registerKey)} />
 					<p>{errors[registerKey]?.message}</p>
 				</>
 			);
@@ -43,21 +44,20 @@ export default function RegisterForm(props: { children?: any }) {
 
 	return (
 		<StyledRegisterForm onSubmit={onSubmit}>
-			<StyledFieldSet>
-				<StyledLabel>Email</StyledLabel>
+			<FieldSet>
+				<Label>Email</Label>
 				<Input registerKey={"email"} type="email" />
-			</StyledFieldSet>
-			<StyledFieldSet>
-				<StyledLabel>Name</StyledLabel>
+			</FieldSet>
+			<FieldSet>
+				<Label>Name</Label>
 				<Input registerKey={"name"} type="text" />
-			</StyledFieldSet>
-			<StyledFieldSet>
-				<StyledLabel>Password</StyledLabel>
+			</FieldSet>
+			<FieldSet>
+				<Label>Password</Label>
 				<Input registerKey={"password"} type="password" />
-			</StyledFieldSet>
+			</FieldSet>
 			<p>{error.value}</p>
 			{props.children}
 		</StyledRegisterForm>
 	);
 }
-

@@ -1,4 +1,5 @@
-import { StyledBar, StyledHomeOutLet } from "@/components/styled";
+import { Bar } from "@/components/styled/Bar";
+import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet";
 import styled from "styled-components";
 import { AccountList } from "./AccountsList";
 import { NewAccount } from "./CreateAccount";
@@ -11,7 +12,7 @@ export const StyledAccountsPage = styled(StyledHomeOutLet)`
 	display: flex;
 	flex-direction: column;
 
-	${StyledBar} {
+	${Bar} {
 		padding-inline: var(--inline-padding);
 	}
 

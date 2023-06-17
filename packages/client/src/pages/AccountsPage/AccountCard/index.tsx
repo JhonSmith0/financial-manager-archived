@@ -1,7 +1,8 @@
 import { IAccount, ITransactionWithAccounts } from "@/interface";
 import { remove, stateUpdateAccount } from "@/state/accountsState";
 import styled from "styled-components";
-import { StyledBar, StyledIconsList } from "@/components/styled";
+import { Bar } from "@/components/styled/Bar";
+import { IconList } from "@/components/styled/IconList";
 import { HiOutlineTrash, HiOutlineCog } from "react-icons/hi";
 import { useHookstate } from "@hookstate/core";
 import { UpdateAccountCard } from "../UpdateAccountCard";
@@ -26,7 +27,7 @@ export const StyledAccountCard = styled.div`
 
 	--padding-inline: 1.4rem;
 
-	${StyledBar} {
+	${Bar} {
 		font-size: 2.4rem;
 		color: white;
 		background: #364fc7;
@@ -77,9 +78,9 @@ export function AccountCard({ data }: Props) {
 			{editing.get() && (
 				<UpdateAccountCard data={data} onClose={onClose} onSave={onSave} />
 			)}
-			<StyledBar as={"header"}>
+			<Bar as={"header"}>
 				<span>{data.name}</span>
-				<StyledIconsList>
+				<IconList>
 					<button onClick={() => editing.set(true)}>
 						<HiOutlineCog />
 					</button>
@@ -93,8 +94,8 @@ export function AccountCard({ data }: Props) {
 					>
 						<HiOutlineTrash />
 					</button>
-				</StyledIconsList>
-			</StyledBar>
+				</IconList>
+			</Bar>
 			<TransactionList
 				data={transactions.get() as ITransactionWithAccounts[]}
 			/>
