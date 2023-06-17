@@ -2,9 +2,9 @@ import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
 import Account from "@/domain/Account/entity";
 import { AccountRepository } from "@/domain/Account/repo/AccountRepository";
 import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase";
-import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
+import { fakeAccount, fakeUser } from "../../../setup/faker";
 
 describe("CreateAccountUseCase", () => {
 	const accRepo = new AccountRepository();
@@ -13,28 +13,17 @@ describe("CreateAccountUseCase", () => {
 	const createUser = new CreateUserUseCase(userRepo);
 	const createAccount = new CreateAccountUseCase(accRepo);
 
-	const user1 = User.create(User.dataForTest);
-	const user2 = User.create({...User.dataForTest, email: "8974987@email.com", id: undefined});
-
+	const user1 = fakeUser();
+	const user2 = fakeUser();
 
 	beforeAll(async () => {
 		await createUser.execute(user1);
 		await createUser.execute(user2);
 	});
 
-	const acc1 = Account.create({
-		description: "",
-		name: "123456",
-		userId: user1.id,
-	});
+	const acc1 = fakeAccount(user1);
 
-	const acc2 = Account.create({
-		description: "",
-		name: "1456",
-		userId: user2.id , 
-	});
-
-
+	const acc2 = fakeAccount(user2);
 
 	it("should create an account", async () => {
 		const result = await createAccount.execute(acc1);
