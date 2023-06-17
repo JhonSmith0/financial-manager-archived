@@ -17,5 +17,6 @@ module.exports = {
     semi: ["error", "always"],
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/no-empty-interface": "off",
   },
 };
