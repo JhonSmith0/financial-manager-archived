@@ -6,6 +6,7 @@ import { ReadAccountTransactionsUseCase } from "@/domain/Transaction/useCases/Re
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
 import { fakeAccount, fakeTransaction, fakeUser } from "../../../setup/faker";
+import { TransactionWithAccounts } from "@/domain/Transaction/entity/TransactionWithAccounts";
 
 describe("ReadAccountTransactions", () => {
 	const tranRepo = new TransactionRepository();
@@ -45,5 +46,6 @@ describe("ReadAccountTransactions", () => {
 		const results = await readTransactions.execute({ accountId: from.id });
 		expect(results.isRight()).toBeTruthy();
 		expect(results.value.length).toBe(transactions.length);
+		expect(results.value[0]).toBeInstanceOf(TransactionWithAccounts);
 	});
 });

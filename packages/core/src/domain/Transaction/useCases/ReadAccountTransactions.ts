@@ -2,7 +2,7 @@ import { UseCase } from "@/common/UseCase";
 import { TransactionRepository } from "../repo/TransactionRepository";
 import { right } from "@/common/ErrorHandlingTypes";
 import { linkProto } from "@/common/utils/linkProto";
-import { Transaction } from "../entity";
+import { TransactionWithAccounts } from "../entity/TransactionWithAccounts";
 
 interface Props {
 	accountId: string;
@@ -21,8 +21,14 @@ export class ReadAccountTransactionsUseCase extends UseCase<Props> {
 					{ toAccountId: data.accountId },
 				],
 			},
+			include: {
+				fromAccount: {},
+				toAccount: {},
+			},
 		});
 
-		return right(transactions.map((e) => linkProto(Transaction, e)));
+		return right(
+			transactions.map((e) => linkProto(TransactionWithAccounts, e))
+		);
 	}
 }
