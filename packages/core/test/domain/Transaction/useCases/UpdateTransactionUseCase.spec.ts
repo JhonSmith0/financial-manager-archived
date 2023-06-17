@@ -6,19 +6,19 @@ import { TransactionRepository } from "@/domain/Transaction/repo/TransactionRepo
 import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTransactionUseCase";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
-import { usersForTests, genAccounts, genTransactions } from "../../../setup";
 import { UpdateTransactionUseCase } from "@/domain/Transaction/useCases/UpdateTransactionUseCase";
+import { fakeUser, fakeAccount, fakeTransaction } from "../../../setup/faker";
 
 describe("UpdateTransactionUseCase", () => {
 	const tranRepo = new TransactionRepository();
 	const accRepo = new AccountRepository();
 	const userRepo = new UserRepository();
 
-	const user = usersForTests[0];
-	const from = genAccounts(user)[0];
-	const to = genAccounts(user)[1];
+	const user = fakeUser();
+	const from = fakeAccount(user);
+	const to = fakeAccount(user);
 
-	const [transaction] = genTransactions(from, to, user, 1);
+	const transaction = fakeTransaction(user, from, to);
 
 	const createTransaction = new CreateTransactionUseCase(tranRepo);
 	const updateTransaction = new UpdateTransactionUseCase(tranRepo);

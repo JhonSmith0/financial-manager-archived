@@ -6,16 +6,16 @@ import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTr
 import { SearchTransactionUseCase } from "@/domain/Transaction/useCases/SearchTransactionUseCase";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
-import { genAccounts, genTransactions, usersForTests } from "../../../setup";
+import { fakeAccount, fakeTransaction, fakeUser } from "../../../setup/faker";
 
 describe("SearchTransactionUseCase", () => {
 	const tranRepo = new TransactionRepository();
 	const accRepo = new AccountRepository();
 	const userRepo = new UserRepository();
 
-	const user = usersForTests[0];
-	const from = genAccounts(user)[0];
-	const to = genAccounts(user)[1];
+	const user = fakeUser();
+	const from = fakeAccount(user);
+	const to = fakeAccount(user);
 
 	const createTransaction = new CreateTransactionUseCase(tranRepo);
 	const searchTransactions = new SearchTransactionUseCase(tranRepo);
@@ -28,7 +28,9 @@ describe("SearchTransactionUseCase", () => {
 		await createAccount.execute(from);
 		await createAccount.execute(to);
 
-		for (const transaction of genTransactions(from, to, user, 100)) {
+		for (const transaction of Array.from({ length: 100 }, () =>
+			fakeTransaction(user, from, to)
+		)) {
 			await createTransaction.execute({ dto: transaction, user });
 		}
 	});

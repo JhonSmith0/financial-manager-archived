@@ -9,18 +9,18 @@ import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTr
 import ReadTransactionUseCase from "@/domain/Transaction/useCases/ReadTransactionUseCase";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
-import { usersForTests, genAccounts, genTransactions } from "../../../setup";
+import { fakeAccount, fakeTransaction, fakeUser } from "../../../setup/faker";
 
 describe("ReadTransactionUseCase", () => {
 	const tranRepo = new TransactionRepository();
 	const accRepo = new AccountRepository();
 	const userRepo = new UserRepository();
 
-	const user = usersForTests[0];
-	const from = genAccounts(user)[0];
-	const to = genAccounts(user)[1];
+	const user = fakeUser();
+	const from = fakeAccount(user);
+	const to = fakeAccount(user);
 
-	const [transaction1] = genTransactions(from, to, user, 1);
+	const transaction1 = fakeTransaction(user, from, to);
 
 	const createTransaction = new CreateTransactionUseCase(tranRepo);
 	const readTransaction = new ReadTransactionUseCase(tranRepo);
