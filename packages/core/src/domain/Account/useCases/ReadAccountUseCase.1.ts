@@ -22,6 +22,6 @@ export class ReadAccountUseCase extends UseCase<Props> {
 
 		if (!acc) return left(new NotFoundError("Account not found!", ["id"]));
 
-		return right(acc as Account) ;
+		return right(Account.create(acc)) ;
 	}
 }
