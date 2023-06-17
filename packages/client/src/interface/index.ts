@@ -20,7 +20,7 @@ export interface IAccount {
 }
 
 export interface ITransaction {
-	date: string;
+	date: Date;
 	description: string;
 	amount: number;
 	id: string;

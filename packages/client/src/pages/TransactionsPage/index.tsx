@@ -5,7 +5,7 @@ import transactionsState from "@/state/transaction/transactionsState";
 import { InferStateValueType, useHookstate } from "@hookstate/core";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { NewTransactionForm } from "./NewTransaction";
+import { NewTransaction } from "./NewTransaction";
 import { TransactionList } from "@/components/TransactionList";
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
@@ -29,7 +29,7 @@ export function TransactionsPage() {
 	return (
 		<StyledTransactionsPage>
 			<Title>Transactions</Title>
-			<NewTransactionForm />
+			<NewTransaction />
 			<TransactionList data={data} />
 		</StyledTransactionsPage>
 	);
