@@ -8,6 +8,7 @@ import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/Ac
 import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory";
 import User from "@financial/core/dist/domain/User/entity/User";
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -106,6 +107,13 @@ export class AccountController {
     if (validation.length) throw validation;
 
     return await this.accountUseCases.read.execute({ accountId: params.id });
+  }
+  @Get("/:accountId/transactions")
+  @AdaptErrors()
+  @LeftRightHandler()
+  async getAccountTransactions(@UserEntity() user: User, @Param() params: {accountId: string}) {
+    if (!params.accountId || typeof params.accountId !== 'string') throw new BadRequestException('Invalid data!')
+    return await this.transactionUseCases.accountTransactions.execute({ accountId: params.accountId });
   }
 }
 
