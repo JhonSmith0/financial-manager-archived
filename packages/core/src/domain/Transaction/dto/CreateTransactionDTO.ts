@@ -1,10 +1,9 @@
 import DTO from "@/common/DTO/DTO";
 import { Transformer } from "@/common/Transformer";
 import { IsNotEqualToProperty } from "@/common/Validators/IsNotEqualToProperty";
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import {
 	IsDate,
-	IsDateString,
 	IsNumber,
 	IsOptional,
 	IsString,
@@ -36,6 +35,7 @@ export class CreateTransactionDTO extends DTO {
 	@Expose()
 	@IsDate()
 	@IsOptional()
+	@Transform(({ value }) => (value instanceof Date ? Date : new Date(value)))
 	public date?: Date = new Date();
 	constructor(data: CreateTransactionDTOProps) {
 		super();
@@ -44,5 +44,5 @@ export class CreateTransactionDTO extends DTO {
 }
 
 export type CreateTransactionDTOProps = ClassProperties<
-		OptionalProps<CreateTransactionDTO, "description" | "date">
-	>
+	OptionalProps<CreateTransactionDTO, "description" | "date">
+>;
