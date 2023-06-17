@@ -6,7 +6,7 @@ import { left, right } from "@/common/ErrorHandlingTypes";
 import { AccountRepository } from "../repo/AccountRepository";
 
 interface Prop {
-	user: { id: User["id"] };
+	user?: { id: User["id"] };
 	dto: ClassProperties<DeleteAccountDTO>;
 }
 
