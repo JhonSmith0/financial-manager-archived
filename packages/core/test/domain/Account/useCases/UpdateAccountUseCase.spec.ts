@@ -1,84 +1,87 @@
-import AlreadyExistsError from "@/common/errors/AlreadyExistsError";
-import NotFoundError from "@/common/errors/NotFoundError";
-import UpdateAccountDTO from "@/domain/Account/dto/UpdateAccountDTO";
-import Account from "@/domain/Account/entity";
-import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryInMemory";
-import { UpdateAccountUseCase } from "@/domain/Account/useCases/UpdateAccountUseCase";
+import AlreadyExistsError from "@/common/errors/AlreadyExistsError"
+import NotFoundError from "@/common/errors/NotFoundError"
+import UpdateAccountDTO from "@/domain/Account/dto/UpdateAccountDTO"
+import { AccountRepository } from "@/domain/Account/repo/AccountRepository"
+import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase"
+import { DeleteAccountUseCase } from "@/domain/Account/useCases/DeleteAccountUseCase"
+import { UpdateAccountUseCase } from "@/domain/Account/useCases/UpdateAccountUseCase"
+import UserRepository from "@/domain/User/repo/UserRepository"
+import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase"
+import { usersForTests } from "../../../setup"
+import { fakeAccount, fakeUser } from "../../../setup/faker"
 
 describe("UpdateAccountUseCase", () => {
-  const repo = new AccountRepositoryInMemory();
-  const useCase = new UpdateAccountUseCase(repo);
+    const accRepo = new AccountRepository()
+    const userRepo = new UserRepository()
 
-  //Try to update an account who doesnot exist
-  it("should give not found error", async () => {
-    const result = await useCase.execute({
-      user: { id: "kjhjkhjk" },
-      dto: {
-        id: "hjkhkjh",
-      },
-    });
+    const createUser = new CreateUserUseCase(userRepo)
+    const createAccount = new CreateAccountUseCase(accRepo)
+    const removeAccount = new DeleteAccountUseCase(accRepo)
 
-    expect(result.isLeft()).toBeTruthy();
-    expect(result.value).toBeInstanceOf(NotFoundError);
-  });
+    const useCase = new UpdateAccountUseCase(accRepo)
+    const user = fakeUser()
 
-  //Try to update an account but that will make it a duplicate
-  it("should give already exists error", async () => {
-    const acc1 = Account.create({
-      description: "Test",
-      name: "Hello!",
-      userId: "389798",
-    });
-    const acc2 = Account.create({
-      description: "Test",
-      name: "Hello2!",
-      userId: "389798",
-    });
+    beforeAll(async () => {
+        await createUser.execute(user as any)
+    })
 
-    await repo.add(acc1);
-    await repo.add(acc2);
+    //Try to update an account who doesnot exist
+    it("should give not found error", async () => {
+        const result = await useCase.execute({
+            user: { id: "kjhjkhjk" },
+            dto: {
+                id: "hjkhkjh",
+            },
+        })
 
-    const result = await useCase.execute({
-      dto: {
-        id: acc2.id,
-        name: acc1.name,
-      },
-      user: {
-        id: acc2.userId,
-      },
-    });
+        expect(result.isLeft()).toBeTruthy()
+        expect(result.value).toBeInstanceOf(NotFoundError)
+    })
 
-    expect(result.isLeft()).toBeTruthy();
-    expect(result.value).toBeInstanceOf(AlreadyExistsError);
+    //Try to update an account but that will make it a duplicate
+    it("should give already exists error", async () => {
+        const acc1 = fakeAccount(user)
+        const acc2 = fakeAccount(user)
 
-    await repo.remove(acc1.id);
-  });
+        await createAccount.execute(acc1)
+        await createAccount.execute(acc2)
 
-  it("should update and block id change", async () => {
-    const acc = Account.create({
-      description: "Test",
-      name: "Hello!",
-      userId: "389798",
-    });
+        const result = await useCase.execute({
+            dto: {
+                id: acc2.id,
+                name: acc1.name,
+            },
+            user: {
+                id: acc2.userId,
+            },
+        })
 
-    await repo.add(acc);
+        expect(result.isLeft()).toBeTruthy()
+        expect(result.value).toBeInstanceOf(AlreadyExistsError)
 
-    const dto = UpdateAccountDTO.create({
-      id: acc.id,
-      description: "updated desc",
-      name: "updated name",
-      userId: "baozinho",
-    } as any);
+        await removeAccount.execute({ dto: { id: acc1.id } })
+    })
 
-    const result = await useCase.execute({
-      dto,
-      user: { id: acc.id },
-    });
+    it("should update and block id change", async () => {
+        const acc = fakeAccount(user)
 
-    expect(result.isRight()).toBeTruthy();
-    expect(result.value).toMatchObject(dto);
+        await createAccount.execute(acc)
 
-    await repo.remove(acc.id);
-  });
-});
+        const dto = UpdateAccountDTO.create({
+            id: acc.id,
+            description: "updated desc",
+            name: "updated name",
+            userId: usersForTests[0].id,
+        } as any)
 
+        const result = await useCase.execute({
+            dto,
+            user: { id: acc.id },
+        })
+
+        expect(result.isRight()).toBeTruthy()
+        expect(result.value).toMatchObject(dto)
+
+        await removeAccount.execute({ dto: { id: acc.id } })
+    })
+})

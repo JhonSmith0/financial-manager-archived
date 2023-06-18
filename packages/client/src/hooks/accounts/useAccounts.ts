@@ -1,21 +1,22 @@
-import { IAccount } from "@/interface";
-import { searchAccounts } from "@/services/account";
-import { useHookstate } from "@hookstate/core";
-import { useEffect } from "react";
+import { IAccount } from "@/interface"
+import { searchAccounts } from "@/services/account"
+import { useHookstate } from "@hookstate/core"
+import { useEffect } from "react"
 
 export function useAccounts(initial: IAccount[] = [], deps: any[] = []) {
-  const accountsState = useHookstate<IAccount[]>(initial);
+    const accountsState = useHookstate<IAccount[]>(initial)
 
-  const accounts = accountsState.get();
+    const accounts = accountsState.get() as IAccount[]
 
-  useEffect(() => {
-    void (async function () {
-      searchAccounts({ name: "", page: 1 }).then((e) =>
-        accountsState.set(e.results)
-      );
-    })();
-  }, deps);
+    async function read() {
+        searchAccounts({ name: "" }).then((e) => {
+            accountsState.set(e.results)
+        })
+    }
 
-  return { accounts };
+    useEffect(() => {
+        read()
+    }, deps)
+
+    return { accounts, read }
 }
-

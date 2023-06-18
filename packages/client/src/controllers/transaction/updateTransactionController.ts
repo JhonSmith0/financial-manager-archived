@@ -1,10 +1,10 @@
-import { UpdateTransaction } from "@/interface";
+import { UpdateTransaction } from "@/interface"
 import {
-  getTransactionService,
-  updateTransactionService,
-} from "@/services/transaction";
+    getTransactionService,
+    updateTransactionService,
+} from "@/services/transaction"
 
 export async function updateTransactionController(data: UpdateTransaction) {
-  await updateTransactionService(data);
-  await getTransactionService({});
+    await updateTransactionService(data)
+    await getTransactionService({})
 }

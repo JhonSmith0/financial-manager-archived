@@ -15,14 +15,14 @@ export const StyledHomePage = styled.div`
 `;
 
 export default function HomePage() {
-  const user = useHookstate(currentUser);
-  const values = user.get();
+	const user = useHookstate(currentUser);
+	const values = user.get();
 
-  return (
-    <StyledHomePage>
-      <SideBar />
-      <Outlet />
-    </StyledHomePage>
-  );
+	return (
+		<StyledHomePage>
+			<SideBar />
+			<Outlet />
+		</StyledHomePage>
+	);
 }
 

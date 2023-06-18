@@ -1,5 +1,5 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from "crypto"
 
 export default abstract class Entity {
-  public id: string = randomUUID();
+    public id: string = randomUUID()
 }

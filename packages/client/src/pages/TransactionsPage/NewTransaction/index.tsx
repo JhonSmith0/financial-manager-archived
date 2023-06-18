@@ -1,94 +1,48 @@
-import {
-  StyledButton,
-  StyledContainer,
-  StyledFieldSet,
-  StyledForm,
-  StyledInput,
-  StyledLabel,
-  StyledTitle,
-} from "@/components/styled";
-import { useNewTransaction } from "@/hooks/transactions/useNewTransaction";
-import accountsS, { search } from "@/state/accountsState";
-import { useHookstate } from "@hookstate/core";
-import { useEffect, useMemo } from "react";
-import styled from "styled-components";
+import { Container } from "@/components/styled/Container"
+import { Title } from "@/components/styled/Title"
+import { Form } from "@/components/styled/Form"
+import { Button } from "@/components/styled/Button"
+import { useNewTransaction } from "@/hooks/transactions/useNewTransaction"
+import { search } from "@/state/accountsState"
+import { useEffect } from "react"
+import styled from "styled-components"
+import { NewTransactionForm } from "@/components/NewTransactionForm"
+import { useAccounts } from "@/hooks/accounts/useAccounts"
 
-export const StyledNewTransaction = styled(StyledContainer)`
-  ${StyledTitle} {
-    margin-bottom: 1.8rem;
-  }
+export const StyledNewTransaction = styled(Container)`
+    ${Title} {
+        margin-bottom: 1.8rem;
+    }
 
-  ${StyledForm} {
-    gap: 4rem;
-  }
+    ${Form} {
+        gap: 4rem;
+    }
 
-  ${StyledButton} {
-    padding-block: 0.6rem;
-    align-self: end;
-  }
-`;
+    ${Button} {
+        padding-block: 0.6rem;
+        align-self: end;
+    }
+`
 
-export function NewTransactionForm() {
-  const accountsState = useHookstate(accountsS);
-  const accounts = accountsState.get();
+export function NewTransaction() {
+    const { accounts } = useAccounts()
 
-  const {
-    form: { register, onSubmit, watch },
-  } = useNewTransaction();
+    const { form, onSubmit } = useNewTransaction()
 
-  useEffect(() => {
-    search({ name: "", page: 1 });
-  }, []);
+    useEffect(() => {
+        search({ name: "" })
+    }, [])
 
-  const values = watch();
-
-
-
-  return (
-    <StyledNewTransaction onSubmit={onSubmit}>
-      <StyledTitle size="medium">New Transaction</StyledTitle>
-      <StyledForm direction="row">
-        <StyledFieldSet>
-          <StyledLabel>Date</StyledLabel>
-          <StyledInput
-            type="date"
-            defaultValue={new Date().toISOString().slice(0, 10)}
-            {...register("date", { valueAsDate: true })}
-          />
-        </StyledFieldSet>
-        <StyledFieldSet>
-          <StyledLabel>Amount</StyledLabel>
-          <StyledInput
-            type="number"
-            {...register("amount", { valueAsNumber: true })}
-          />
-        </StyledFieldSet>
-        <StyledFieldSet>
-          <StyledLabel>Description</StyledLabel>
-          <StyledInput type="text" {...register("description")} />
-        </StyledFieldSet>
-        <StyledFieldSet>
-          <StyledLabel>From Account</StyledLabel>
-          <select {...register("fromAccountId")}>
-            {accounts.map((obj) => (
-              <option key={obj.id} value={obj.id}>
-                {obj.name}
-              </option>
-            ))}
-          </select>
-        </StyledFieldSet>
-        <StyledFieldSet>
-          <StyledLabel>To Account</StyledLabel>
-          <select {...register("toAccountId")}>
-            {accounts.map((obj) => (
-              <option key={obj.id} value={obj.id}>
-                {obj.name}
-              </option>
-            ))}
-          </select>
-        </StyledFieldSet>
-        <StyledButton type="submit">Send</StyledButton>
-      </StyledForm>
-    </StyledNewTransaction>
-  );
+    return (
+        <StyledNewTransaction>
+            <Title size="medium">New Transaction</Title>
+            <NewTransactionForm
+                accounts={accounts}
+                form={form}
+                attrs={{
+                    onSubmit,
+                }}
+            />
+        </StyledNewTransaction>
+    )
 }

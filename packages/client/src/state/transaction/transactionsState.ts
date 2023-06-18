@@ -1,11 +1,13 @@
-import { ITransactionWithAccounts } from "@/interface";
-import { hookstate } from "@hookstate/core";
+import { ITransactionWithAccounts } from "@/interface"
+import { hookstate } from "@hookstate/core"
 
-const transactionsState = hookstate<ITransactionWithAccounts[]>([]);
+const transactionsState = hookstate<ITransactionWithAccounts[]>([])
 
 export function addTransaction(transaction: ITransactionWithAccounts) {
-  transactionsState.merge([transaction]);
+    transactionsState.merge([transaction])
+}
+export function setTransactions(transactions: ITransactionWithAccounts[]) {
+    transactionsState.merge(transactions)
 }
 
-export default transactionsState;
-
+export default transactionsState

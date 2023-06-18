@@ -1,59 +1,48 @@
-import Account from "@/domain/Account/entity";
-import { SearchTransactionDTO } from "@/domain/Transaction/dto/SearchTransactionDTO";
-import { Transaction } from "@/domain/Transaction/entity";
-import { TransactionRepositoryInMemory } from "@/domain/Transaction/repo/TransactionRepositoryInMemory";
-import { SearchTransactionUseCase } from "@/domain/Transaction/useCases/SearchTransactionUseCase";
+import { AccountRepository } from "@/domain/Account/repo/AccountRepository"
+import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase"
+import { SearchTransactionDTO } from "@/domain/Transaction/dto/SearchTransactionDTO"
+import { TransactionRepository } from "@/domain/Transaction/repo/TransactionRepository"
+import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTransactionUseCase"
+import { SearchTransactionUseCase } from "@/domain/Transaction/useCases/SearchTransactionUseCase"
+import UserRepository from "@/domain/User/repo/UserRepository"
+import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase"
+import { fakeAccount, fakeTransaction, fakeUser } from "../../../setup/faker"
 
 describe("SearchTransactionUseCase", () => {
-  const repo = new TransactionRepositoryInMemory();
-  const useCase = new SearchTransactionUseCase(repo);
+    const tranRepo = new TransactionRepository()
+    const accRepo = new AccountRepository()
+    const userRepo = new UserRepository()
 
-  const user = { id: "11111" };
-  const acc1 = Account.create({
-    description: "",
-    name: "123456",
-    userId: user.id,
-  });
-  const acc2 = Account.create({
-    description: "",
-    name: "45456456",
-    userId: user.id,
-  });
+    const user = fakeUser()
+    const from = fakeAccount(user)
+    const to = fakeAccount(user)
 
-  beforeAll(async () => {
-    for (const _ of Array.from({ length: 400 })) {
-      const acc = Transaction.create({
-        amount: 100,
-        fromAccountId: acc1.id,
-        toAccountId: acc2.id,
-        userId: user.id,
-      });
+    const createTransaction = new CreateTransactionUseCase(tranRepo)
+    const searchTransactions = new SearchTransactionUseCase(tranRepo)
 
-      await repo.add(acc);
-    }
-  });
+    beforeAll(async () => {
+        const createUser = new CreateUserUseCase(userRepo)
+        const createAccount = new CreateAccountUseCase(accRepo)
 
-  it("should return transactions", async () => {
-    const result = await useCase.execute({
-      dto: new SearchTransactionDTO({}),
-      user,
-    });
+        await createUser.execute(user)
+        await createAccount.execute(from)
+        await createAccount.execute(to)
 
-    expect(result.value.results.at(0)).toHaveProperty("fromAccount");
-    expect(result.isRight()).toBeTruthy();
-    expect(result.value.page).toBe(1);
-    expect(result.value.results.length).toBe(300);
-  });
+        for (const transaction of Array.from({ length: 100 }, () =>
+            fakeTransaction(user, from, to)
+        )) {
+            await createTransaction.execute({ dto: transaction, user })
+        }
+    })
 
-  it("should 100 transactions", async () => {
-    const result = await useCase.execute({
-      dto: new SearchTransactionDTO({ page: 2 }),
-      user,
-    });
+    it("should return all the transactions", async () => {
+        const result = await searchTransactions.execute({
+            dto: new SearchTransactionDTO({}),
+            user,
+        })
 
-    expect(result.isRight()).toBeTruthy();
-    expect(result.value.page).toBe(2);
-    expect(result.value.results.length).toBe(100);
-  });
-});
-
+        expect(result.isRight()).toBeTruthy()
+        expect(result.value.page).toBe(1)
+        expect(result.value.results.length).toBe(100)
+    })
+})

@@ -1,22 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "baseUrl": "./src",
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "resolveJsonModule": true,
-    "typeRoots": ["node_modules/@types", "src/@types"],
-    "paths": {
-      "@/*": ["*"]
-    }
-  },
-  "include": ["src", "test"]
+    "compilerOptions": {
+        "target": "es2016",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "dist",
+        "declaration": true,
+        "declarationMap": true,
+        "baseUrl": "./src",
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
+        "noImplicitAny": false,
+        "resolveJsonModule": true,
+        "typeRoots": ["node_modules/@types", "src/@types"],
+        "paths": {
+            "@/*": ["*"]
+        }
+    },
+    "include": ["src", "test"]
 }

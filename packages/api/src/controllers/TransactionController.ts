@@ -1,11 +1,12 @@
-import { LeftRightHandler } from "@financial/core/dist/common/decorators/LeftRightHandler";
-import { CreateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/CreateTransactionDTO";
-import { DeleteTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/DeleteTransactionDTO";
-import { ReadTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/ReadTransactionDTO";
-import { SearchTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/SearchTransactionDTO";
-import { UpdateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/UpdateTransactionDTO";
-import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory";
-import User from "@financial/core/dist/domain/User/entity/User";
+import { LeftRightHandler } from "@financial/core/dist/common/decorators/LeftRightHandler"
+import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases"
+import { CreateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/CreateTransactionDTO"
+import { DeleteTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/DeleteTransactionDTO"
+import { ReadTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/ReadTransactionDTO"
+import { SearchTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/SearchTransactionDTO"
+import { UpdateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/UpdateTransactionDTO"
+import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
+import User from "@financial/core/dist/domain/User/entity/User"
 import {
     Body,
     Controller,
@@ -14,55 +15,55 @@ import {
     Param,
     Patch,
     Post,
-} from "@nestjs/common";
-import { AdaptErrors } from "../adapters/adaptErrors";
-import { UserEntity } from "../decorators/UserEntity";
+    UseGuards,
+} from "@nestjs/common"
+import { AdaptErrors } from "../adapters/adaptErrors"
+import { UserEntity } from "../decorators/UserEntity"
+
+import { AccountExists } from "../middlewares/AccountExists"
 
 @Controller("transaction")
 export class TransactionController {
-    constructor(private transactionUseCases: TransactionUseCasesFactory) {}
+    constructor(
+        private transactionUseCases: TransactionUseCasesFactory,
+        private accountUseCases: AccountUseCases
+    ) {}
 
+    @UseGuards(AccountExists)
     @Post()
     @AdaptErrors()
     @LeftRightHandler()
-    public async create(@UserEntity() user: User, @Body() body: any) {
-        const dto = new CreateTransactionDTO(body);
-        const validation = await dto.validate();
-        if (validation.length) throw validation;
-
-        return await this.transactionUseCases.create.execute({ dto, user });
+    public async create(
+        @UserEntity() user: User,
+        @Body() dto: CreateTransactionDTO
+    ) {
+        return await this.transactionUseCases.create.execute({ dto, user })
     }
 
     @Get("search")
     @AdaptErrors()
     @LeftRightHandler()
-    public async search(@UserEntity() user: User, @Body() body: any) {
-        const dto = new SearchTransactionDTO(body);
-        const validation = await dto.validate();
-        if (validation.length) throw validation;
-        return await this.transactionUseCases.search.execute({ dto, user });
+    public async search(
+        @UserEntity() user: User,
+        @Body() dto: SearchTransactionDTO
+    ) {
+        return await this.transactionUseCases.search.execute({ dto, user })
     }
 
     @Get("/:id")
     @AdaptErrors()
     @LeftRightHandler()
-    public async readTransaction(@Param() params: any) {
-        const dto = new ReadTransactionDTO(params);
-        const validation = await dto.validate();
-        if (validation.length) throw validation;
-        return await this.transactionUseCases.read.execute(dto.id);
+    public async readTransaction(@Param() dto: ReadTransactionDTO) {
+        return await this.transactionUseCases.read.execute(dto.id)
     }
 
     @Delete("/:id")
     @AdaptErrors()
     @LeftRightHandler()
-    public async removeTransaction(@Param() params: any) {
-        const dto = new DeleteTransactionDTO(params);
-        const validation = await dto.validate();
-        if (validation.length) throw validation;
+    public async removeTransaction(@Param() dto: DeleteTransactionDTO) {
         return await this.transactionUseCases.remove.execute({
             dto: { id: dto.id },
-        });
+        })
     }
 
     @Patch("/:id")
@@ -70,16 +71,13 @@ export class TransactionController {
     @LeftRightHandler()
     public async updateTransaction(
         @Param() params: any,
-        @Body() body: UpdateTransactionDTO
+        @Body() dto: UpdateTransactionDTO
     ) {
-        const dto = new UpdateTransactionDTO(body);
-        const validation = await dto.validate();
-        if (validation.length) throw validation;
         return await this.transactionUseCases.update.execute({
             dto,
             transaction: {
                 id: params.id,
             },
-        });
+        })
     }
 }

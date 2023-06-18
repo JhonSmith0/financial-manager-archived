@@ -7,7 +7,8 @@
     "build": "lerna run build",
     "prepare": "husky install",
     "test": "npx lerna run test",
-    "dev": "nx run-many -t dev"
+    "dev": "nx run-many -t dev",
+    "prismainit": "nx run @financial/core:migrate:dev"
   },
   "config": {
     "commitizen": {
@@ -24,7 +25,8 @@
     "husky": "^8.0.0",
     "lerna": "^6.6.2",
     "lint-staged": "^13.2.2",
-    "nx": "16.3.2"
+    "nx": "16.3.2",
+    "prettier": "^2.3.2"
   }
 }
 

@@ -5,8 +5,8 @@ import react from "@vitejs/plugin-react-swc";
 import resolvePaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [react(), resolvePaths()],
-  build: {
-    outDir: "lib",
-  },
+	plugins: [react(), resolvePaths()],
+	build: {
+		outDir: "lib",
+	},
 });

@@ -1,50 +1,44 @@
-import NotFoundError from "@/common/errors/NotFoundError";
-import Account from "@/domain/Account/entity";
-import AccountRepositoryInMemory from "@/domain/Account/repo/AccountRepositoryInMemory";
-import { Transaction } from "@/domain/Transaction/entity";
-import { TransactionRepositoryInMemory } from "@/domain/Transaction/repo/TransactionRepositoryInMemory";
-import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTransactionUseCase";
+import { AccountRepository } from "@/domain/Account/repo/AccountRepository"
+import CreateAccountUseCase from "@/domain/Account/useCases/CreateAccountUseCase"
+import { Transaction } from "@/domain/Transaction/entity"
+import { TransactionRepository } from "@/domain/Transaction/repo/TransactionRepository"
+import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTransactionUseCase"
+import UserRepository from "@/domain/User/repo/UserRepository"
+import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase"
+import ReadTransactionUseCase from "@/domain/Transaction/useCases/ReadTransactionUseCase"
+import { fakeAccount, fakeTransaction, fakeUser } from "../../../setup/faker"
 
 describe("CreateTransactionUseCase", () => {
-  const repo = new TransactionRepositoryInMemory();
-  const accountsRepo = new AccountRepositoryInMemory();
+    const tranRepo = new TransactionRepository()
+    const accRepo = new AccountRepository()
+    const userRepo = new UserRepository()
 
-  const user = { id: "1234" };
+    const user = fakeUser()
+    const from = fakeAccount(user)
+    const to = fakeAccount(user)
 
-  const acc1 = Account.create({
-    description: "",
-    name: "Acc1",
-    userId: user.id,
-  });
-  const acc2 = Account.create({
-    description: "",
-    name: "Acc2",
-    userId: user.id,
-  });
+    const createTransaction = new CreateTransactionUseCase(tranRepo)
+    const readTransaction = new ReadTransactionUseCase(tranRepo)
 
-  beforeAll(async () => {
-    await accountsRepo.add(acc1);
-    await accountsRepo.add(acc2);
-  });
+    beforeAll(async () => {
+        const createUser = new CreateUserUseCase(userRepo)
+        const createAccount = new CreateAccountUseCase(accRepo)
 
-  const useCase = new CreateTransactionUseCase(repo);
+        await createUser.execute(user)
+        await createAccount.execute(from)
+        await createAccount.execute(to)
+    })
 
-  it("should create a transaction", async () => {
-    const result = await useCase.execute({
-      dto: {
-        amount: 100,
-        fromAccountId: acc1.id,
-        toAccountId: acc2.id,
-      },
-      user,
-    });
+    it("should create a transaction", async () => {
+        const result = await createTransaction.execute({
+            dto: fakeTransaction(user, from, to),
+            user,
+        })
 
-    const acc = result.value as any as Account;
-
-    expect(result.isRight()).toBeTruthy();
-    expect(acc).toBeInstanceOf(Transaction);
-    expect(await repo.findByQuery({ id: { equals: acc.id } })).toBeInstanceOf(
-      Transaction
-    );
-  }, 10000);
-});
+        expect(result.isRight()).toBeTruthy()
+        expect(result.value).toBeInstanceOf(Transaction)
+        expect(
+            (await readTransaction.execute(result.value.id)).value
+        ).toMatchObject(result.value)
+    }, 10000)
+})

@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id          String        @id
-  email       String        @unique
-  name        String
-  password    String
-  photo       String
-  Account     Account[]
-  Transaction Transaction[]
+  id             String           @id
+  email          String           @unique
+  name           String
+  password       String
+  photo          String
+  role           String           @default("normal")
+  Account        Account[]
+  Transaction    Transaction[]
+  AccountConfigs AccountConfigs[]
 }
 
 model Account {
@@ -47,4 +49,13 @@ model Transaction {
 
   toAccount   Account @relation("to", fields: [toAccountId], references: [id])
   toAccountId String
+}
+
+model AccountConfigs {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  allowTransactionsWhenAccountIsBelowZero Boolean @default(true)
+
+  @@id([userId])
 }

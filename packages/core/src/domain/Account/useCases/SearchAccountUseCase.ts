@@ -1,35 +1,37 @@
-import { UseCase } from "@/common/UseCase";
-import { SearchAccountDTO } from "../dto/SearchAccountDTO";
-import AccountRepository from "../types/AccountRepository";
-import User from "@/domain/User/entity/User";
-import { right } from "@/common/ErrorHandlingTypes";
+import { right } from "@/common/ErrorHandlingTypes"
+import { UseCase } from "@/common/UseCase"
+import User from "@/domain/User/entity/User"
+import { SearchAccountDTO } from "../dto/SearchAccountDTO"
+import Account from "../entity"
+import { AccountRepository } from "../repo/AccountRepository"
 
 export interface SearchAccountUseCaseProps {
-  dto: SearchAccountDTO;
-  user: { id: User["id"] };
+    dto: SearchAccountDTO
+    user: { id: User["id"] }
 }
 
 export class SearchAccountUseCase extends UseCase<SearchAccountUseCaseProps> {
-  constructor(private repo: AccountRepository) {
-    super();
-  }
+    constructor(private repo: AccountRepository) {
+        super()
+    }
 
-  private resultsPerPage = 60;
+    private resultsPerPage = 60
 
-  public async execute({ dto, user }: SearchAccountUseCaseProps) {
-    const results = await this.repo.findByQuery({
-      name: {
-        startsWith: dto.name,
-      },
-      description: {
-        startsWith: dto.description,
-      },
-      userId: {
-        equals: user.id,
-      },
-    });
+    public async execute({ dto, user }: SearchAccountUseCaseProps) {
+        const results = (await this.repo.db.findMany({
+            where: {
+                name: {
+                    startsWith: dto.name,
+                },
+                description: {
+                    startsWith: dto.description,
+                },
+                userId: {
+                    equals: user.id,
+                },
+            },
+        })) as Account[]
 
-    return right({ results, page: dto.page });
-  }
+        return right({ results })
+    }
 }
-

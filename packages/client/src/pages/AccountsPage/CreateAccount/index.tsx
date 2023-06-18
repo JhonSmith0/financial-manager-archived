@@ -1,50 +1,48 @@
-import { IAccount } from "@/interface";
-import { createAccount } from "@/services/account";
-import { addAccount } from "@/state/accountsState";
-import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import {
-  StyledButton,
-  StyledContainer,
-  StyledFieldSet,
-  StyledForm,
-  StyledInput,
-  StyledLabel,
-  StyledTitle,
-} from "@/components/styled";
+import { IAccount } from "@/interface"
+import { createAccount } from "@/services/account"
+import { addAccount } from "@/state/accountsState"
+import { useForm } from "react-hook-form"
+import styled from "styled-components"
+import { Container } from "@/components/styled/Container"
+import { Title } from "@/components/styled/Title"
+import { Form } from "@/components/styled/Form"
+import { FieldSet } from "@/components/styled/FieldSet"
+import { Label } from "@/components/styled/Label"
+import { Input } from "@/components/styled/Input"
+import { Button } from "@/components/styled/Button"
 
-export const StyledNewAccount = styled(StyledContainer)`
-  ${StyledButton} {
-    padding-block: 0.6rem;
-    align-self: end;
-  }
-`;
+export const StyledNewAccount = styled(Container)`
+    ${Button} {
+        padding-block: 0.6rem;
+        align-self: end;
+    }
+`
 
 export function NewAccount() {
-  const { register, handleSubmit, reset } =
-    useForm<Pick<IAccount, "name" | "description">>();
+    const { register, handleSubmit, reset } =
+        useForm<Pick<IAccount, "name" | "description">>()
 
-  return (
-    <StyledNewAccount>
-      <StyledTitle size="medium">New Account</StyledTitle>
-      <StyledForm
-        direction="row"
-        onSubmit={handleSubmit(async (data) => {
-          const acc = await createAccount(data);
-          addAccount(acc);
-          reset();
-        })}
-      >
-        <StyledFieldSet>
-          <StyledFieldSet>Name</StyledFieldSet>
-          <StyledInput type="text" {...register("name")} />
-        </StyledFieldSet>
-        <StyledFieldSet>
-          <StyledLabel>Description</StyledLabel>
-          <StyledInput type="text" {...register("description")} />
-        </StyledFieldSet>
-        <StyledButton type="submit">Create</StyledButton>
-      </StyledForm>
-    </StyledNewAccount>
-  );
+    return (
+        <StyledNewAccount>
+            <Title size="medium">New Account</Title>
+            <Form
+                direction="row"
+                onSubmit={handleSubmit(async (data) => {
+                    const acc = await createAccount(data)
+                    addAccount(acc)
+                    reset()
+                })}
+            >
+                <FieldSet>
+                    <FieldSet>Name</FieldSet>
+                    <Input type="text" {...register("name")} />
+                </FieldSet>
+                <FieldSet>
+                    <Label>Description</Label>
+                    <Input type="text" {...register("description")} />
+                </FieldSet>
+                <Button type="submit">Create</Button>
+            </Form>
+        </StyledNewAccount>
+    )
 }
