@@ -1,6 +1,5 @@
-import newTransactionSchema from "./newTransactionSchema";
+import newTransactionSchema from "./newTransactionSchema"
 
-const updateTransactionSchema = newTransactionSchema.shape({});
+const updateTransactionSchema = newTransactionSchema.shape({})
 
-export default updateTransactionSchema;
-
+export default updateTransactionSchema

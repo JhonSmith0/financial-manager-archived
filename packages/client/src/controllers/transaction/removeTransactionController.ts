@@ -1,10 +1,10 @@
-import { ITransaction } from "@/interface";
-import { removeTransactionService } from "@/services/transaction";
-import { getTransactionsController } from ".";
+import { ITransaction } from "@/interface"
+import { removeTransactionService } from "@/services/transaction"
+import { getTransactionsController } from "."
 
 export async function removeTransactionController(transaction: {
-  id: ITransaction["id"];
+    id: ITransaction["id"]
 }) {
-	await removeTransactionService(transaction);
-	await getTransactionsController({});
+    await removeTransactionService(transaction)
+    await getTransactionsController({})
 }

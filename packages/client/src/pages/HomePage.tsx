@@ -1,4 +1,5 @@
-import { SideBar } from "@/components/SideBar";
+import { SideBar, StyledSideBar } from "@/components/SideBar";
+import { StyledBar, StyledHomeOutLet } from "@/components/styled";
 import currentUser from "@/state/currentUser";
 import { useHookstate } from "@hookstate/core";
 import { Outlet } from "react-router-dom";
