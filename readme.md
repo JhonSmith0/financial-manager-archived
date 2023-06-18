@@ -55,9 +55,10 @@ git clone git@github.com:JhonSmith0/financial-manager.git
 pnpm install
 ```
 
-3. Initialize Prisma
+3. Initialize the project
 
 ```sh
+pnpm build
 pnpm prismainit
 ```
 
