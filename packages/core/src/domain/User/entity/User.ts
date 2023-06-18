@@ -9,7 +9,7 @@ export default class User extends Entity {
 	public photo = "";
 	public email: string;
 	public password: string;
-	public role?: "normal" | "admin" = "normal";
+	public role?: "normal" | "admin" | string = "normal";
 
 	public static dataForTest: UserProps = {
 		email: "test@email.com",

@@ -73,14 +73,7 @@ export class AccountController {
 		@UserEntity() user: User,
 		@Param() dto: DeleteAccountDTO
 	) {
-		await this.transactionUseCases.removeAll.execute({
-			userId: user.id,
-			fromAccountId: dto.id,
-		});
-		await this.transactionUseCases.removeAll.execute({
-			userId: user.id,
-			toAccountId: dto.id,
-		});
+		await this.transactionUseCases.removeAll.execute(dto.id)
 
 		return await this.accountUseCases.remove.execute({ dto: dto, user });
 	}
