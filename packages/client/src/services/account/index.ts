@@ -32,3 +32,7 @@ export async function readAccountTransactionsService(id: string) {
     return (await api.get(`/api/account/${id}/transactions`))
         .data as ITransactionWithAccounts[]
 }
+
+export async function accountBalance(id: string) {
+    return (await api.get(`/api/account/${id}/balance`)).data as number
+}
