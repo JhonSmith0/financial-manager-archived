@@ -34,36 +34,31 @@ The Financial Manager application is built upon the following technologies:
 -   **Lerna**: A tool for managing JavaScript projects with multiple packages.
 -   **Rollup**: A module bundler for JavaScript.
 
-Feel free to explore the code and contribute to the project if you'd like!
-
-<code>
-# Financial Manager
-
-Manage your finances with ease using the Financial Manager application! Keep track of your money accounts and perform transactions between them effortlessly.
-
 ## How to Use
 
-1. Clone the repository to your local machine using the following command:
+### 1. Clone the repository to your local machine using the following command:
 
-```shell
+```
 git clone git@github.com:JhonSmith0/financial-manager.git
 ```
 
-2. Install the required dependencies
+### 2. Install the required dependencies
 
-```sh
+```
 pnpm install
 ```
 
-3. Initialize the project
+### 3. Initialize Project
 
-```sh
+```
 pnpm build
 pnpm prismainit
 ```
 
-4. Start the development server
+### 4. Start the development server
 
-```sh
+```
 pnpm dev
 ```
+
+Feel free to explore the code and contribute to the project if you'd like!
