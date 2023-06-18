@@ -16,6 +16,7 @@ model User {
   name        String
   password    String
   photo       String
+  role        String        @default("normal")
   Account     Account[]
   Transaction Transaction[]
 }
