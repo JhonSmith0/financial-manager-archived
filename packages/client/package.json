@@ -15,7 +15,6 @@
 		"@hookstate/core": "^4.0.1",
 		"axios": "^1.4.0",
 		"cookie": "^0.5.0",
-		"eslint-custom": "workspace:*",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-draggable": "^4.4.5",
