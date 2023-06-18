@@ -6,28 +6,28 @@ import { TransactionController } from "../controllers/TransactionController";
 import { AccountModule } from "./AccountModule";
 
 const providers: Provider[] = [
-  {
-    provide: TransactionsTokens.repository,
-    inject: [],
-    async useFactory() {
-      const obj = new TransactionRepository();
-      await obj.$connect();
-      return obj;
-    },
-  },
-  {
-    provide: TransactionUseCasesFactory,
-    inject: [TransactionsTokens.repository],
-    async useFactory(tRepo) {
-      return new TransactionUseCasesFactory(tRepo);
-    },
-  },
+	{
+		provide: TransactionsTokens.repository,
+		inject: [],
+		async useFactory() {
+			const obj = new TransactionRepository();
+			await obj.$connect();
+			return obj;
+		},
+	},
+	{
+		provide: TransactionUseCasesFactory,
+		inject: [TransactionsTokens.repository],
+		async useFactory(tRepo) {
+			return new TransactionUseCasesFactory(tRepo);
+		},
+	},
 ];
 
 @Module({
-  controllers: [TransactionController],
-  providers,
-  exports: providers,
-  imports: [forwardRef(() => AccountModule)],
+	controllers: [TransactionController],
+	providers,
+	exports: providers,
+	imports: [forwardRef(() => AccountModule)],
 })
 export class TransactionModule {}

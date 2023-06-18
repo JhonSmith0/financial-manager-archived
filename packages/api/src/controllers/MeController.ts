@@ -6,14 +6,14 @@ import { UserEntity } from "../decorators/UserEntity";
 
 @Controller("")
 export class GetMeController {
-  constructor(private meController: MeController) {}
+	constructor(private meController: MeController) {}
 
   @Get("me")
   @AdaptErrors()
-  async me(
+	async me(
     @UserEntity()
-    user: User
-  ) {
-    return user;
-  }
+    	user: User
+	) {
+		return user;
+	}
 }

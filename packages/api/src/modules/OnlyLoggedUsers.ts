@@ -4,14 +4,14 @@ import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { TransactionModule } from "./TransactionModule";
 
 @Module({
-  controllers: [GetMeController],
-  imports: [TransactionModule],
+	controllers: [GetMeController],
+	imports: [TransactionModule],
 })
 export class OnlyLoggedUsers implements NestModule {
-  constructor() {}
+	constructor() {}
 
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VerifyJWT).forRoutes("/api/*");
-  }
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(VerifyJWT).forRoutes("/api/*");
+	}
 }
 
