@@ -1,12 +1,11 @@
-import {
-    StyledTransactionList,
-    TransactionList,
-} from "@/components/TransactionList"
+import { StyledTransactionList } from "@/components/TransactionList"
 import { Balance } from "@/components/styled/Balance"
 import { Bar } from "@/components/styled/Bar"
+import { Content } from "@/components/styled/Content"
 import { IconList } from "@/components/styled/IconList"
+import { Title } from "@/components/styled/Title"
 import { useAccount } from "@/hooks/accounts/useAccount"
-import { IAccount, ITransactionWithAccounts } from "@/interface"
+import { IAccount } from "@/interface"
 import { updateAccount } from "@/services/account"
 import { remove, stateUpdateAccount } from "@/state/accountsState"
 import { useHookstate } from "@hookstate/core"
@@ -30,25 +29,43 @@ export const StyledAccountCard = styled.div`
         color: white;
         background: #364fc7;
 
+        span {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
         justify-content: space-between;
 
         padding: 0 var(--padding-inline) !important;
 
         text-transform: capitalize;
+        gap: 1.8rem;
 
-        ${Balance} {
-            margin-right: 1.8rem;
-        }
+        display: grid;
+        grid-template-columns: 1fr auto;
 
-        .icons {
-            margin-left: auto;
+        ${IconList} {
+            /* margin-left: auto; */
             display: flex;
             gap: 0.6rem;
+            justify-content: right;
         }
     }
 
     svg {
         color: #fff;
+    }
+
+    ${Content} {
+        max-width: 100%;
+        color: #212529 !important;
+        display: grid;
+        gap: 3.2rem;
+        ${Title} {
+            color: #495057;
+            font-weight: 400;
+        }
     }
 
     ${StyledTransactionList} {
@@ -85,7 +102,6 @@ export function AccountCard({ account: data }: Props) {
             <Bar as={"header"}>
                 <span>{data.name}</span>
                 <IconList>
-                    <Balance amount={balance}>R$ {balance}</Balance>
                     <button onClick={() => editing.set(true)}>
                         <HiOutlineCog />
                     </button>
@@ -101,9 +117,14 @@ export function AccountCard({ account: data }: Props) {
                     </button>
                 </IconList>
             </Bar>
-            <TransactionList
-                data={transactions as ITransactionWithAccounts[]}
-            />
+
+            <Content>
+                {account?.description && <p>{account?.description}</p>}
+                <div>
+                    <Title size="small">Balance</Title>
+                    <Balance amount={balance}>R$ {balance}</Balance>
+                </div>
+            </Content>
         </StyledAccountCard>
     )
 }
