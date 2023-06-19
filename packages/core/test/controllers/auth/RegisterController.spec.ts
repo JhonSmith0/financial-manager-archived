@@ -6,6 +6,7 @@ import CreateUserDTO from "@/domain/User/dto/CreateUserDTO";
 import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
+import { fakeUser } from "../../setup/faker";
 
 describe("RegisterController", () => {
 	const jwt = new JWT("1");
@@ -15,7 +16,7 @@ describe("RegisterController", () => {
 
 	it("should return a token", async () => {
 		const result = await controller.handle(
-			CreateUserDTO.create(User.dataForTest)
+			CreateUserDTO.create(fakeUser())
 		);
 
 		expect(result.isRight()).toBeTruthy();

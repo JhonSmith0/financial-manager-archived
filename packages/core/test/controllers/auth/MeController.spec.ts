@@ -5,12 +5,13 @@ import SafeUserDTO from "@/domain/User/dto/SafeUser";
 import User from "@/domain/User/entity/User";
 import UserRepository from "@/domain/User/repo/UserRepository";
 import CreateUserUseCase from "@/domain/User/useCases/CreateUserUseCase";
+import { fakeUser } from "../../setup/faker";
 
 describe("MeController", () => {
 	const jwt = new JWT("1");
 	const repo = new UserRepository();
 	const createUser = new CreateUserUseCase(repo);
-	const user = User.create(User.dataForTest);
+	const user = fakeUser()
 	const controller = new MeController(repo, jwt);
 
 	let payload: { id: User["id"] };
