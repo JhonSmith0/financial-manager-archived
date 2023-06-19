@@ -11,12 +11,10 @@ import { SearchAccount } from "../SearchAccount"
 export const StyledAccountList = styled(Container)`
     margin-top: 0;
     .list {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
 
-        gap: 1.8rem;
+        gap: 1rem;
         margin-top: 4.8rem;
-        row-gap: 2.4rem;
 
         ${StyledAccountCard} {
             flex: 1;

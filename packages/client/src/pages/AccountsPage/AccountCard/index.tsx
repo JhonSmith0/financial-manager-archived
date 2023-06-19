@@ -10,6 +10,7 @@ import { updateAccount } from "@/services/account"
 import { remove, stateUpdateAccount } from "@/state/accountsState"
 import { useHookstate } from "@hookstate/core"
 import { HiOutlineCog, HiOutlineTrash } from "react-icons/hi"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { UpdateAccountCard } from "../UpdateAccountCard"
 
@@ -17,10 +18,11 @@ interface Props {
     account: IAccount
 }
 
-export const StyledAccountCard = styled.div`
+export const StyledAccountCard = styled(Link)`
     box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
     border-radius: 4px;
     overflow: hidden;
+    text-decoration: none;
 
     --padding-inline: 1.4rem;
 
@@ -43,7 +45,7 @@ export const StyledAccountCard = styled.div`
         gap: 1.8rem;
 
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr auto auto;
 
         ${IconList} {
             /* margin-left: auto; */
@@ -90,8 +92,21 @@ export function AccountCard({ account: data }: Props) {
         stateUpdateAccount(data.id, newAcc)
     }
 
+    function onEdit(e: MouseEvent) {
+        e.preventDefault()
+        e.stopPropagation()
+        editing.set(true)
+    }
+
+    async function onRemove(e: MouseEvent) {
+        e.preventDefault()
+        e.stopPropagation()
+        const value = confirm(`Are you sure you want to delete ${data.name}?`)
+        value && (await remove(data.id))
+    }
+
     return (
-        <StyledAccountCard>
+        <StyledAccountCard to={`/account/${data.id}`}>
             {editing.get() && (
                 <UpdateAccountCard
                     data={data}
@@ -101,30 +116,16 @@ export function AccountCard({ account: data }: Props) {
             )}
             <Bar as={"header"}>
                 <span>{data.name}</span>
+                <Balance amount={balance}>R$ {balance}</Balance>
                 <IconList>
-                    <button onClick={() => editing.set(true)}>
+                    <button onClick={onEdit as any}>
                         <HiOutlineCog />
                     </button>
-                    <button
-                        onClick={async () => {
-                            const value = confirm(
-                                `Are you sure you want to delete ${data.name}?`
-                            )
-                            value && (await remove(data.id))
-                        }}
-                    >
+                    <button onClick={onRemove as any}>
                         <HiOutlineTrash />
                     </button>
                 </IconList>
             </Bar>
-
-            <Content>
-                {account?.description && <p>{account?.description}</p>}
-                <div>
-                    <Title size="small">Balance</Title>
-                    <Balance amount={balance}>R$ {balance}</Balance>
-                </div>
-            </Content>
         </StyledAccountCard>
     )
 }
