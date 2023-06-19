@@ -13,7 +13,7 @@ describe("Transaction", () => {
     const obj = Transaction.create(data);
 
     expect(obj).toMatchObject(data);
-    expect(typeof obj.date).toBe('string');
+    expect(obj.date).toBeInstanceOf(Date)
     expect(typeof obj.id).toBe("string");
   });
 });
