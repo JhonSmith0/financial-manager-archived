@@ -3,4 +3,5 @@ prisma/*
 !prisma/schema.prisma
 prisma/*
 
-.env.prod*
+.env*
+!.env.template
