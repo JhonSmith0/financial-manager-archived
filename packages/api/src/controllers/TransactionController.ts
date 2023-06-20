@@ -18,8 +18,10 @@ import {
 } from "@nestjs/common"
 import { UserEntity } from "../decorators/UserEntity"
 
+import { UserHasAcessToTransaction } from "../guards/UserHasAcessToTransaction"
 import { AccountExists } from "../middlewares/AccountExists"
 
+@UseGuards(UserHasAcessToTransaction)
 @Controller("transaction")
 export class TransactionController {
     constructor(

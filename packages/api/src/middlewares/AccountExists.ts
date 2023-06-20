@@ -16,7 +16,7 @@ export class AccountExists implements CanActivate {
         const req: Request = context.switchToHttp().getRequest()
 
         const body = req.body as CreateTransactionDTO
-        const ids = [body.fromAccountId, body.toAccountId]
+        const ids = [body.fromAccountId, body.toAccountId].filter((e) => !!e)
 
         const accounts = await every(ids, async (id) => {
             const result = await this.accounts.read.execute({
