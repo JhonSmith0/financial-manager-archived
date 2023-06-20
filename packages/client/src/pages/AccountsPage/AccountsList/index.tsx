@@ -5,16 +5,21 @@ import { IAccount } from "@/interface"
 import accountsState from "@/state/accountsState"
 import { useHookstate } from "@hookstate/core"
 import styled from "styled-components"
-import { AccountCard } from "../AccountCard"
+import { AccountCard, StyledAccountCard } from "../AccountCard"
 import { SearchAccount } from "../SearchAccount"
 
 export const StyledAccountList = styled(Container)`
     margin-top: 0;
     .list {
         display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 4.8rem;
+
+        gap: 1rem;
         margin-top: 4.8rem;
+
+        ${StyledAccountCard} {
+            flex: 1;
+            min-width: max-content;
+        }
     }
 
     ${Button} {

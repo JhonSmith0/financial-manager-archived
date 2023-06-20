@@ -1,12 +1,11 @@
-import styled from "styled-components";
-import { Container } from "./styled/Container";
-import { Title } from "./styled/Title";
-import { Bar } from "./styled/Bar";
-import { IconList } from "./styled/IconList";
-import { Content } from "./styled/Content";
-import Draggable from "react-draggable";
-import { Icon } from "./styled/Icon";
 import { HiX } from "react-icons/hi";
+import styled from "styled-components";
+import { Bar } from "./styled/Bar";
+import { Container } from "./styled/Container";
+import { Content } from "./styled/Content";
+import { Icon } from "./styled/Icon";
+import { IconList } from "./styled/IconList";
+import { Title } from "./styled/Title";
 
 export const StyledCard = styled(Container)`
 	box-shadow: 0px 12px 12px rgb(0, 0, 0, 0.05);
@@ -39,17 +38,15 @@ export const StyledCard = styled(Container)`
 	}
 `;
 
-interface Props {
+export interface CardProps {
 	title: string;
 	children?: any;
 	onClose(): any;
 	className?: string;
 }
 
-export function Card(data: Props) {
-	console.log("");
+export function Card(data: CardProps) {
 	return (
-		<Draggable handle={Bar}>
 			<StyledCard>
 				<Bar as={"header"}>
 					<Title size="small">{data.title}</Title>
@@ -61,6 +58,5 @@ export function Card(data: Props) {
 				</Bar>
 				<Content>{data.children}</Content>
 			</StyledCard>
-		</Draggable>
 	);
 }
