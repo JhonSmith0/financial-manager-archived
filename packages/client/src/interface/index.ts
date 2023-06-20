@@ -43,4 +43,5 @@ export interface SearchAccount {
     name: string
 }
 
+export type RemoveTransaction = Pick<ITransaction, "id">
 export type UpdateTransaction = Partial<ITransaction> & Pick<ITransaction, "id">

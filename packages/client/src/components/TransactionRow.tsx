@@ -1,21 +1,30 @@
-import {
-    getTransactionsController,
-    updateTransactionController,
-} from "@/controllers/transaction"
 import { useTransactionRow } from "@/hooks/transactions/useTransactionRow"
-import { ITransactionWithAccounts } from "@/interface"
+import {
+    IAccount,
+    ITransactionWithAccounts,
+    RemoveTransaction,
+    UpdateTransaction,
+} from "@/interface"
 import { BiCog } from "react-icons/bi"
 import { FiTrash2 } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { StyledUpdateTransaction, UpdateTransaction } from "./UpdateTransaction"
+import {
+    StyledUpdateTransaction,
+    UpdateTransaction as UpdateTransactionComponent,
+} from "./UpdateTransaction"
 import { IconList } from "./styled/IconList"
 import { Input } from "./styled/Input"
 import { TableRow } from "./styled/StyledTable/TableRow"
 import { TableRowItem } from "./styled/StyledTable/TableRowItem"
+import { remove } from "@/state/accountsState"
+import { useHookstate } from "@hookstate/core"
 
 interface Props {
     data: ITransactionWithAccounts
+    onRemove(transaction: RemoveTransaction): any
+    onUpdate(transaction: UpdateTransaction): any
+    enableButtons?: boolean
 }
 
 export const StyledTransactionRow = styled(TableRow)`
@@ -25,21 +34,24 @@ export const StyledTransactionRow = styled(TableRow)`
     }
 `
 
-export function TransactionRow({ data }: Props) {
-    const { isOpen, close, open, remove } = useTransactionRow(data)
+export function TransactionRow({
+    data,
+    onRemove,
+    onUpdate,
+    enableButtons = false,
+}: Props) {
     const { fromAccount, toAccount } = data
+
+    const editingState = useHookstate(false)
+    const editing = editingState.get()
 
     return (
         <>
-            {isOpen && (
-                <UpdateTransaction
+            {editing && (
+                <UpdateTransactionComponent
+                    onClose={editingState.set.bind(null, false)}
+                    onSave={onUpdate.bind(null)}
                     transaction={data}
-                    onClose={close}
-                    onSave={async (data) => {
-                        await updateTransactionController(data)
-                        await getTransactionsController({})
-                        close()
-                    }}
                 />
             )}
             <StyledTransactionRow>
@@ -62,16 +74,18 @@ export function TransactionRow({ data }: Props) {
                         {toAccount?.name}
                     </Link>
                 </TableRowItem>
-                <TableRowItem>
-                    <IconList>
-                        <button onClick={remove}>
-                            <FiTrash2 />
-                        </button>
-                        <button onClick={open}>
-                            <BiCog />
-                        </button>
-                    </IconList>
-                </TableRowItem>
+                {enableButtons && (
+                    <TableRowItem>
+                        <IconList>
+                            <button onClick={onRemove.bind(null, data)}>
+                                <FiTrash2 />
+                            </button>
+                            <button onClick={editingState.set.bind(null, true)}>
+                                <BiCog />
+                            </button>
+                        </IconList>
+                    </TableRowItem>
+                )}
             </StyledTransactionRow>
         </>
     )

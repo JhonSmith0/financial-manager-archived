@@ -1,10 +1,13 @@
 import Draggable from "react-draggable"
 import { Card, CardProps } from "./Card"
-import { Bar } from "./styled/Bar"
 
-export function DraggableCard(data: CardProps) {
+interface Props extends CardProps {
+    handle: string
+}
+
+export function DraggableCard(data: Props) {
     return (
-        <Draggable handle={Bar}>
+        <Draggable handle={data.handle}>
             <Card {...data} />
         </Draggable>
     )

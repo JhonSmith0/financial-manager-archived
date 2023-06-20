@@ -1,7 +1,12 @@
 import { IconList } from "./styled/IconList"
 import { TableRow } from "./styled/StyledTable/TableRow"
 import { Table } from "./styled/StyledTable/Table"
-import { ITransactionWithAccounts } from "@/interface"
+import {
+    ITransaction,
+    ITransactionWithAccounts,
+    RemoveTransaction,
+    UpdateTransaction,
+} from "@/interface"
 import styled from "styled-components"
 import { TransactionRow } from "./TransactionRow"
 
@@ -27,14 +32,29 @@ export const StyledTransactionList = styled.div`
 
 interface Props {
     data: ITransactionWithAccounts[]
+    onRemove(transaction: RemoveTransaction): any
+    onUpdate(transaction: UpdateTransaction): any
+    enableButtons?: boolean
 }
-export function TransactionList({ data }: Props) {
+
+export function TransactionList({
+    data,
+    onRemove,
+    onUpdate,
+    enableButtons = false,
+}: Props) {
     return (
         <StyledTransactionList>
             {!!data.length && (
                 <Table>
                     {data.map((e) => (
-                        <TransactionRow data={e} key={e.id} />
+                        <TransactionRow
+                            data={e}
+                            key={e.id}
+                            onRemove={onRemove}
+                            onUpdate={onUpdate}
+                            enableButtons={enableButtons}
+                        />
                     ))}
                 </Table>
             )}

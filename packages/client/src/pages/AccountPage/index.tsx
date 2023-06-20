@@ -42,7 +42,11 @@ export function AccountPage() {
                     <span>Transactions</span>
                     <Balance amount={data.balance}>R$ {data.balance}</Balance>
                 </Title>
-                <TransactionList data={data.transactions}></TransactionList>
+                <TransactionList
+                    onRemove={() => {}}
+                    onUpdate={() => {}}
+                    data={data.transactions}
+                ></TransactionList>
             </Container>
         </StyledAccountPage>
     )
