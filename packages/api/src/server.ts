@@ -2,7 +2,7 @@ import { loadEnv } from "@financial/core/dist/utils/loadEnv"
 import { ValidationPipe } from "@nestjs/common"
 import { createApp } from "."
 import { AllExceptionFilter } from "./filters/AllException"
-import { AdaptLeftRightInterceptor } from "../interceptors/AdaptLeftRight"
+import { AdaptLeftRightInterceptor } from "./interceptors/AdaptLeftRight"
 
 async function main() {
     // Loads envs from core package
