@@ -16,9 +16,12 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from "@nestjs/common"
 import { UserEntity } from "../decorators/UserEntity"
+import { UserHasAcessToAccount } from "../guards/UserHasAcessToAccount"
 
+@UseGuards(UserHasAcessToAccount)
 @Controller("account")
 export class AccountController {
     constructor(
@@ -72,6 +75,7 @@ export class AccountController {
     async getAccount(@UserEntity() user: User, @Param() dto: ReadAccountDTO) {
         return await this.accountUseCases.read.execute({ accountId: dto.id })
     }
+
     @Get("/:accountId/transactions")
     async getAccountTransactions(
         @UserEntity() user: User,
