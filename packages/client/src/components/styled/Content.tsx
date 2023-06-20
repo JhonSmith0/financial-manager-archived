@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Content = styled.div`
     --padding-inline: 1.4rem;
@@ -6,7 +6,4 @@ export const Content = styled.div`
     font-size: 1.6rem;
 
     padding-bottom: 2.4rem;
-`;
-
-
-
+`

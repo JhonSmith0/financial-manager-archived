@@ -1,3 +1,3 @@
 export default class FieldError {
-  constructor(public field: string, public message: string) {}
+    constructor(public field: string, public message: string) {}
 }

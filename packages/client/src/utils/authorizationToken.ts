@@ -1,4 +1,4 @@
-import { parse } from "cookie";
+import { parse } from "cookie"
 export default function authorizationToken() {
-	return parse(document.cookie ?? "").authorization;
+    return parse(document.cookie ?? "").authorization
 }

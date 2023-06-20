@@ -1,10 +1,10 @@
-import ExpectedError from "./ExpectedError";
+import ExpectedError from "./ExpectedError"
 
 export default class AlreadyExistsError<
-  T extends string[]
+    T extends string[]
 > extends ExpectedError {
-  public readonly code = 409;
-  constructor(message: string, public fields: T) {
-    super(message);
-  }
+    public readonly code = 409
+    constructor(message: string, public fields: T) {
+        super(message)
+    }
 }

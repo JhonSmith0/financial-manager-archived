@@ -1,11 +1,11 @@
-import { ClassConstructor } from "class-transformer";
+import { ClassConstructor } from "class-transformer"
 
 export function linkProto<T>(
-  cl: ClassConstructor<T>,
-  data: ClassProperties<T>
+    cl: ClassConstructor<T>,
+    data: ClassProperties<T>
 ) {
-  const obj = Object.create(cl.prototype);
-  Object.assign(obj, data);
+    const obj = Object.create(cl.prototype)
+    Object.assign(obj, data)
 
-  return obj as T;
+    return obj as T
 }

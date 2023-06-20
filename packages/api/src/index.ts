@@ -1,6 +1,6 @@
-import { NestFactory } from "@nestjs/core";
-import RootModule from "./modules/RootModule";
+import { NestFactory } from "@nestjs/core"
+import RootModule from "./modules/RootModule"
 
 export async function createApp() {
-	return await NestFactory.create(RootModule);
+    return await NestFactory.create(RootModule)
 }

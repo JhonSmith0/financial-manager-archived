@@ -1,6 +1,5 @@
-import api from "./http";
+import api from "./http"
 
 export default async function me() {
-	return (await api.get("/auth/me")).data;
+    return (await api.get("/auth/me")).data
 }
-

@@ -1,5 +1,3 @@
-import Account from "../entity";
+import Account from "../entity"
 
-export default interface AccountProps extends ClassProperties<Account> {
-    
-}
+export default interface AccountProps extends ClassProperties<Account> {}

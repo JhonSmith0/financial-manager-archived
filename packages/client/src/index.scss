@@ -1,40 +1,40 @@
 *,
 *::after,
 *::before {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 html {
-  font-size: 62.5%;
-  overflow: hidden;
+    font-size: 62.5%;
+    overflow: hidden;
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 
-  font-family: "Inter", sans-serif;
-  font-size: 1.6rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1.6rem;
 
-  background: #f8f9fa;
-  color: #212529;
+    background: #f8f9fa;
+    color: #212529;
 
-  button {
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    height: max-content;
-    width: max-content;
+    button {
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        height: max-content;
+        width: max-content;
 
-    display: grid;
-    align-items: center;
-  }
+        display: grid;
+        align-items: center;
+    }
 }
 svg {
-  color: inherit;
+    color: inherit;
 }

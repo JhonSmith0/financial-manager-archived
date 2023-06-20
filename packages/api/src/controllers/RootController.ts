@@ -1,9 +1,9 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common"
 
 @Controller("")
 export default class RootController {
-  @Get("")
-	root() {
-		return "Hello, world!";
-	}
+    @Get("")
+    root() {
+        return "Hello, world!"
+    }
 }

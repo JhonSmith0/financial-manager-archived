@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const FieldSet = styled.fieldset`
-	border: none;
-	font-size: 1.8rem;
-`;
+    border: none;
+    font-size: 1.8rem;
+`
