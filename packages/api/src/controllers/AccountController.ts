@@ -1,4 +1,3 @@
-import { LeftRightHandler } from "@financial/core/dist/common/decorators/LeftRightHandler"
 import CreateAccountDTO from "@financial/core/dist/domain/Account/dto/CreateAccountDTO"
 import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO"
 import { ReadAccountDTO } from "@financial/core/dist/domain/Account/dto/ReadAccountDTO"
@@ -18,7 +17,6 @@ import {
     Post,
     Query,
 } from "@nestjs/common"
-import { AdaptErrors } from "../adapters/adaptErrors"
 import { UserEntity } from "../decorators/UserEntity"
 
 @Controller("account")
@@ -29,7 +27,6 @@ export class AccountController {
     ) {}
 
     @Post()
-    @LeftRightHandler()
     async createAccount(
         @UserEntity() user: User,
         @Body() body: ClassProperties<CreateAccountDTO>
@@ -41,7 +38,6 @@ export class AccountController {
     }
 
     @Get("search")
-    @LeftRightHandler()
     async searchAccount(
         @UserEntity()
         user: User,
@@ -54,7 +50,6 @@ export class AccountController {
     }
 
     @Patch("/:id")
-    @LeftRightHandler()
     async updateAccount(
         @UserEntity() user: User,
         @Body() body: any,
@@ -64,7 +59,6 @@ export class AccountController {
     }
 
     @Delete("/:id")
-    @LeftRightHandler()
     async deleteAccount(
         @UserEntity() user: User,
         @Param() dto: DeleteAccountDTO
@@ -75,12 +69,10 @@ export class AccountController {
     }
 
     @Get("/:id")
-    @LeftRightHandler()
     async getAccount(@UserEntity() user: User, @Param() dto: ReadAccountDTO) {
         return await this.accountUseCases.read.execute({ accountId: dto.id })
     }
     @Get("/:accountId/transactions")
-    @LeftRightHandler()
     async getAccountTransactions(
         @UserEntity() user: User,
         @Param() params: { accountId: string }
@@ -92,7 +84,6 @@ export class AccountController {
         })
     }
     @Get("/:accountId/balance")
-    @LeftRightHandler()
     async accountBalance(
         @UserEntity() user: User,
         @Param() params: { accountId: string }
