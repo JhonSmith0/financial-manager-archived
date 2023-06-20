@@ -29,7 +29,6 @@ export class AccountController {
     ) {}
 
     @Post()
-    @AdaptErrors()
     @LeftRightHandler()
     async createAccount(
         @UserEntity() user: User,
@@ -42,7 +41,6 @@ export class AccountController {
     }
 
     @Get("search")
-    @AdaptErrors()
     @LeftRightHandler()
     async searchAccount(
         @UserEntity()
@@ -56,7 +54,6 @@ export class AccountController {
     }
 
     @Patch("/:id")
-    @AdaptErrors()
     @LeftRightHandler()
     async updateAccount(
         @UserEntity() user: User,
@@ -67,7 +64,6 @@ export class AccountController {
     }
 
     @Delete("/:id")
-    @AdaptErrors()
     @LeftRightHandler()
     async deleteAccount(
         @UserEntity() user: User,
@@ -79,13 +75,11 @@ export class AccountController {
     }
 
     @Get("/:id")
-    @AdaptErrors()
     @LeftRightHandler()
     async getAccount(@UserEntity() user: User, @Param() dto: ReadAccountDTO) {
         return await this.accountUseCases.read.execute({ accountId: dto.id })
     }
     @Get("/:accountId/transactions")
-    @AdaptErrors()
     @LeftRightHandler()
     async getAccountTransactions(
         @UserEntity() user: User,
@@ -98,7 +92,6 @@ export class AccountController {
         })
     }
     @Get("/:accountId/balance")
-    @AdaptErrors()
     @LeftRightHandler()
     async accountBalance(
         @UserEntity() user: User,

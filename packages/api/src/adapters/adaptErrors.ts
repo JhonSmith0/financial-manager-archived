@@ -4,6 +4,7 @@ import {
 	BadRequestException,
 	ConflictException,
 	ForbiddenException,
+	HttpException,
 	InternalServerErrorException,
 	NotFoundException,
 } from "@nestjs/common/exceptions";
@@ -17,7 +18,7 @@ const strategy = {
 
 new BadRequestException();
 
-export default function adaptErrors(error: ExpectedError) {
+export default function adaptErrors(error: ExpectedError): HttpException {
 	if (error.code in strategy)
 		return new strategy[error.code]({ ...error, message: error.message });
 
