@@ -1,10 +1,11 @@
-import { AccountUpdate, IAccount } from "@/interface"
-import { UseFormReturn } from "react-hook-form"
+import { AccountUpdate } from "@/interface"
+import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
 import styled from "styled-components"
 import { Button } from "./styled/Button"
 import { Container } from "./styled/Container"
 import { FieldSet } from "./styled/FieldSet"
 import { Form } from "./styled/Form"
+import { IconList } from "./styled/IconList"
 import { Input } from "./styled/Input"
 import { Label } from "./styled/Label"
 import { Title } from "./styled/Title"
@@ -16,32 +17,41 @@ export const StyledUpdateAccount = styled(Container)`
     }
 
     ${Button} {
+        padding: 1rem;
         margin-block: 2.2rem;
     }
 `
 
 interface Props {
-    data: IAccount
-    onSubmit(data: AccountUpdate): any
-    form: UseFormReturn<AccountUpdate>
+    onSubmit: ReturnType<UseFormHandleSubmit<AccountUpdate>>
+    register: UseFormRegister<AccountUpdate>
+    onCancel?(): any
 }
 
 export function UpdateAccount(props: Props) {
-    const { register, handleSubmit } = props.form
-
     return (
         <StyledUpdateAccount>
             <Title size="medium">Update Account</Title>
-            <Form onSubmit={handleSubmit(props.onSubmit)}>
+            <Form onSubmit={props.onSubmit}>
                 <FieldSet>
                     <Label>Name</Label>
-                    <Input type="text" {...register("name")} />
+                    <Input type="text" {...props.register("name")} />
                 </FieldSet>
                 <FieldSet>
                     <Label>Description</Label>
-                    <Input type="text" {...register("description")} />
+                    <Input type="text" {...props.register("description")} />
                 </FieldSet>
-                <Button type="submit">Create</Button>
+                <IconList>
+                    <Button type="submit">Update</Button>
+                    <Button
+                        onClick={(e) => {
+                            e.preventDefault()
+                            props.onCancel?.()
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                </IconList>
             </Form>
         </StyledUpdateAccount>
     )

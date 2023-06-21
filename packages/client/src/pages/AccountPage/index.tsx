@@ -1,5 +1,6 @@
 import { NewTransaction } from "@/components/NewTransaction"
 import { TransactionList } from "@/components/TransactionList"
+import { UpdateAccount } from "@/components/UpdateAccount"
 import { Balance } from "@/components/styled/Balance"
 import { Button } from "@/components/styled/Button"
 import { Container } from "@/components/styled/Container"
@@ -9,6 +10,7 @@ import { Input } from "@/components/styled/Input"
 import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
 import { Title } from "@/components/styled/Title"
 import { useAccount } from "@/hooks/accounts/useAccount"
+import { useUpdateAccount } from "@/hooks/accounts/useUpdateAccount"
 import { AccountUpdate } from "@/interface"
 import { AccountPageInfos } from "@/loaders/accountPage"
 import { updateAccount } from "@/services/account"
@@ -24,6 +26,11 @@ export const StyledAccountPage = styled(StyledHomeOutLet)`
     & > ${Title} {
         line-height: 1.2;
         margin: 0;
+        text-transform: capitalize;
+    }
+
+    & > ${Content} {
+        padding-inline: 0;
     }
 
     ${Container} {
@@ -44,9 +51,7 @@ export function AccountPage() {
 
     const infos = useAccount(data.account.id)
 
-    const { register, handleSubmit, getValues } = useForm<AccountUpdate>({
-        defaultValues: data.account,
-    })
+    const { form, onSubmit } = useUpdateAccount(data.account)
 
     return (
         <StyledAccountPage>
@@ -77,25 +82,14 @@ export function AccountPage() {
                     data={infos.transactions ?? []}
                 ></TransactionList>
             </Container>
-            <Container>
-                <Title size="medium">Update Account</Title>
-                <Form
-                    onSubmit={async () => {
-                        await updateAccount(getValues().id, getValues())
-                        await infos.read()
-                    }}
-                >
-                    <FieldSet>
-                        <FieldSet>Name</FieldSet>
-                        <Input type="text" {...register("name")} />
-                    </FieldSet>
-                    <FieldSet>
-                        <FieldSet>Description</FieldSet>
-                        <Input type="text" {...register("description")} />
-                    </FieldSet>
-                    <Button type="submit">Create</Button>
-                </Form>
-            </Container>
+            <UpdateAccount
+                register={form.register}
+                onSubmit={async (e) => {
+                    await onSubmit(e)
+                    await infos.read()
+                }}
+                onCancel={form.reset.bind(null, data.account)}
+            />
         </StyledAccountPage>
     )
 }
