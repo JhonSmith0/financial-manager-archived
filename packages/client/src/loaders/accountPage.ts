@@ -9,10 +9,8 @@ export async function accountPage(params: LoaderFunctionArgs) {
     const id = params.params.id as string
 
     const account = await readAccount(id)
-    const transactions = await readAccountTransactionsService(id)
-    const balance = await accountBalance(id)
 
-    return { account, transactions, balance }
+    return { account }
 }
 
 export interface AccountPageInfos
