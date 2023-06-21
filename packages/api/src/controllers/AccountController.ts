@@ -55,10 +55,13 @@ export class AccountController {
     @Patch("/:id")
     async updateAccount(
         @UserEntity() user: User,
-        @Body() body: any,
-        @Param() dto: UpdateAccountDTO
+        @Body() dto: UpdateAccountDTO,
+        @Param("id") id: string
     ) {
-        return await this.accountUseCases.update.execute({ user, dto })
+        return await this.accountUseCases.update.execute({
+            user,
+            dto: { ...dto, id },
+        })
     }
 
     @Delete("/:id")
