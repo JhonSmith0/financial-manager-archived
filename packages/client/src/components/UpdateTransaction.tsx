@@ -18,7 +18,7 @@ interface Props {
     onSave(data: ITransaction): any
 }
 
-export const StyledUpdateTransaction = styled(Card)`
+export const StyledUpdateTransaction = styled.div`
     ${Input} {
         width: 100%;
     }
@@ -42,12 +42,9 @@ export function UpdateTransaction(props: Props) {
     const { accounts } = useAccounts([], [props])
 
     return (
-        <StyledUpdateTransaction
-            as={"form"}
-            onSubmit={handleSubmit(props.onSave)}
-        >
+        <StyledUpdateTransaction>
             <Card title="Update Transaction" onClose={props.onClose}>
-                <Form>
+                <Form onSubmit={handleSubmit(props.onSave)}>
                     <FieldSet>
                         <Label>Id</Label>
                         <Input disabled {...register("id")} />
@@ -66,6 +63,8 @@ export function UpdateTransaction(props: Props) {
                     <FieldSet>
                         <Label>Amount</Label>
                         <Input
+                            type="number"
+                            step={0.01}
                             {...register("amount", { valueAsNumber: true })}
                         />
                     </FieldSet>

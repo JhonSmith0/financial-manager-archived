@@ -7,25 +7,27 @@ import { CreateTransactionUseCase } from "@/domain/Transaction/useCases/CreateTr
 import User from "@/domain/User/entity/User"
 import { fakeTransaction } from "../../../setup/faker"
 import { createRandomAccount, createRandomTransaction } from "../../../utils"
+import UserRepository from "@/domain/User/repo/UserRepository"
 
 describe("test", () => {
     let from: Account
     let to: Account
     let user: User
 
-    const getBalance = new AccountBalanceUseCase(new AccountRepository())
+    const accRepo = new AccountRepository()
+    const tranRepo = new TransactionRepository()
+    const userRepo = new UserRepository()
 
+    const getBalance = new AccountBalanceUseCase(accRepo)
+
+    const repo = new PrismaRepo()
     beforeAll(async () => {
-        const repo = new PrismaRepo()
-
         ;({
             accounts: [from, to],
             user,
         } = await createRandomAccount(repo, 2))
 
-        const createTransaction = new CreateTransactionUseCase(
-            new TransactionRepository()
-        )
+        const createTransaction = new CreateTransactionUseCase(tranRepo)
 
         for (const each of Array.from({ length: 10 })) {
             await createTransaction.execute({

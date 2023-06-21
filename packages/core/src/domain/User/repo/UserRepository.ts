@@ -1,7 +1,7 @@
-import { PrismaRepo } from "@/common/repo/PrismaRepo";
+import { PrismaRepo } from "@/common/repo/PrismaRepo"
 
 export default class UserRepository extends PrismaRepo {
-	public db = this.user;
+    public db = this.user
 }
 
 // if (unique) return await this.db.findUnique({ where: { [prop]: value } });

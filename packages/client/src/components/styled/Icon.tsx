@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Icon = styled.span`
     display: flex;
@@ -10,4 +10,4 @@ export const Icon = styled.span`
     svg {
         color: inherit;
     }
-`;
+`

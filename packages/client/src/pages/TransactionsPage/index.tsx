@@ -1,36 +1,59 @@
-import { Title } from "@/components/styled/Title";
-import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet";
-import { getTransactionsController } from "@/controllers/transaction/getTransactionsController";
-import transactionsState from "@/state/transaction/transactionsState";
-import { InferStateValueType, useHookstate } from "@hookstate/core";
-import { useEffect } from "react";
-import styled from "styled-components";
-import { NewTransaction } from "./NewTransaction";
-import { TransactionList } from "@/components/TransactionList";
+import { NewTransaction } from "@/components/NewTransaction"
+import { TransactionList } from "@/components/TransactionList"
+import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
+import { Title } from "@/components/styled/Title"
+import { ITransactionWithAccounts } from "@/interface"
+import {
+    getTransactionService,
+    removeTransactionService,
+    updateTransactionService,
+} from "@/services/transaction"
+import { InferStateValueType, useHookstate } from "@hookstate/core"
+import { useEffect } from "react"
+import styled from "styled-components"
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
-	padding-top: 2.8rem;
+    padding-top: 2.8rem;
 
-	overflow: auto;
-`;
+    /* overflow: auto; */
+`
 
-export function TransactionsPage() {
-	const state = useHookstate(transactionsState);
-	const data = state.get() as InferStateValueType<typeof state>;
+interface Props {
+    onSubmit?(): any
+}
 
-	console.log(data);
+export function TransactionsPage(props: Props) {
+    const state = useHookstate<ITransactionWithAccounts[]>([])
+    const data = state.get() as InferStateValueType<typeof state>
 
-	useEffect(() => {
-		(async () => {
-			await getTransactionsController({});
-		})();
-	}, []);
+    async function read() {
+        const result = await getTransactionService({})
+        state.set(result.results)
+    }
 
-	return (
-		<StyledTransactionsPage>
-			<Title>Transactions</Title>
-			<NewTransaction />
-			<TransactionList data={data} />
-		</StyledTransactionsPage>
-	);
+    useEffect(() => {
+        ;(async () => {
+            await read()
+        })()
+    }, [])
+
+    return (
+        <StyledTransactionsPage onSubmit={props.onSubmit}>
+            <Title>Transactions</Title>
+            <NewTransaction onSubmit={read} />
+            <TransactionList
+                data={data}
+                onRemove={async (data) => {
+                    await removeTransactionService(data)
+                    await read()
+                }}
+                onUpdate={async (data) => {
+                    await updateTransactionService(data)
+
+                    await read()
+                }}
+                enableButtons={true}
+            />
+        </StyledTransactionsPage>
+    )
 }

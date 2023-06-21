@@ -1,4 +1,3 @@
-import { LeftRightHandler } from "@financial/core/dist/common/decorators/LeftRightHandler"
 import CreateAccountDTO from "@financial/core/dist/domain/Account/dto/CreateAccountDTO"
 import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO"
 import { ReadAccountDTO } from "@financial/core/dist/domain/Account/dto/ReadAccountDTO"
@@ -17,10 +16,12 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from "@nestjs/common"
-import { AdaptErrors } from "../adapters/adaptErrors"
 import { UserEntity } from "../decorators/UserEntity"
+import { UserHasAcessToAccount } from "../guards/UserHasAcessToAccount"
 
+@UseGuards(UserHasAcessToAccount)
 @Controller("account")
 export class AccountController {
     constructor(
@@ -29,8 +30,6 @@ export class AccountController {
     ) {}
 
     @Post()
-    @AdaptErrors()
-    @LeftRightHandler()
     async createAccount(
         @UserEntity() user: User,
         @Body() body: ClassProperties<CreateAccountDTO>
@@ -42,8 +41,6 @@ export class AccountController {
     }
 
     @Get("search")
-    @AdaptErrors()
-    @LeftRightHandler()
     async searchAccount(
         @UserEntity()
         user: User,
@@ -56,19 +53,18 @@ export class AccountController {
     }
 
     @Patch("/:id")
-    @AdaptErrors()
-    @LeftRightHandler()
     async updateAccount(
         @UserEntity() user: User,
-        @Body() body: any,
-        @Param() dto: UpdateAccountDTO
+        @Body() dto: UpdateAccountDTO,
+        @Param("id") id: string
     ) {
-        return await this.accountUseCases.update.execute({ user, dto })
+        return await this.accountUseCases.update.execute({
+            user,
+            dto: { ...dto, id },
+        })
     }
 
     @Delete("/:id")
-    @AdaptErrors()
-    @LeftRightHandler()
     async deleteAccount(
         @UserEntity() user: User,
         @Param() dto: DeleteAccountDTO
@@ -79,14 +75,11 @@ export class AccountController {
     }
 
     @Get("/:id")
-    @AdaptErrors()
-    @LeftRightHandler()
     async getAccount(@UserEntity() user: User, @Param() dto: ReadAccountDTO) {
         return await this.accountUseCases.read.execute({ accountId: dto.id })
     }
+
     @Get("/:accountId/transactions")
-    @AdaptErrors()
-    @LeftRightHandler()
     async getAccountTransactions(
         @UserEntity() user: User,
         @Param() params: { accountId: string }
@@ -98,8 +91,6 @@ export class AccountController {
         })
     }
     @Get("/:accountId/balance")
-    @AdaptErrors()
-    @LeftRightHandler()
     async accountBalance(
         @UserEntity() user: User,
         @Param() params: { accountId: string }

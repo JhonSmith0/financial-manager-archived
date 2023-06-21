@@ -1,21 +1,21 @@
-import { Transformer } from "@/common/Transformer";
-import { Expose } from "class-transformer";
+import { Transformer } from "@/common/Transformer"
+import { Expose } from "class-transformer"
 
 class Test {
-  @Expose()
-  name: string;
+    @Expose()
+    name: string
 }
 
 describe("Transformer", () => {
-  const data = {
-    name: "hello!",
-    extraProp: "I'm not supposed to be here!",
-  };
+    const data = {
+        name: "hello!",
+        extraProp: "I'm not supposed to be here!",
+    }
 
-  const instance = Transformer.plainToInstance(Test, data);
+    const instance = Transformer.plainToInstance(Test, data)
 
-  it("should have removed the extraProp", () => {
-    //@ts-ignore
-    expect(instance.extraProp).toBeFalsy();
-  });
-});
+    it("should have removed the extraProp", () => {
+        //@ts-ignore
+        expect(instance.extraProp).toBeFalsy()
+    })
+})

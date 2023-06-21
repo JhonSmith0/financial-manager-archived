@@ -4,29 +4,34 @@ import {
     readAccount,
     readAccountTransactionsService,
 } from "@/services/account"
-import { useHookstate } from "@hookstate/core"
+import { InferStateValueType, useHookstate } from "@hookstate/core"
 import { useEffect } from "react"
 
-export function useAccount(id: string) {
+export function useAccount(id: string, deps = []) {
     const transactionsState = useHookstate<ITransactionWithAccounts[]>([])
     const balanceState = useHookstate<number>(0)
     const accountState = useHookstate<IAccount | null>(null)
 
-    useEffect(() => {
-        ;(async function () {
-            const acc = await readAccount(id)
-            const balance = await accountBalance(id)
-            const trs = await readAccountTransactionsService(id)
+    async function read() {
+        const acc = await readAccount(id)
+        const balance = await accountBalance(id)
+        const trs = await readAccountTransactionsService(id)
 
-            transactionsState.set(trs)
-            balanceState.set(balance)
-            accountState.set(acc)
-        })()
-    }, [id])
+        transactionsState.set(trs)
+        balanceState.set(balance)
+        accountState.set(acc)
+    }
+
+    useEffect(() => {
+        read()
+    }, [id, ...deps])
 
     return {
-        transactions: transactionsState.get(),
+        transactions: transactionsState.get() as InferStateValueType<
+            typeof transactionsState
+        >,
         balance: balanceState.get(),
         account: accountState.get(),
+        read,
     }
 }

@@ -1,5 +1,8 @@
 {
     "src/**/*.{js,jsx,ts,tsx}": [
         "npx jest --bail  --passWithNoTests --findRelatedTests"
+    ],
+    "**/*.{js,jsx,ts,tsx,json}": [
+        "npx prettier --write"
     ]
 }

@@ -1,5 +1,6 @@
 import { AccountRepository } from "../repo/AccountRepository"
 import { AccountBalanceUseCase } from "./AccountBalanceUseCase"
+import { AccountOwnerUseCase } from "./AccountOwnerUseCase"
 import CreateAccountUseCase from "./CreateAccountUseCase"
 import { DeleteAccountUseCase } from "./DeleteAccountUseCase"
 import { ReadAccountUseCase } from "./ReadAccountUseCase.1"
@@ -15,4 +16,5 @@ export class AccountUseCases {
     public remove = new DeleteAccountUseCase(this.repo)
     public search = new SearchAccountUseCase(this.repo)
     public balance = new AccountBalanceUseCase(this.repo)
+    public accountOwner = new AccountOwnerUseCase(this.repo)
 }
