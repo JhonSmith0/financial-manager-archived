@@ -13,10 +13,9 @@ export function useNewTransaction(defaultValues?: Partial<TransactionCreate>) {
     return {
         form,
         onSubmit: form.handleSubmit(async (data) => {
-            form.reset()
-            console.log({ data })
-
             await newTransactionController(data)
+            form.resetField("amount")
+            form.resetField("description")
         }),
     }
 }
