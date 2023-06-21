@@ -34,7 +34,7 @@ export function NewAccount() {
                 })}
             >
                 <FieldSet>
-                    <FieldSet>Name</FieldSet>
+                    <Label>Name</Label>
                     <Input type="text" {...register("name")} />
                 </FieldSet>
                 <FieldSet>
