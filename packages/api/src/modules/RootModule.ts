@@ -1,41 +1,11 @@
-import { Global, Module, Provider } from "@nestjs/common"
+import { Global, Module } from "@nestjs/common"
 
-import JWT from "@financial/core/dist/common/JWT/JWT"
-import LoginController from "@financial/core/dist/controllers/auth/LoginController"
-import MeController from "@financial/core/dist/controllers/auth/MeController"
-import RegisterController from "@financial/core/dist/controllers/auth/RegisterController"
-import UserToken from "@financial/core/dist/domain/User/di/UserTokens"
-
-import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateUserUseCase"
 import { RouterModule } from "@nestjs/core"
 import { AccountModule } from "./AccountModule"
 import AuthModule from "./AuthModule"
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers"
 import { TransactionModule } from "./TransactionModule"
-import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository"
 
-const providers: Provider[] = [
-    {
-        provide: UserToken.userRepository,
-        async useFactory() {
-            const repo = new UserRepository()
-            await repo.$connect()
-            return repo
-        },
-    },
-    {
-        provide: JWT,
-        useValue: new JWT("123"),
-    },
-
-    {
-        provide: CreateUserUseCase,
-        inject: [UserToken.userRepository],
-        useFactory(repo) {
-            return new CreateUserUseCase(repo)
-        },
-    },
-]
 @Global()
 @Module({
     imports: [
@@ -51,7 +21,5 @@ const providers: Provider[] = [
         OnlyLoggedUsers,
         AccountModule,
     ],
-    providers,
-    exports: providers,
 })
 export default class RootModule {}
