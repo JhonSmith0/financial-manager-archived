@@ -5,4 +5,5 @@ export const StyledHomeOutLet = styled.div`
     --block-padding: 4.2rem;
     padding-inline: var(--inline-padding);
     padding-block: var(--block-padding);
+    overflow-y: auto;
 `
