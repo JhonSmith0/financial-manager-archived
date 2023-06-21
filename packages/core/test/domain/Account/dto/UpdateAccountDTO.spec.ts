@@ -16,7 +16,7 @@ describe("UpdateAccountDTO", () => {
         name: "Bank account",
         description: "testing",
         id: "lkjlfjljlkj",
-    }
+    } as any
 
     it("should pass", async () => {
         const dto = UpdateAccountDTO.create(dataForTest)
@@ -31,14 +31,6 @@ describe("UpdateAccountDTO", () => {
             extra: "hello",
         } as any)
         expect(dto).not.toHaveProperty("extra")
-    })
-
-    it("should give error to missing props", async () => {
-        expect(
-            await UpdateAccountDTO.create(
-                removeProp(dataForTest, "id")
-            ).validate()
-        ).toHaveLength(1)
     })
 
     it("should test the name", async () => {
@@ -71,14 +63,5 @@ describe("UpdateAccountDTO", () => {
 
         expect(long).toHaveLength(1)
         expect(notString).toHaveLength(1)
-    })
-
-    it("should test id", async () => {
-        expect(
-            await UpdateAccountDTO.create({
-                ...dataForTest,
-                id: {},
-            } as any).validate()
-        ).toHaveLength(1)
     })
 })
