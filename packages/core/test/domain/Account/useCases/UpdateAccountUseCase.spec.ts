@@ -75,7 +75,7 @@ describe("UpdateAccountUseCase", () => {
         } as any)
 
         const result = await useCase.execute({
-            dto,
+            dto: { ...dto, id: acc.id },
             user: { id: acc.id },
         })
 

@@ -39,12 +39,12 @@ export class UpdateAccountUseCase extends UseCase<Props> {
                     equals: dto.name,
                 },
                 userId: {
-                    not: {
-                        equals: user.id,
-                    },
+                    equals: user.id,
                 },
                 id: {
-                    equals: dto.id,
+                    not: {
+                        equals: dto.id,
+                    },
                 },
             },
         })
