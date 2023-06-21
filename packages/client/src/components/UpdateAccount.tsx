@@ -15,11 +15,6 @@ export const StyledUpdateAccount = styled(Container)`
     ${Label} {
         font-size: 2rem;
     }
-
-    ${Button} {
-        padding: 1rem;
-        margin-block: 2.2rem;
-    }
 `
 
 interface Props {

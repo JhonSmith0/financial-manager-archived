@@ -31,15 +31,20 @@ export const StyledUpdateTransaction = styled.div`
 `
 
 export function UpdateTransaction(props: Props) {
-    const { register, handleSubmit } = useForm<ITransaction>({
+    const { register, handleSubmit, getValues } = useForm<ITransaction>({
         defaultValues: {
             ...props.transaction,
-            date: new Date().toISOString().slice(0, 10) as any,
+            date: new Date(props.transaction.date)
+                .toISOString()
+                .slice(0, 10) as any,
         },
         resolver: yupResolver(updateTransactionSchema),
     })
 
-    const { accounts } = useAccounts([], [props])
+    const { accounts } = useAccounts(
+        [props.transaction.fromAccount, props.transaction.toAccount],
+        [props]
+    )
 
     return (
         <StyledUpdateTransaction>
