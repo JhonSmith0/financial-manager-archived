@@ -1,25 +1,23 @@
 import { NewTransaction } from "@/components/NewTransaction"
 import { TransactionList } from "@/components/TransactionList"
-import { UpdateAccount } from "@/components/UpdateAccount"
+import { UpdateAccount, StyledUpdateAccount } from "@/components/UpdateAccount"
 import { Balance } from "@/components/styled/Balance"
 import { Button } from "@/components/styled/Button"
 import { Container } from "@/components/styled/Container"
 import { Content } from "@/components/styled/Content"
-import { FieldSet } from "@/components/styled/FieldSet"
-import { Input } from "@/components/styled/Input"
+import { RedButton } from "@/components/styled/RedButton"
 import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
 import { Title } from "@/components/styled/Title"
 import { useAccount } from "@/hooks/accounts/useAccount"
+import { useAccounts } from "@/hooks/accounts/useAccounts"
 import { useUpdateAccount } from "@/hooks/accounts/useUpdateAccount"
-import { AccountUpdate } from "@/interface"
 import { AccountPageInfos } from "@/loaders/accountPage"
-import { updateAccount } from "@/services/account"
+import { removeAccount } from "@/services/account"
 import {
     removeTransactionService,
     updateTransactionService,
 } from "@/services/transaction"
-import { useForm } from "react-hook-form"
-import { Form, useLoaderData } from "react-router-dom"
+import { useLoaderData, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export const StyledAccountPage = styled(StyledHomeOutLet)`
@@ -44,14 +42,39 @@ export const StyledAccountPage = styled(StyledHomeOutLet)`
             font-weight: 400;
         }
     }
+
+    ${StyledUpdateAccount} {
+        ${Button} {
+            padding: 0.5rem;
+            margin-block: 2.2rem;
+        }
+    }
+
+    ${RedButton} {
+        padding: 0.8rem;
+    }
 `
 
 export function AccountPage() {
     const data = useLoaderData() as AccountPageInfos
 
     const infos = useAccount(data.account.id)
+    const nav = useNavigate()
 
     const { form, onSubmit } = useUpdateAccount(data.account)
+
+    async function deleteAccount() {
+        if (
+            !confirm(
+                `This will delete this account and all its transactions are you sure ?`
+            )
+        )
+            return
+        await removeAccount(data.account.id)
+        nav("/accounts")
+    }
+
+    const { accounts } = useAccounts()
 
     return (
         <StyledAccountPage>
@@ -62,7 +85,11 @@ export function AccountPage() {
                 <p>{infos.account?.description}</p>
             </Content>
             <Container>
-                <NewTransaction onSubmit={infos.read} />
+                <NewTransaction
+                    fromAccount={[data.account]}
+                    onSubmit={infos.read}
+                    toAccount={accounts}
+                />
             </Container>
             <Container>
                 <Title size="medium">
@@ -90,6 +117,10 @@ export function AccountPage() {
                 }}
                 onCancel={form.reset.bind(null, data.account)}
             />
+            <Container>
+                <Title size="medium">Delete accouunt</Title>
+                <RedButton onClick={deleteAccount}>Delete</RedButton>
+            </Container>
         </StyledAccountPage>
     )
 }

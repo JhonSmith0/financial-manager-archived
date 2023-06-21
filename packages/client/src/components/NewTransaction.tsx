@@ -5,7 +5,7 @@ import { Form } from "@/components/styled/Form"
 import { Title } from "@/components/styled/Title"
 import { useAccounts } from "@/hooks/accounts/useAccounts"
 import { useNewTransaction } from "@/hooks/transactions/useNewTransaction"
-import { TransactionCreate } from "@/interface"
+import { IAccount, TransactionCreate } from "@/interface"
 import { search } from "@/state/accountsState"
 import { useEffect } from "react"
 import styled from "styled-components"
@@ -27,22 +27,19 @@ export const StyledNewTransaction = styled(Container)`
 
 interface Props {
     onSubmit?(data: TransactionCreate): any
+    fromAccount: IAccount[]
+    toAccount: IAccount[]
 }
 
 export function NewTransaction(props: Props) {
-    const { accounts } = useAccounts()
-
     const { form, onSubmit } = useNewTransaction()
-
-    useEffect(() => {
-        search({ name: "" })
-    }, [])
 
     return (
         <StyledNewTransaction>
             <Title size="medium">New Transaction</Title>
             <NewTransactionForm
-                accounts={accounts}
+                fromAccount={props.fromAccount}
+                toAccount={props.toAccount}
                 form={form}
                 attrs={{
                     async onSubmit(e) {

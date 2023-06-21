@@ -14,18 +14,20 @@ export const StyledNewTransactionForm = styled(Form)`
     }
 
     ${Button} {
-        padding-block: 0.6rem;
+        padding: 0.9rem 2rem;
         align-self: end;
+        margin-block: 0;
     }
 `
 
 interface Props {
     form: UseFormReturn<TransactionCreate>
-    accounts: IAccount[]
     attrs?: FormHTMLAttributes<any>
+    fromAccount: IAccount[]
+    toAccount: IAccount[]
 }
 
-export function NewTransactionForm({ accounts, form, attrs }: Props) {
+export function NewTransactionForm({ form, attrs, ...props }: Props) {
     const { register } = form
 
     return (
@@ -52,7 +54,7 @@ export function NewTransactionForm({ accounts, form, attrs }: Props) {
             <FieldSet>
                 <Label>From Account</Label>
                 <select {...register("fromAccountId")}>
-                    {accounts.map((obj) => (
+                    {props.fromAccount.map((obj) => (
                         <option key={obj.id} value={obj.id}>
                             {obj.name}
                         </option>
@@ -62,7 +64,7 @@ export function NewTransactionForm({ accounts, form, attrs }: Props) {
             <FieldSet>
                 <Label>To Account</Label>
                 <select {...register("toAccountId")}>
-                    {accounts.map((obj) => (
+                    {props.toAccount.map((obj) => (
                         <option key={obj.id} value={obj.id}>
                             {obj.name}
                         </option>

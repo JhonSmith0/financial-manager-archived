@@ -2,6 +2,8 @@ import { NewTransaction } from "@/components/NewTransaction"
 import { TransactionList } from "@/components/TransactionList"
 import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
 import { Title } from "@/components/styled/Title"
+import { useAccount } from "@/hooks/accounts/useAccount"
+import { useAccounts } from "@/hooks/accounts/useAccounts"
 import { ITransactionWithAccounts } from "@/interface"
 import {
     getTransactionService,
@@ -37,10 +39,16 @@ export function TransactionsPage(props: Props) {
         })()
     }, [])
 
+    const { accounts } = useAccounts()
+
     return (
         <StyledTransactionsPage onSubmit={props.onSubmit}>
             <Title>Transactions</Title>
-            <NewTransaction onSubmit={read} />
+            <NewTransaction
+                fromAccount={accounts}
+                toAccount={accounts}
+                onSubmit={read}
+            />
             <TransactionList
                 data={data}
                 onRemove={async (data) => {
