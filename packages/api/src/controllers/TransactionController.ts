@@ -1,7 +1,5 @@
 import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases"
 import { CreateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/CreateTransactionDTO"
-import { DeleteTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/DeleteTransactionDTO"
-import { ReadTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/ReadTransactionDTO"
 import { SearchTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/SearchTransactionDTO"
 import { UpdateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/UpdateTransactionDTO"
 import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
@@ -47,14 +45,14 @@ export class TransactionController {
     }
 
     @Get("/:id")
-    public async readTransaction(@Param() dto: ReadTransactionDTO) {
-        return await this.transactionUseCases.read.execute(dto.id)
+    public async readTransaction(@Param("id") id: string) {
+        return await this.transactionUseCases.read.execute(id)
     }
 
     @Delete("/:id")
-    public async removeTransaction(@Param() dto: DeleteTransactionDTO) {
+    public async removeTransaction(@Param("id") id: string) {
         return await this.transactionUseCases.remove.execute({
-            dto: { id: dto.id },
+            dto: { id },
         })
     }
 
