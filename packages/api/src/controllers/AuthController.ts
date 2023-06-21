@@ -50,13 +50,13 @@ export default class AuthController {
     }
 
     @Post("login")
-    @HttpCode(204)
+    @HttpCode(200)
     async login(@Body() body: LoginUserDTO, @Res() res: Response) {
         await this.handle(this.loginController, LoginUserDTO, res, body)
     }
 
     @Post("register")
-    @HttpCode(204)
+    @HttpCode(201)
     async register(@Body() body: RegisterUserDTO, @Res() res: Response) {
         await this.handle(this.registerController, RegisterUserDTO, res, body)
     }
