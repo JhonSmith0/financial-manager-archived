@@ -9,8 +9,8 @@ import {
 } from "@nestjs/common"
 
 import LoginController from "@financial/core/dist/controllers/auth/LoginController"
-import RegisterController from "@financial/core/dist/controllers/auth/RegisterController"
 import MeController from "@financial/core/dist/controllers/auth/MeController"
+import RegisterController from "@financial/core/dist/controllers/auth/RegisterController"
 
 import RegisterUserDTO from "@financial/core/dist/domain/User/dto/CreateUserDTO"
 
@@ -18,10 +18,9 @@ import LoginUserDTO from "@financial/core/dist/domain/User/dto/LoginUserDTO"
 
 import ControllerType from "@financial/core/dist/common/Controller"
 
-import { Request, Response } from "express"
-import { AdaptErrors } from "../adapters/adaptErrors"
-import { parse } from "cookie"
 import { Either } from "@financial/core/dist/common/ErrorHandlingTypes"
+import { parse } from "cookie"
+import { Request, Response } from "express"
 
 @Controller("auth")
 export default class AuthController {

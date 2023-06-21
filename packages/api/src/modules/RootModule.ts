@@ -27,32 +27,12 @@ const providers: Provider[] = [
         provide: JWT,
         useValue: new JWT("123"),
     },
-    {
-        provide: LoginController,
-        inject: [UserToken.userRepository, JWT],
-        useFactory(repo, jwt) {
-            return new LoginController(repo, jwt)
-        },
-    },
-    {
-        provide: RegisterController,
-        inject: [CreateUserUseCase, JWT],
-        useFactory(useCase, jwt) {
-            return new RegisterController(useCase, jwt)
-        },
-    },
+
     {
         provide: CreateUserUseCase,
         inject: [UserToken.userRepository],
         useFactory(repo) {
             return new CreateUserUseCase(repo)
-        },
-    },
-    {
-        provide: MeController,
-        inject: [UserToken.userRepository, JWT],
-        useFactory(repo, jwt) {
-            return new MeController(repo, jwt)
         },
     },
 ]

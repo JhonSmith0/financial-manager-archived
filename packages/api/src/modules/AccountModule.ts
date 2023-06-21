@@ -6,8 +6,6 @@ import { AccountController } from "../controllers/AccountController"
 import { TransactionModule } from "./TransactionModule"
 import { AccountRepository } from "@financial/core/dist/domain/Account/repo/AccountRepository"
 
-console.log(123)
-
 const providers: Provider[] = [
     {
         provide: Tokens.accountRepository,
