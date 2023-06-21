@@ -52,7 +52,6 @@ export default class AuthController {
     @Post("login")
     @HttpCode(204)
     async login(@Body() body: LoginUserDTO, @Res() res: Response) {
-        console.log(body)
         await this.handle(this.loginController, LoginUserDTO, res, body)
     }
 

@@ -22,8 +22,6 @@ export default function adaptErrors(error: ExpectedError): HttpException {
     if (error.code in strategy)
         return new strategy[error.code]({ ...error, message: error.message })
 
-    console.log({ error })
-
     return new InternalServerErrorException("Something went wrong!")
 }
 
