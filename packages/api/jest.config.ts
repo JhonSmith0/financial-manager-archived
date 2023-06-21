@@ -23,7 +23,7 @@ const jestConfig: JestConfigWithTsJest = {
     // [...]
     roots: ["<rootDir>"],
     preset: "ts-jest",
-    // modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
+    modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
     moduleNameMapper: pathsToModuleNameMapper(
         compilerOptions.paths /*, { prefix: '<rootDir>/' } */
     ),
@@ -32,7 +32,7 @@ const jestConfig: JestConfigWithTsJest = {
     transform: {
         "^.+\\.(t|j)sx?$": ["@swc/jest", config as any],
     },
-    // setupFilesAfterEnv: ["./test/setup/index.ts"],
+    setupFilesAfterEnv: ["./test/setup/index.ts"],
     bail: true,
     passWithNoTests: true,
 }

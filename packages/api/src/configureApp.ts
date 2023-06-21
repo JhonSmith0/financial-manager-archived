@@ -1,6 +1,6 @@
 import { INestApplication, ValidationPipe } from "@nestjs/common"
-import { AllExceptionFilter } from "filters/AllException"
-import { AdaptLeftRightInterceptor } from "interceptors/AdaptLeftRight"
+import { AllExceptionFilter } from "@/filters/AllException"
+import { AdaptLeftRightInterceptor } from "@/interceptors/AdaptLeftRight"
 
 export function configureApp(app: INestApplication) {
     app.useGlobalPipes(
