@@ -12,10 +12,8 @@ export const StyledCard = styled(Container)`
     border-radius: 4px;
     overflow: hidden;
     width: 50rem;
-    position: absolute;
 
     background: #fff !important;
-    z-index: 99;
 
     ${Bar} {
         font-size: 2.4rem;
