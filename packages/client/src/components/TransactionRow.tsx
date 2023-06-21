@@ -22,6 +22,9 @@ export const StyledTransactionRow = styled(TableRow)`
     ${StyledUpdateTransaction} {
         position: absolute;
     }
+    a {
+        text-decoration: none;
+    }
 `
 
 export function TransactionRow({
