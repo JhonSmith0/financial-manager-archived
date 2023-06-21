@@ -1,24 +1,15 @@
-import { configureApp } from "@/configureApp"
 import AuthModule from "@/modules/AuthModule"
 import { fakeUser } from "@financial/faker"
-import { NestApplication } from "@nestjs/core"
-import { Test } from "@nestjs/testing"
+import { INestApplication } from "@nestjs/common"
 import { parse } from "cookie"
 import supertest, { SuperTest } from "supertest"
+import { createTestFromModule } from "../utils/createTestFromModule"
 describe("Auth controller", () => {
     let test: SuperTest<supertest.Test>
-    let app: NestApplication
+    let app: INestApplication
 
     beforeAll(async () => {
-        const module = await Test.createTestingModule({
-            imports: [AuthModule],
-        }).compile()
-
-        app = module.createNestApplication()
-        test = supertest(app.getHttpServer())
-
-        configureApp(app)
-
+        ;({ app, test } = await createTestFromModule({ imports: [AuthModule] }))
         await app.init()
     })
 
