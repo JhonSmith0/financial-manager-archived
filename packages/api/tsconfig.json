@@ -9,7 +9,7 @@
         "target": "es2017",
         "sourceMap": true,
         "outDir": "./lib",
-        // "baseUrl": "",
+        "baseUrl": "./src",
         "incremental": true,
         "skipLibCheck": true,
         "resolveJsonModule": true,
@@ -19,8 +19,6 @@
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
         "allowJs": true,
-        "paths": {
-            // "@/*": ["./src/*"]
-        }
+        "paths": {}
     }
 }
