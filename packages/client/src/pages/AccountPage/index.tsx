@@ -1,3 +1,4 @@
+import { NewTransaction } from "@/components/NewTransaction"
 import { TransactionList } from "@/components/TransactionList"
 import { Balance } from "@/components/styled/Balance"
 import { Container } from "@/components/styled/Container"
@@ -37,6 +38,9 @@ export function AccountPage() {
             <Content>
                 <p>{data.account.description}</p>
             </Content>
+            <Container>
+                <NewTransaction />
+            </Container>
             <Container>
                 <Title size="big">
                     <span>Transactions</span>

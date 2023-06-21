@@ -1,3 +1,4 @@
+import { NewTransaction } from "@/components/NewTransaction"
 import { TransactionList } from "@/components/TransactionList"
 import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
 import { Title } from "@/components/styled/Title"
@@ -10,7 +11,6 @@ import {
 import { InferStateValueType, useHookstate } from "@hookstate/core"
 import { useEffect } from "react"
 import styled from "styled-components"
-import { NewTransaction } from "./NewTransaction"
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
     padding-top: 2.8rem;
