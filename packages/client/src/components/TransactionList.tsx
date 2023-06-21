@@ -1,14 +1,17 @@
-import { IconList } from "./styled/IconList"
-import { TableRow } from "./styled/StyledTable/TableRow"
-import { Table } from "./styled/StyledTable/Table"
 import {
-    ITransaction,
     ITransactionWithAccounts,
     RemoveTransaction,
     UpdateTransaction,
 } from "@/interface"
+import { useHookstate } from "@hookstate/core"
+import Draggable from "react-draggable"
 import styled from "styled-components"
+import { StyledCard } from "./Card"
 import { TransactionRow } from "./TransactionRow"
+import { UpdateTransaction as UpdateTransactionComponent } from "./UpdateTransaction"
+import { IconList } from "./styled/IconList"
+import { Table } from "./styled/StyledTable/Table"
+import { TableRow } from "./styled/StyledTable/TableRow"
 
 export const StyledTransactionList = styled.div`
     ${TableRow} {
@@ -19,6 +22,11 @@ export const StyledTransactionList = styled.div`
     ${Table} {
         max-height: 100vh;
         overflow-y: auto;
+    }
+
+    ${StyledCard} {
+        position: absolute;
+        z-index: 999;
     }
 
     ${IconList} {
@@ -43,16 +51,40 @@ export function TransactionList({
     onUpdate,
     enableButtons = false,
 }: Props) {
+    const editing = useHookstate<ITransactionWithAccounts | null>(null)
+    const beingEdited = editing.ornull?.get()
+
+    function onRemoveButton(data: ITransactionWithAccounts) {
+        onRemove(data)
+    }
+    function onEditButton(data: ITransactionWithAccounts) {
+        editing.set({ ...data })
+    }
+
     return (
         <StyledTransactionList>
+            {beingEdited && (
+                <Draggable allowAnyClick={false} handle={"header"} scale={1.1}>
+                    <div>
+                        <UpdateTransactionComponent
+                            onClose={() => editing.set(null)}
+                            onSave={(data) => {
+                                editing.set(null)
+                                onUpdate(data)
+                            }}
+                            transaction={beingEdited}
+                        />
+                    </div>
+                </Draggable>
+            )}
             {!!data.length && (
                 <Table>
                     {data.map((e) => (
                         <TransactionRow
                             data={e}
                             key={e.id}
-                            onRemove={onRemove}
-                            onUpdate={onUpdate}
+                            onRemoveButton={onRemoveButton}
+                            onEditButton={onEditButton}
                             enableButtons={enableButtons}
                         />
                     ))}

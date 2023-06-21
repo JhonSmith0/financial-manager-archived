@@ -1,34 +1,24 @@
-import { useTransactionRow } from "@/hooks/transactions/useTransactionRow"
-import {
-    IAccount,
-    ITransactionWithAccounts,
-    RemoveTransaction,
-    UpdateTransaction,
-} from "@/interface"
+import { ITransactionWithAccounts } from "@/interface"
+import { useHookstate } from "@hookstate/core"
 import { BiCog } from "react-icons/bi"
 import { FiTrash2 } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import {
-    StyledUpdateTransaction,
-    UpdateTransaction as UpdateTransactionComponent,
-} from "./UpdateTransaction"
+import { StyledUpdateTransaction } from "./UpdateTransaction"
 import { IconList } from "./styled/IconList"
 import { Input } from "./styled/Input"
 import { TableRow } from "./styled/StyledTable/TableRow"
 import { TableRowItem } from "./styled/StyledTable/TableRowItem"
-import { remove } from "@/state/accountsState"
-import { useHookstate } from "@hookstate/core"
 
 interface Props {
     data: ITransactionWithAccounts
-    onRemove(transaction: RemoveTransaction): any
-    onUpdate(transaction: UpdateTransaction): any
+    onRemoveButton(transaction: ITransactionWithAccounts): any
+    onEditButton(transaction: ITransactionWithAccounts): any
     enableButtons?: boolean
 }
 
 export const StyledTransactionRow = styled(TableRow)`
-    position: relative;
+    /* position: relative; */
     ${StyledUpdateTransaction} {
         position: absolute;
     }
@@ -36,9 +26,10 @@ export const StyledTransactionRow = styled(TableRow)`
 
 export function TransactionRow({
     data,
-    onRemove,
-    onUpdate,
     enableButtons = false,
+
+    onEditButton,
+    onRemoveButton,
 }: Props) {
     const { fromAccount, toAccount } = data
 
@@ -47,13 +38,6 @@ export function TransactionRow({
 
     return (
         <>
-            {editing && (
-                <UpdateTransactionComponent
-                    onClose={editingState.set.bind(null, false)}
-                    onSave={onUpdate.bind(null)}
-                    transaction={data}
-                />
-            )}
             <StyledTransactionRow>
                 <TableRowItem>
                     <Input
@@ -77,10 +61,10 @@ export function TransactionRow({
                 {enableButtons && (
                     <TableRowItem>
                         <IconList>
-                            <button onClick={onRemove.bind(null, data)}>
+                            <button onClick={onRemoveButton.bind(null, data)}>
                                 <FiTrash2 />
                             </button>
-                            <button onClick={editingState.set.bind(null, true)}>
+                            <button onClick={onEditButton.bind(null, data)}>
                                 <BiCog />
                             </button>
                         </IconList>

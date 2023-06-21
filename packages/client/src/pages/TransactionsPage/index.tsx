@@ -1,38 +1,57 @@
-import { Title } from "@/components/styled/Title"
+import { TransactionList } from "@/components/TransactionList"
 import { StyledHomeOutLet } from "@/components/styled/StyledHomeOutLet"
-import { getTransactionsController } from "@/controllers/transaction/getTransactionsController"
-import transactionsState from "@/state/transaction/transactionsState"
+import { Title } from "@/components/styled/Title"
+import { ITransactionWithAccounts } from "@/interface"
+import {
+    getTransactionService,
+    removeTransactionService,
+    updateTransactionService,
+} from "@/services/transaction"
 import { InferStateValueType, useHookstate } from "@hookstate/core"
 import { useEffect } from "react"
 import styled from "styled-components"
 import { NewTransaction } from "./NewTransaction"
-import { TransactionList } from "@/components/TransactionList"
-import { ITransaction } from "@/interface"
 
 const StyledTransactionsPage = styled(StyledHomeOutLet)`
     padding-top: 2.8rem;
 
-    overflow: auto;
+    /* overflow: auto; */
 `
 
-export function TransactionsPage() {
-    const state = useHookstate(transactionsState)
+interface Props {
+    onSubmit?(): any
+}
+
+export function TransactionsPage(props: Props) {
+    const state = useHookstate<ITransactionWithAccounts[]>([])
     const data = state.get() as InferStateValueType<typeof state>
+
+    async function read() {
+        const result = await getTransactionService({})
+        state.set(result.results)
+    }
 
     useEffect(() => {
         ;(async () => {
-            await getTransactionsController({})
+            await read()
         })()
     }, [])
 
     return (
-        <StyledTransactionsPage>
+        <StyledTransactionsPage onSubmit={props.onSubmit}>
             <Title>Transactions</Title>
-            <NewTransaction />
+            <NewTransaction onSubmit={read} />
             <TransactionList
                 data={data}
-                onRemove={() => {}}
-                onUpdate={() => {}}
+                onRemove={async (data) => {
+                    await removeTransactionService(data)
+                    await read()
+                }}
+                onUpdate={async (data) => {
+                    await updateTransactionService(data)
+
+                    await read()
+                }}
                 enableButtons={true}
             />
         </StyledTransactionsPage>

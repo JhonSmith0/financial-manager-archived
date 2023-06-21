@@ -1,13 +1,14 @@
-import { Container } from "@/components/styled/Container"
-import { Title } from "@/components/styled/Title"
-import { Form } from "@/components/styled/Form"
+import { NewTransactionForm } from "@/components/NewTransactionForm"
 import { Button } from "@/components/styled/Button"
+import { Container } from "@/components/styled/Container"
+import { Form } from "@/components/styled/Form"
+import { Title } from "@/components/styled/Title"
+import { useAccounts } from "@/hooks/accounts/useAccounts"
 import { useNewTransaction } from "@/hooks/transactions/useNewTransaction"
+import { TransactionCreate } from "@/interface"
 import { search } from "@/state/accountsState"
 import { useEffect } from "react"
 import styled from "styled-components"
-import { NewTransactionForm } from "@/components/NewTransactionForm"
-import { useAccounts } from "@/hooks/accounts/useAccounts"
 
 export const StyledNewTransaction = styled(Container)`
     ${Title} {
@@ -24,7 +25,11 @@ export const StyledNewTransaction = styled(Container)`
     }
 `
 
-export function NewTransaction() {
+interface Props {
+    onSubmit?(data: TransactionCreate): any
+}
+
+export function NewTransaction(props: Props) {
     const { accounts } = useAccounts()
 
     const { form, onSubmit } = useNewTransaction()
@@ -40,7 +45,10 @@ export function NewTransaction() {
                 accounts={accounts}
                 form={form}
                 attrs={{
-                    onSubmit,
+                    async onSubmit(e) {
+                        await onSubmit(e)
+                        props.onSubmit?.(form.getValues())
+                    },
                 }}
             />
         </StyledNewTransaction>
