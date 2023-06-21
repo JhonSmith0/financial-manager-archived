@@ -1,6 +1,6 @@
 import loginSchema from "@/schemas/auth/loginSchema"
-import newTransactionSchema from "@/schemas/transaction/newTransactionSchema"
 import registerSchema from "@/schemas/auth/registerSchema"
+import newTransactionSchema from "@/schemas/transaction/newTransactionSchema"
 import * as y from "yup"
 export type ILoginSchema = y.InferType<typeof loginSchema>
 export type IRegisterSchema = y.InferType<typeof registerSchema>
@@ -38,6 +38,7 @@ export interface GetTransactions {
 }
 
 export type AccountCreate = Pick<IAccount, "description" | "name">
+export type AccountUpdate = AccountCreate & Pick<IAccount, "id">
 
 export interface SearchAccount {
     name: string
