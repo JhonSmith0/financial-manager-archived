@@ -38,6 +38,7 @@
         "typescript": "^5.0.4"
     },
     "dependencies": {
+        "@financial/faker": "workspace:*",
         "@prisma/client": "^4.13.0",
         "async": "^3.2.4",
         "bcrypt": "^5.1.0",
