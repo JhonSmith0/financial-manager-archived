@@ -4,10 +4,11 @@ import AlreadyExistsError from "@/common/errors/AlreadyExistsError"
 import NotFoundError from "@/common/errors/NotFoundError"
 import User from "@/domain/User/entity/User"
 import UpdateAccountDTO from "../dto/UpdateAccountDTO"
+import Account from "../entity"
 import { AccountRepository } from "../repo/AccountRepository"
 
 interface Props {
-    dto: ClassProperties<UpdateAccountDTO>
+    dto: ClassProperties<UpdateAccountDTO> & Pick<Account, "id">
     user: { id: User["id"] }
 }
 
@@ -38,10 +39,12 @@ export class UpdateAccountUseCase extends UseCase<Props> {
                     equals: dto.name,
                 },
                 userId: {
-                    equals: user.id,
+                    not: {
+                        equals: user.id,
+                    },
                 },
                 id: {
-                    not: dto.id,
+                    equals: dto.id,
                 },
             },
         })
@@ -51,13 +54,16 @@ export class UpdateAccountUseCase extends UseCase<Props> {
                 new AlreadyExistsError("Account already exists!", ["name"])
             )
 
-        await this.accountsRepo.db.update({
+        console.log({ dto })
+
+        const result = await this.accountsRepo.db.update({
             data: dto,
             where: {
                 id: dto.id,
             },
         })
+        console.log({ result })
 
-        return right({ ...accountById, ...dto })
+        return right(Account.create(result))
     }
 }
