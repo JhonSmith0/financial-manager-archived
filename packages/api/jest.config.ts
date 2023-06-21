@@ -1,9 +1,9 @@
 import { pathsToModuleNameMapper } from "ts-jest"
 // In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
 // which contains the path mapping (ie the `compilerOptions.paths` option):
-import { compilerOptions } from "./tsconfig.json"
-import type { JestConfigWithTsJest } from "ts-jest"
 import { Config } from "@swc/core"
+import type { JestConfigWithTsJest } from "ts-jest"
+import { compilerOptions } from "./tsconfig.json"
 
 const config: Config = {
     jsc: {
@@ -12,10 +12,15 @@ const config: Config = {
             dynamicImport: false,
             decorators: true,
         },
-        target: "es2022",
+
+        target: "es2017",
         loose: false,
         externalHelpers: false,
         keepClassNames: false,
+        transform: {
+            legacyDecorator: true,
+            decoratorMetadata: true,
+        },
     },
 }
 
