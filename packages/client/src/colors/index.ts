@@ -1,0 +1,8 @@
+export const backgroundCl1 = "#F8F9FA"
+export const cl2 = "#DEE2E6"
+export const cl3 = "#343A40"
+export const placeHolderColor = "#CED4DA"
+export const textColor1 = "#343A40"
+export const textColor2 = "#495057"
+export const textColor3 = "4263EB"
+export const textColor4 = "#4263EB"
