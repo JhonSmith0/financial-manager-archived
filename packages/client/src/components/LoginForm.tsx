@@ -50,6 +50,17 @@ export default function LoginForm(props: { children?: any }) {
     const passwordTypeState = useHookstate<HTMLInputTypeAttribute>("password")
     const passwordType = passwordTypeState.get()
 
+    function togglePasswordIcon() {
+        passwordTypeState.set(passwordType === "password" ? "text" : "password")
+    }
+    function handlePasswordIcon() {
+        return passwordType === "password" ? (
+            <HiOutlineEyeOff />
+        ) : (
+            <HiOutlineEye />
+        )
+    }
+
     return (
         <StyledLoginForm as={"form"} onSubmit={onSubmit}>
             <FieldSet>
@@ -82,19 +93,8 @@ export default function LoginForm(props: { children?: any }) {
                         ...register("password"),
                     }}
                     icon={
-                        <Icon
-                            onClick={passwordTypeState.set.bind(
-                                null,
-                                passwordType === "password"
-                                    ? "text"
-                                    : "password"
-                            )}
-                        >
-                            {passwordType === "password" ? (
-                                <HiOutlineEyeOff />
-                            ) : (
-                                <HiOutlineEye />
-                            )}
+                        <Icon onClick={togglePasswordIcon}>
+                            {handlePasswordIcon()}
                         </Icon>
                     }
                 />
