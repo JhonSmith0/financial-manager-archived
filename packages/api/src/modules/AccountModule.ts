@@ -5,6 +5,8 @@ import { Module, Provider, forwardRef } from "@nestjs/common"
 import { AccountController } from "../controllers/AccountController"
 import { TransactionModule } from "./TransactionModule"
 import { AccountRepository } from "@financial/core/dist/domain/Account/repo/AccountRepository"
+import AuthModule from "./AuthModule"
+import { UserModule } from "./UserModule"
 
 const providers: Provider[] = [
     {
@@ -28,6 +30,6 @@ const providers: Provider[] = [
     controllers: [AccountController],
     providers,
     exports: providers,
-    imports: [forwardRef(() => TransactionModule)],
+    imports: [forwardRef(() => TransactionModule), AuthModule, UserModule],
 })
 export class AccountModule {}

@@ -4,28 +4,28 @@ import User from "@financial/core/dist/domain/User/entity/User"
 import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository"
 import UserProps from "@financial/core/dist/domain/User/types/UserProps"
 import {
-    Injectable,
-    NestMiddleware,
-    Inject,
+    CanActivate,
+    ExecutionContext,
     ForbiddenException,
+    Inject,
+    Injectable,
 } from "@nestjs/common"
 import { parse } from "cookie"
 import { Request } from "express"
 
 @Injectable()
-export class VerifyJWT implements NestMiddleware {
+export class VerifyJWT implements CanActivate {
     constructor(
         private jwt: JWT,
         @Inject(UserToken.userRepository)
         private repo: UserRepository
     ) {}
-
-    async use(
-        req: Request & { user?: User },
-        res: any,
-        next: (error?: any) => void
-    ) {
+    public async canActivate(context: ExecutionContext): Promise<boolean> {
         const error = new ForbiddenException("Invalid token!")
+
+        const req = context
+            .switchToHttp()
+            .getRequest<Request & { user: User }>()
 
         const { authorization } = parse(req.headers.cookie ?? "")
         if (!authorization) throw error
@@ -45,6 +45,6 @@ export class VerifyJWT implements NestMiddleware {
         if (!user) throw error
 
         req.user = User.fromPlain(user)
-        next()
+        return true
     }
 }

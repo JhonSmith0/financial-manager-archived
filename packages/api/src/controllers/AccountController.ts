@@ -1,3 +1,4 @@
+import { VerifyJWT } from "@/guards/VerifyJWT"
 import CreateAccountDTO from "@financial/core/dist/domain/Account/dto/CreateAccountDTO"
 import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO"
 import { ReadAccountDTO } from "@financial/core/dist/domain/Account/dto/ReadAccountDTO"
@@ -21,7 +22,7 @@ import {
 import { UserEntity } from "../decorators/UserEntity"
 import { UserHasAcessToAccount } from "../guards/UserHasAcessToAccount"
 
-@UseGuards(UserHasAcessToAccount)
+@UseGuards(VerifyJWT, UserHasAcessToAccount)
 @Controller("account")
 export class AccountController {
     constructor(

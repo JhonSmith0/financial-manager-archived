@@ -18,7 +18,9 @@ import { UserEntity } from "../decorators/UserEntity"
 
 import { UserHasAcessToTransaction } from "../guards/UserHasAcessToTransaction"
 import { AccountExists } from "../middlewares/AccountExists"
+import { VerifyJWT } from "@/guards/VerifyJWT"
 
+@UseGuards(VerifyJWT)
 @UseGuards(UserHasAcessToTransaction)
 @Controller("transaction")
 export class TransactionController {
