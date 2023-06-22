@@ -1,13 +1,37 @@
+import { placeHolderColor } from "@/colors"
 import useLoginForm from "@/hooks/auth/useLoginForm"
+import { useHookstate } from "@hookstate/core"
+import { HTMLInputTypeAttribute } from "react"
+import { HiOutlineEye, HiOutlineEyeOff, HiOutlineMail } from "react-icons/hi"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { InputWithIcon } from "./InputWithIcon"
+import { ErrorSpan } from "./styled/ErrorSpan"
 import { FieldSet } from "./styled/FieldSet"
+import { Icon } from "./styled/Icon"
 import { Label } from "./styled/Label"
-import { Input } from "./styled/Input"
 
-const StyledLoginForm = styled.form`
+export const StyledLoginForm = styled.form`
     width: max-content;
     margin: 5rem auto;
+
+    display: grid;
+    gap: 1.6rem;
+
+    ${ErrorSpan} {
+        display: block;
+        text-align: right;
+        margin-top: 6px;
+    }
+
+    ${Icon} {
+        cursor: pointer;
+        svg {
+            height: 3rem;
+            width: 3rem;
+        }
+        color: ${placeHolderColor};
+    }
 `
 
 export default function LoginForm(props: { children?: any }) {
@@ -17,25 +41,67 @@ export default function LoginForm(props: { children?: any }) {
         form: {
             onSubmit,
             register,
-            formState: { errors },
+            formState: { errors, dirtyFields },
         },
         loading,
         error,
     } = useLoginForm(() => nav("/"))
 
+    const passwordTypeState = useHookstate<HTMLInputTypeAttribute>("password")
+    const passwordType = passwordTypeState.get()
+
     return (
         <StyledLoginForm as={"form"} onSubmit={onSubmit}>
             <FieldSet>
                 <Label>Email</Label>
-                <Input type="email" {...register("email")} />
-                <p>{errors.email?.message}</p>
+                <InputWithIcon
+                    attrs={{
+                        placeholder: "Your Email...",
+                        type: "email",
+                        ...register("email"),
+                    }}
+                    icon={
+                        <Icon>
+                            <HiOutlineMail />
+                        </Icon>
+                    }
+                ></InputWithIcon>
+                {/* <Input
+
+                /> */}
+                <ErrorSpan>
+                    {dirtyFields.email && errors.email?.message}
+                </ErrorSpan>
             </FieldSet>
             <FieldSet>
                 <Label>Password</Label>
-                <Input type="password" {...register("password")} />
-                <p>{errors.password?.message}</p>
+                <InputWithIcon
+                    attrs={{
+                        placeholder: "Your password...",
+                        type: passwordType,
+                        ...register("password"),
+                    }}
+                    icon={
+                        <Icon
+                            onClick={passwordTypeState.set.bind(
+                                null,
+                                passwordType === "password"
+                                    ? "text"
+                                    : "password"
+                            )}
+                        >
+                            {passwordType === "password" ? (
+                                <HiOutlineEyeOff />
+                            ) : (
+                                <HiOutlineEye />
+                            )}
+                        </Icon>
+                    }
+                />
+                <ErrorSpan>
+                    {dirtyFields.password && errors.password?.message}
+                </ErrorSpan>
             </FieldSet>
-            <p>{error.value}</p>
             {props.children}
         </StyledLoginForm>
     )
