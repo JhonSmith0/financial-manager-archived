@@ -19,8 +19,10 @@
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
         "allowJs": true,
+        "rootDir": "./",
         "paths": {
             "@/*": ["*"]
         }
-    }
+    },
+    "include": ["src", "./tsconfig.json", "test"]
 }
