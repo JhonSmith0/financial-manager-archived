@@ -80,5 +80,4 @@ void (async function () {
             )
         )
     }
-    rootEnv.remove()
 })().finally(() => rootEnv.remove())
