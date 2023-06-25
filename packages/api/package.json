@@ -7,7 +7,7 @@
     "license": "UNLICENSED",
     "main": "lib/index.js",
     "scripts": {
-        "build": "nest build -e 'npx resolve-tspaths && node'",
+        "build": "nest build && npx resolve-tspaths",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "nest start -e 'npx resolve-tspaths && node'",
         "start:dev": "nest start -e 'npx resolve-tspaths && node' --watch",
