@@ -1,12 +1,14 @@
-import { validate } from "class-validator"
-import ValidationError from "../errors/ValidationError"
+import { ValidatorOptions, validate } from "class-validator"
 import FieldError from "../errors/FieldError"
-import { Transformer } from "../Transformer"
-import { ClassTransformOptions, ClassConstructor } from "class-transformer"
+import ValidationError from "../errors/ValidationError"
 
 export default abstract class DTO {
-    public async validate() {
-        const obj = await validate(this)
+    protected defaultOptions: ValidatorOptions = {
+        whitelist: true,
+    }
+
+    public async validate(options?: ValidatorOptions) {
+        const obj = await validate(this, { ...this.defaultOptions, ...options })
 
         if (!obj.length) return new ValidationError("Invalid Data!", [])
 
