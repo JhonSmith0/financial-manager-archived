@@ -1,20 +1,32 @@
+import { PrismaRepo } from "@/common/repo/PrismaRepo"
 import Account from "@/domain/Account/entity"
 import { Transaction } from "@/domain/Transaction/entity"
 import User from "@/domain/User/entity/User"
 import { loadEnv } from "@/utils/loadEnv"
+
+let first = true
+let repo: PrismaRepo
 loadEnv("test")
+beforeAll(async () => {
+    if (first && repo) {
+        await repo.transaction.deleteMany()
+        await repo.account.deleteMany()
+        await repo.user.deleteMany()
+        first = false
+    }
+})
 
 jest.mock(require.resolve("@/common/repo/PrismaRepo"), () => {
     const { PrismaRepo } = jest.requireActual(
         require.resolve("@/common/repo/PrismaRepo")
     )
 
-    const instace = new PrismaRepo()
+    repo = new PrismaRepo()
 
     return {
         PrismaRepo: class _ {
             constructor() {
-                Object.assign(this, instace)
+                Object.assign(this, repo)
             }
         },
     }
@@ -26,9 +38,9 @@ jest.mock(require.resolve("@/common/repo/PrismaRepo"), () => {
 // });
 
 // export async function resetDb() {
-// 	await repo.transaction.deleteMany();
-// 	await repo.account.deleteMany();
-// 	await repo.user.deleteMany();
+// await repo.transaction.deleteMany();
+// await repo.account.deleteMany();
+// await repo.user.deleteMany();
 // }
 
 export const usersForTests = Array.from({ length: 10 }, (_, i) =>
