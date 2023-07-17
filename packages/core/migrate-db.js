@@ -1,84 +1,61 @@
-// Migrate all DATABASE_URL on each .env* file
+const { execSync } = require("child_process")
+const { parse } = require("dotenv")
+const { readFileSync, writeFileSync, existsSync, rmSync } = require("fs")
+const { resolve } = require("path")
 
-const { exec } = require("child_process")
-const { config, parse, configDotenv, decrypt, populate } = require("dotenv")
-const {
-    readFileSync,
-    writeFileSync,
-    existsSync,
-    rmSync,
-    readdirSync,
-} = require("fs")
-const { resolve, basename } = require("path")
-const { promisify } = require("util")
+class Env {
+    data = {}
 
-function readDir(dir) {
-    return readdirSync(dir).map((e) => resolve(dir, e))
-}
+    constructor(path) {
+        if (!existsSync(path)) {
+            writeFileSync(path, "")
+        }
 
-function readEnv(path) {
-    if (!existsSync(path)) writeFileSync(path, "")
+        this.path = path
+        this.data = this.parse()
+    }
 
-    return {
-        get basename() {
-            return basename(path)
-        },
+    contentString() {
+        return readFileSync(this.path, "utf-8")
+    }
 
-        path,
-        get content() {
-            return readFileSync(path, "utf-8")
-        },
+    parse() {
+        return parse(this.contentString())
+    }
 
-        get object() {
-            return parse(this.content) || {}
-        },
+    toString() {
+        return Object.entries(this.data)
+            .map(([key, value]) => {
+                return `${key}=${value}`
+            })
+            .join("\n")
+    }
 
-        remove() {
-            rmSync(path)
-        },
+    save() {
+        writeFileSync(this.path, this.toString())
+        return this
+    }
 
-        stringToObject(string) {
-            return parse(string)
-        },
+    saveTo(path) {
+        writeFileSync(path, this.toString())
+        return new Env(path)
+    }
 
-        objectToString(obj) {
-            return Object.entries(obj)
-                .map((e) => e.join("="))
-                .join("\n")
-        },
-
-        configAsEnv() {
-            config({ path })
-        },
-
-        write(data) {
-            writeFileSync(path, data, "utf-8")
-        },
-
-        copy() {
-            return readEnv(path)
-        },
+    remove() {
+        rmSync(this.path)
     }
 }
 
-const rootEnv = readEnv(resolve(__dirname, ".env"))
+const envOriginal = new Env(resolve(__dirname, ".env"))
+const envCopy = envOriginal.saveTo(".env.copy")
 
-const envs = readDir(__dirname).filter((e) => basename(e).startsWith(".env"))
-const envsWithDBurl = envs.map(readEnv).filter((e) => e.object["DATABASE_URL"])
+envOriginal.data.DATABASE_URL = process.env.DATABASE_URL
+envOriginal.save()
 
-const execAsync = promisify(exec)
+execSync("npx prisma generate")
+execSync("npx prisma migrate dev --skip-generate")
 
-void (async function () {
-    await execAsync("npx prisma generate")
+envOriginal.remove()
+envCopy.remove()
 
-    for (const each of envsWithDBurl) {
-        rootEnv.write(each.content)
-
-        console.log(
-            await execAsync(
-                "npx prisma migrate dev --skip-generate --name " + each.basename
-            )
-        )
-    }
-    rootEnv.remove()
-})().finally(() => rootEnv.remove())
+envCopy.saveTo(envOriginal.path)

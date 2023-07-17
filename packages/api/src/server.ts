@@ -1,4 +1,3 @@
-import { loadEnv } from "@financial/core/dist/utils/loadEnv"
 import { ValidationPipe } from "@nestjs/common"
 import { createApp } from "."
 import { AllExceptionFilter } from "./filters/AllException"
@@ -6,7 +5,6 @@ import { AdaptLeftRightInterceptor } from "./interceptors/AdaptLeftRight"
 
 async function main() {
     // Loads envs from core package
-    loadEnv(process.env.NODE_ENV || "dev")
     const app = await createApp()
     app.useGlobalPipes(
         new ValidationPipe({
