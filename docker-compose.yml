@@ -4,29 +4,33 @@ services:
     db:
         image: mysql
         restart: always
+        container_name: db
         environment:
             - MYSQL_ROOT_PASSWORD=123
+            
 
     client:
         extends:
             file: docker-compose.base.yml
             service: app-base
-
-        command: pnpm --filter=client prod
+        command: /bin/sh -c "cd ./packages/client && pnpm prod --host"
+        
         depends_on:
             - api
-            - db
+        expose:
+            - 4173
 
     api:
         extends:
             file: docker-compose.base.yml
             service: app-base
-
-        command: pnpm --filter=api prod
         environment:
-            - DATABASE_URL=mysql://root:123@db:3306/mysql
+            - DATABASE_URL=mysql://root:123@db:3306/prod
+        command: /bin/sh -c "cd packages/core && node migrate-db.js && cd ../api && pnpm prod"
         depends_on:
             - db
+        expose:
+            - 3000
 
     # React App
     # app-2:

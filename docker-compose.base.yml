@@ -1,11 +1,6 @@
 services:
     app-base:
         restart: always
-
-        build:
-            context: .
-            dockerfile: Dockerfile
-
+        build: .
         volumes:
-            - ./:/usr/app
-            - mono-node-modules:/app/node_modules
+            - .:/usr/app

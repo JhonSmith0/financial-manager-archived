@@ -57,8 +57,7 @@ function main() {
     envFile.save()
 
     try {
-        execSync("pnpm prisma generate")
-        execSync("pnpm prisma migrate dev --skip-generate")
+        execSync("pnpm prisma migrate dev -n migration")
     } catch (error) {
     } finally {
         envFile.data = envFileBackupData
@@ -67,3 +66,4 @@ function main() {
 }
 
 main()
+console.log("bao")
