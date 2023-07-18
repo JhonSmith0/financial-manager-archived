@@ -1,0 +1,15 @@
+services:
+    db:
+        image: mysql
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    client:
+        build:
+            context: ./packages/client
+        network_mode: "host"
+    
+    api:
+        build:
+            context: ./packages/api
+        network_mode: "host"

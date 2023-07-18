@@ -1,4 +1,5 @@
 const { execSync } = require("child_process")
+const { randomUUID } = require("crypto")
 const { parse } = require("dotenv")
 const { readFileSync, writeFileSync, existsSync, rmSync } = require("fs")
 const { resolve } = require("path")
@@ -7,12 +8,7 @@ class Env {
     data = {}
 
     constructor(path) {
-        if (!existsSync(path)) {
-            writeFileSync(path, "")
-        }
-
         this.path = path
-        this.data = this.parse()
     }
 
     contentString() {
@@ -20,7 +16,7 @@ class Env {
     }
 
     parse() {
-        return parse(this.contentString())
+        return (this.data = parse(this.contentString()))
     }
 
     toString() {
@@ -46,16 +42,28 @@ class Env {
     }
 }
 
-const envOriginal = new Env(resolve(__dirname, ".env"))
-const envCopy = envOriginal.saveTo(".env.copy")
+function main() {
+    console.log(`Migrating db to url ${process.env.DATABASE_URL}`)
 
-envOriginal.data.DATABASE_URL = process.env.DATABASE_URL
-envOriginal.save()
+    const envPath = ".env"
+    const tempEnvPath = `.env${randomUUID().slice(0, 6)}`
 
-execSync("npx prisma generate")
-execSync("npx prisma migrate dev --skip-generate")
+    if (!existsSync(envPath)) writeFileSync(envPath, "")
 
-envOriginal.remove()
-envCopy.remove()
+    const envFile = new Env(envPath)
+    const envFileBackupData = { ...envFile.parse() }
 
-envCopy.saveTo(envOriginal.path)
+    envFile.data.DATABASE_URL = process.env.DATABASE_URL
+    envFile.save()
+
+    try {
+        execSync("pnpm prisma generate")
+        execSync("pnpm prisma migrate dev --skip-generate")
+    } catch (error) {
+    } finally {
+        envFile.data = envFileBackupData
+        envFile.save()
+    }
+}
+
+main()

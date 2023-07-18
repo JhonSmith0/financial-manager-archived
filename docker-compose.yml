@@ -1,0 +1,72 @@
+services:
+    # React App
+
+    db:
+        image: mysql
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=123
+
+    client:
+        extends:
+            file: docker-compose.base.yml
+            service: app-base
+
+        command: pnpm --filter=client prod
+        depends_on:
+            - api
+            - db
+
+    api:
+        extends:
+            file: docker-compose.base.yml
+            service: app-base
+
+        command: pnpm --filter=api prod
+        environment:
+            - DATABASE_URL=mysql://root:123@db:3306/mysql
+        depends_on:
+            - db
+
+    # React App
+    # app-2:
+    #     extends:
+    #         file: docker-compose.base.yml
+
+    #         service: nx-app-base
+
+    #     command: npm run app-2:dev:docker
+
+    #     ports:
+    #         - 4202:4200
+
+    # # Angular App
+
+    # app-3:
+    #     extends:
+    #         file: docker-compose.base.yml
+
+    #         service: nx-app-base
+
+    #     command: npm run app-3:dev:docker
+
+    #     ports:
+    #         - 4203:4200
+
+    # # Express App
+
+    # api-1:
+    #     extends:
+    #         file: docker-compose.base.yml
+
+    #         service: nx-app-base
+
+    #     command: npm run api-1:dev:docker
+
+    #     ports:
+    #         - 4310:3333 # API Entry port
+
+    #         - 4311:4311 # Server Debugging port
+
+volumes:
+    mono-node-modules: null

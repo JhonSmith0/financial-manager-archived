@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -62,6 +58,9 @@ importers:
       '@nestjs/serve-static':
         specifier: ^3.0.1
         version: 3.0.1(@nestjs/common@9.0.0)(@nestjs/core@9.0.0)
+      '@prisma/client':
+        specifier: ^4.13.0
+        version: 4.13.0(prisma@4.13.0)
       async:
         specifier: ^3.2.4
         version: 3.2.4
@@ -74,6 +73,9 @@ importers:
       cookie:
         specifier: ^0.5.0
         version: 0.5.0
+      prisma:
+        specifier: ^4.13.0
+        version: 4.13.0
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.13
@@ -86,7 +88,7 @@ importers:
         version: 9.0.0
       '@nestjs/schematics':
         specifier: ^9.0.0
-        version: 9.0.0(typescript@5.0.4)
+        version: 9.0.0(chokidar@3.5.3)(typescript@4.7.4)
       '@nestjs/testing':
         specifier: ^9.0.0
         version: 9.0.0(@nestjs/common@9.0.0)(@nestjs/core@9.0.0)(@nestjs/platform-express@9.0.0)
@@ -1720,21 +1722,6 @@ packages:
       jsonc-parser: 3.0.0
       pluralize: 8.0.0
       typescript: 4.7.4
-    transitivePeerDependencies:
-      - chokidar
-    dev: true
-
-  /@nestjs/schematics@9.0.0(typescript@5.0.4):
-    resolution: {integrity: sha512-l4AReqX597iKyAXVN9WsrLQ1NDY0G15s7x8dHpwM0+3MOFoEKZMvqeiFrfVMqbwuMiTvXTuLcoMdlKuz7qtrDg==}
-    peerDependencies:
-      typescript: ^4.3.5
-    dependencies:
-      '@angular-devkit/core': 14.0.5(chokidar@3.5.3)
-      '@angular-devkit/schematics': 14.0.5(chokidar@3.5.3)
-      fs-extra: 10.1.0
-      jsonc-parser: 3.0.0
-      pluralize: 8.0.0
-      typescript: 5.0.4
     transitivePeerDependencies:
       - chokidar
     dev: true
@@ -11021,3 +11008,7 @@ packages:
       toposort: 2.0.2
       type-fest: 2.19.0
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

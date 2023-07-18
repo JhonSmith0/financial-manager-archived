@@ -9,7 +9,7 @@
         "test": "npx lerna run test",
         "dev": "nx run-many -t dev",
         "prismainit": "nx run @financial/core:migrate:dev",
-        "prod": "npm run build && node server.js"
+        "prod": "lerna run build && pnpm lerna run "
     },
     "config": {
         "commitizen": {
