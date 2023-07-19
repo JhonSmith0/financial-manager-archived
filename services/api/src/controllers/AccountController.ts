@@ -1,11 +1,11 @@
-import CreateAccountDTO from "@financial/core/dist/domain/Account/dto/CreateAccountDTO"
-import { DeleteAccountDTO } from "@financial/core/dist/domain/Account/dto/DeleteAccountDTO"
-import { ReadAccountDTO } from "@financial/core/dist/domain/Account/dto/ReadAccountDTO"
-import { SearchAccountDTO } from "@financial/core/dist/domain/Account/dto/SearchAccountDTO"
-import UpdateAccountDTO from "@financial/core/dist/domain/Account/dto/UpdateAccountDTO"
-import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases"
-import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
-import User from "@financial/core/dist/domain/User/entity/User"
+import CreateAccountDTO from "@libs/core/dist/domain/Account/dto/CreateAccountDTO"
+import { DeleteAccountDTO } from "@libs/core/dist/domain/Account/dto/DeleteAccountDTO"
+import { ReadAccountDTO } from "@libs/core/dist/domain/Account/dto/ReadAccountDTO"
+import { SearchAccountDTO } from "@libs/core/dist/domain/Account/dto/SearchAccountDTO"
+import UpdateAccountDTO from "@libs/core/dist/domain/Account/dto/UpdateAccountDTO"
+import { AccountUseCases } from "@libs/core/dist/domain/Account/useCases/AccountUseCases"
+import { TransactionUseCasesFactory } from "@libs/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
+import User from "@libs/core/dist/domain/User/entity/User"
 import {
     BadRequestException,
     Body,

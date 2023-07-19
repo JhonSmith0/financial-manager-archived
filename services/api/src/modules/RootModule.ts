@@ -1,18 +1,18 @@
 import { Global, Module, Provider } from "@nestjs/common"
 
-import JWT from "@financial/core/dist/common/JWT/JWT"
-import LoginController from "@financial/core/dist/controllers/auth/LoginController"
-import MeController from "@financial/core/dist/controllers/auth/MeController"
-import RegisterController from "@financial/core/dist/controllers/auth/RegisterController"
-import UserToken from "@financial/core/dist/domain/User/di/UserTokens"
+import JWT from "@libs/core/dist/common/JWT/JWT"
+import LoginController from "@libs/core/dist/controllers/auth/LoginController"
+import MeController from "@libs/core/dist/controllers/auth/MeController"
+import RegisterController from "@libs/core/dist/controllers/auth/RegisterController"
+import UserToken from "@libs/core/dist/domain/User/di/UserTokens"
 
-import CreateUserUseCase from "@financial/core/dist/domain/User/useCases/CreateUserUseCase"
+import CreateUserUseCase from "@libs/core/dist/domain/User/useCases/CreateUserUseCase"
 import { RouterModule } from "@nestjs/core"
 import { AccountModule } from "./AccountModule"
 import AuthModule from "./AuthModule"
 import { OnlyLoggedUsers } from "./OnlyLoggedUsers"
 import { TransactionModule } from "./TransactionModule"
-import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository"
+import UserRepository from "@libs/core/dist/domain/User/repo/UserRepository"
 
 const providers: Provider[] = [
     {

@@ -1,5 +1,5 @@
 {
-    "name": "@financial/api",
+    "name": "@services/api",
     "version": "0.0.1",
     "description": "",
     "author": "",
@@ -22,8 +22,7 @@
         "prod": "node lib/server"
     },
     "dependencies": {
-        "@financial/client": "*",
-        "@financial/core": "*",
+        "@libs/core": "*",
         "@nestjs/common": "^9.0.0",
         "@nestjs/core": "^9.0.0",
         "@nestjs/platform-express": "^9.0.0",

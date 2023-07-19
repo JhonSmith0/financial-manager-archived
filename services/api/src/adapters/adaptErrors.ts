@@ -1,4 +1,4 @@
-import ExpectedError from "@financial/core/dist/common/errors/ExpectedError"
+import ExpectedError from "@libs/core/dist/common/errors/ExpectedError"
 
 import {
     BadRequestException,

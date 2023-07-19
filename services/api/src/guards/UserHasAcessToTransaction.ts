@@ -1,5 +1,5 @@
-import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
-import User from "@financial/core/dist/domain/User/entity/User"
+import { TransactionUseCasesFactory } from "@libs/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
+import User from "@libs/core/dist/domain/User/entity/User"
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
 import { Request } from "express"
 

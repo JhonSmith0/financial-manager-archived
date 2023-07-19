@@ -8,7 +8,7 @@
         "prepare": "husky install",
         "test": "npx lerna run test",
         "dev": "nx run-many -t dev",
-        "prismainit": "nx run @financial/core:migrate:dev",
+        "prismainit": "nx run @services/api/core:migrate:dev",
         "prod": "nx run-many -t prod"
     },
     "config": {
@@ -20,8 +20,6 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@financial/api": "workspace:*",
-        "@financial/core": "workspace:*",
         "commitizen": "^4.3.0",
         "concurrently": "^8.2.0",
         "cz-conventional-changelog": "^3.3.0",

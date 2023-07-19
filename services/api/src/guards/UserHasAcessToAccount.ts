@@ -1,5 +1,5 @@
-import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases"
-import User from "@financial/core/dist/domain/User/entity/User"
+import { AccountUseCases } from "@libs/core/dist/domain/Account/useCases/AccountUseCases"
+import User from "@libs/core/dist/domain/User/entity/User"
 import {
     CanActivate,
     ExecutionContext,

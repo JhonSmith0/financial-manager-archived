@@ -1,5 +1,5 @@
-const { createApp } = require("@financial/api")
-const { loadEnv } = require("@financial/core/dist/utils/loadEnv")
+const { createApp } = require("@services/api")
+const { loadEnv } = require("@services/api/dist/utils/loadEnv")
 
 async function main() {
     loadEnv("prod")

@@ -1,9 +1,9 @@
-import { AccountUseCases } from "@financial/core/dist/domain/Account/useCases/AccountUseCases"
-import { CreateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/CreateTransactionDTO"
-import { SearchTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/SearchTransactionDTO"
-import { UpdateTransactionDTO } from "@financial/core/dist/domain/Transaction/dto/UpdateTransactionDTO"
-import { TransactionUseCasesFactory } from "@financial/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
-import User from "@financial/core/dist/domain/User/entity/User"
+import { AccountUseCases } from "@libs/core/dist/domain/Account/useCases/AccountUseCases"
+import { CreateTransactionDTO } from "@libs/core/dist/domain/Transaction/dto/CreateTransactionDTO"
+import { SearchTransactionDTO } from "@libs/core/dist/domain/Transaction/dto/SearchTransactionDTO"
+import { UpdateTransactionDTO } from "@libs/core/dist/domain/Transaction/dto/UpdateTransactionDTO"
+import { TransactionUseCasesFactory } from "@libs/core/dist/domain/Transaction/factory/TransactionUseCasesFactory"
+import User from "@libs/core/dist/domain/User/entity/User"
 import {
     Body,
     Controller,

@@ -1,8 +1,8 @@
-import JWT from "@financial/core/dist/common/JWT/JWT"
-import UserToken from "@financial/core/dist/domain/User/di/UserTokens"
-import User from "@financial/core/dist/domain/User/entity/User"
-import UserRepository from "@financial/core/dist/domain/User/repo/UserRepository"
-import UserProps from "@financial/core/dist/domain/User/types/UserProps"
+import JWT from "@libs/core/dist/common/JWT/JWT"
+import UserToken from "@libs/core/dist/domain/User/di/UserTokens"
+import User from "@libs/core/dist/domain/User/entity/User"
+import UserRepository from "@libs/core/dist/domain/User/repo/UserRepository"
+import UserProps from "@libs/core/dist/domain/User/types/UserProps"
 import {
     Injectable,
     NestMiddleware,
