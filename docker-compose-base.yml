@@ -1,0 +1,6 @@
+services:
+  base:
+    build: .
+    restart: always
+    volumes:
+      - ./:/usr/app

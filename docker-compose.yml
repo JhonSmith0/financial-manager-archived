@@ -1,0 +1,38 @@
+services:
+    db:
+        image: mysql
+        restart: always
+        env_file:
+            - .env
+        volumes:
+            - mysql:/var/lib/mysql
+
+    api:
+        extends:
+            file: ./docker-compose-base.yml
+            service: base
+        expose:
+            - 3000
+        command: sh -c "cd packages/core && pnpm prisma generate && cd ../api && pnpm dev"
+        depends_on:
+            - db
+        environment:
+            - CLIENT_HOST=client
+            - CLIENT_PORT=5173
+        env_file:
+            - .env
+
+    client:
+        extends:
+            file: ./docker-compose-base.yml
+            service: base
+        environment:
+            - VITE_API_HOST=api
+            - VITE_API_PORT=3000
+        command: sh -c "cd packages/client && pnpm dev --host"
+        depends_on:
+            - api
+        network_mode: "service:api"
+
+volumes:
+    mysql:
