@@ -1,10 +1,8 @@
-import axios, { Axios } from "axios"
-
-class HTTP extends Axios {}
+import axios from "axios"
 
 const api = axios.create({
     withCredentials: true,
-    baseURL: "http://localhost:3000/",
+    baseURL: import.meta.env.VITE_API_URL,
 })
 
 export default api
