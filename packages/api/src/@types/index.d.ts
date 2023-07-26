@@ -23,6 +23,11 @@ declare global {
             readonly DATABASE_URL: string
             readonly CLIENT_HOST: string
             readonly CLIENT_PORT: number
+            readonly DATABASE_HOST: string
+            readonly DATABASE_PORT: number
+            readonly DATABASE_NAME: string
+            readonly MYSQL_USER: string
+            readonly MYSQL_PASSWORD: number
         }
     }
 }

@@ -22,10 +22,23 @@ function convertBcryptSalt() {
     process.env.BCRYPT_SALT = +process.env.BCRYPT_SALT as number
 }
 
+function genDataBaseUrl() {
+    const USER = process.env.MYSQL_USER
+    const PASSWORD = process.env.MYSQL_ROOT_PASSWORD
+    const DATABASE_HOST = process.env.DATABASE_HOST
+    const DATABASE_NAME = process.env.DATABASE_NAME
+    const DATABASE_PORT = process.env.DATABASE_PORT
+
+    const URL = `mysql://${USER}:${PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`
+    return URL
+}
+
 async function main() {
     verifyMissingVars(envVars)
     convertJwtExpiration()
     convertBcryptSalt()
+    //@ts-ignore
+    process.env.DATABASE_URL = genDataBaseUrl()
 
     const app = await createApp()
     app.useGlobalPipes(
