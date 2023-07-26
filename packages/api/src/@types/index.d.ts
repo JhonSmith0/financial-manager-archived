@@ -15,7 +15,14 @@ declare global {
 
     namespace NodeJS {
         interface ProcessEnv {
-            NODE_ENV: "dev" | "prod" | "test"
+            readonly NODE_ENV: "dev" | "prod" | "test"
+            readonly BCRYPT_SALT: number
+            readonly JWT_EXPIRATION_TIME: string
+            readonly JWT_SECRET_KEY: string
+            readonly MYSQL_ROOT_PASSWORD: number
+            readonly DATABASE_URL: string
+            readonly CLIENT_HOST: string
+            readonly CLIENT_PORT: number
         }
     }
 }
